@@ -1,0 +1,2 @@
+ALTER PUBLICATION supabase_realtime DROP TABLE public.stalls;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.stalls (id, event_id, label, zone, x, y, w, h, pkg_id, status, active, price_override, color, sort_order);

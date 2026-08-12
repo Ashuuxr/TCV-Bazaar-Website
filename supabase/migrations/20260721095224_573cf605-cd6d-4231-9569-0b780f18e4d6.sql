@@ -1,0 +1,1 @@
+revoke execute on function public.snapshot_site_content() from public, anon, authenticated;

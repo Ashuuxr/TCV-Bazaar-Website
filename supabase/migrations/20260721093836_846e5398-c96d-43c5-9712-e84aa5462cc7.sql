@@ -1,0 +1,1 @@
+update public.site_content set data = jsonb_set(data, '{hero,videoDataUrl}', '"/__l5e/assets-v1/dff33452-71df-49a0-9f2e-5c0af5aa9ff3/hero-drone.mp4"'::jsonb, true), updated_at = now() where id = 'main';

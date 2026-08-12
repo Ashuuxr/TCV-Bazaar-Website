@@ -1,0 +1,23 @@
+# TCV Bazaar
+
+> TCV Bazaar is Gwalior's premium Diwali exhibition and marketplace by The City Vibes Marketing. Exhibitors book stalls online; visitors get three nights of festive shopping, food and music at Keshar Towers, Gwalior (23–25 October 2026).
+
+## Pages
+
+- [Home](/): Overview of TCV Bazaar 2026 Diwali Edition and how to book.
+- [About](/about): Story, values and team behind TCV Bazaar.
+- [Why Exhibit](/why-exhibit): Footfall, audience and business outcomes for brands.
+- [Packages](/packages): Premium, Standard, Sharing, Tabler and Branding Spot pricing.
+- [Stall Layout](/stall-layout): Interactive floor plan with live stall availability.
+- [Book](/book): Package selection, stall reservation and online payment.
+- [Gallery](/gallery): Photos from past editions of TCV Bazaar.
+- [Videos](/videos): Aftermovies and highlight reels.
+- [Testimonials](/testimonials): Exhibitor experiences.
+- [FAQ](/faq): Booking, payment, package and layout questions.
+- [Contact](/contact): Phone, WhatsApp and email for the TCV Bazaar team.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy)
+- [Refund Policy](/refund-policy)
+- [Terms & Conditions](/terms)

@@ -1,0 +1,2 @@
+ALTER PUBLICATION supabase_realtime DROP TABLE public.company_profile;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.company_profile (id, legal_name, business_name, address_line1, address_line2, city, state, state_code, pincode, country, website, logo_url, updated_at);
