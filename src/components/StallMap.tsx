@@ -36,7 +36,7 @@ export function LayoutBackground({ children }: { children?: ReactNode }) {
 
       {/* Bottom band: SPONSORS PANEL + small TCV badge on the right */}
       <rect x="7.5" y="54" width="107" height="7" fill="var(--stall-sponsor)" stroke="var(--stall-sponsor-border)" strokeWidth="0.25" />
-      <text x="61" y="58.9" textAnchor="middle" fill="var(--stall-footer)" fontSize="2.8" fontWeight="800" letterSpacing="1.4">SPONSORS PANEL</text>
+      <text x="61" y="58.9" textAnchor="middle" fill="var(--stall-panel-text)" fontSize="2.8" fontWeight="800" letterSpacing="1.4">SPONSORS PANEL</text>
       <rect x="117" y="54" width="15.5" height="7" fill="var(--stall-road)" rx="0.5" />
       <text x="124.75" y="58.9" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="2.6" fontWeight="800" letterSpacing="1">TCV</text>
 
@@ -106,15 +106,14 @@ export default function StallMap({
                 <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="0.8" fill={st.overlay} pointerEvents="none" />
               )}
               {(() => {
-                const isDark = s.status === 'blocked'
-                const textFill = isDark ? '#f9fafb' : '#17130c'
+                const textFill = 'var(--stall-label)'
                 const words = s.label.split(' ')
                 if (words.length > 1) {
                   const fs = 1.2
                   const cy = s.y + s.h / 2
                   return (
-                    <text x={s.x + s.w / 2} textAnchor="middle" fontSize={fs} fontWeight="700"
-                          fill={textFill} style={{ pointerEvents: 'none' }}>
+                    <text x={s.x + s.w / 2} textAnchor="middle" fontSize={fs} fontWeight="800"
+                          fill={textFill} style={{ pointerEvents: 'none', paintOrder: 'stroke', stroke: 'color-mix(in srgb, var(--stall-label) 40%, transparent)', strokeWidth: 0.08 }}>
                       {words.map((w, i) => (
                         <tspan key={i} x={s.x + s.w / 2} y={cy - ((words.length - 1) * fs) / 2 + i * (fs + 0.15) + 0.4}>{w}</tspan>
                       ))}
@@ -124,8 +123,8 @@ export default function StallMap({
                 const fs = s.label.length >= 3 ? 1.9 : 2.4
                 return (
                   <text x={s.x + s.w / 2} y={s.y + s.h / 2 + 0.9}
-                        textAnchor="middle" fontSize={fs} fontWeight="700"
-                        fill={textFill} style={{ pointerEvents: 'none' }}>
+                        textAnchor="middle" fontSize={fs} fontWeight="800"
+                        fill={textFill} style={{ pointerEvents: 'none', paintOrder: 'stroke', stroke: 'color-mix(in srgb, var(--stall-label) 40%, transparent)', strokeWidth: 0.08 }}>
                     {s.label}
                   </text>
                 )
