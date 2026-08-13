@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+const SUPABASE_PUBLIC_MEDIA = 'https://drmqujjazvxcubsizmlw.supabase.co/storage/v1'
+const galleryImage = (name: string) => `${SUPABASE_PUBLIC_MEDIA}/render/image/public/gallery/${name}?width=1600&quality=75&resize=contain`
+
 /* ---------------- types ---------------- */
 export type StallStatus = 'available' | 'reserved' | 'pending' | 'booked' | 'blocked' | 'sold'
 
@@ -195,10 +198,10 @@ export const defaultState = {
     },
   },
   brand: {
-    logoLight: '/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png',
-    logoDark: '/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png',
-    logoMobile: '/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png',
-    favicon: '/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png',
+    logoLight: '',
+    logoDark: '',
+    logoMobile: '',
+    favicon: '',
     heightDesktop: 44,
     heightMobile: 40,
     position: 'left' as const,
@@ -208,7 +211,7 @@ export const defaultState = {
     highlight: 'Celebrates Together',
     subheading: 'Gwalior\'s premium exhibition & event platform — three magical Diwali nights of shopping, food, music and celebration at Keshar Towers.',
     videoDataUrl: '',
-    poster: '/__l5e/assets-v1/4e80415a-e6e0-4bd3-bf9e-16d9b8a0b150/hero-poster.jpg',
+    poster: galleryImage('DSC_4272.JPG'),
     overlay: 0.55,
     showCountdown: true,
     autoplay: true,
@@ -236,17 +239,17 @@ export const defaultState = {
   ] as Pkg[],
   stalls,
   gallery: [
-    { id: 'g1', src: '/__l5e/assets-v1/2be1cb38-05ca-40f5-ad24-b5ed4679e0da/gallery-1.png', title: 'Premium Exhibitor Tent', category: 'Stalls' },
-    { id: 'g2', src: '/__l5e/assets-v1/633a4b3f-6b3f-4852-bfbe-033d4b1f67f9/gallery-2.png', title: 'Festive Shopping', category: 'Visitors' },
-    { id: 'g3', src: '/__l5e/assets-v1/4fe1787a-c65b-4ea0-8a11-0fb4e226dbfc/gallery-3.jpg', title: 'Lantern Evenings', category: 'Ambience' },
-    { id: 'g4', src: '/__l5e/assets-v1/52c0135d-0530-458b-af24-e27d52954d3c/gallery-4.jpg', title: 'Diwali Fireworks', category: 'Celebration' },
-    { id: 'g5', src: '/__l5e/assets-v1/7ff9952f-471d-4f56-ae79-fa4ad9ed6f8f/gallery-5.jpg', title: 'Fairy Light Avenues', category: 'Ambience' },
-    { id: 'g6', src: '/__l5e/assets-v1/ae7117cd-eb92-42c9-b464-ac86486391a0/gallery-6.jpg', title: 'Festive Artwork', category: 'Decor' },
+    { id: 'g1', src: galleryImage('DSC_4272.JPG'), title: 'Premium Exhibitor Tent', category: 'Stalls' },
+    { id: 'g2', src: galleryImage('DSC_4297.JPG'), title: 'Festive Shopping', category: 'Visitors' },
+    { id: 'g3', src: galleryImage('DSC_4705.JPG'), title: 'Lantern Evenings', category: 'Ambience' },
+    { id: 'g4', src: galleryImage('DSC_4814.JPG'), title: 'Diwali Fireworks', category: 'Celebration' },
+    { id: 'g5', src: galleryImage('DSC_4917.JPG'), title: 'Fairy Light Avenues', category: 'Ambience' },
+    { id: 'g6', src: galleryImage('DSC_4925.JPG'), title: 'Festive Artwork', category: 'Decor' },
   ] as GalleryItem[],
   videos: [
-    { id: 'v1', title: 'TCV Bazaar 2025 — Aftermovie', poster: '/__l5e/assets-v1/52c0135d-0530-458b-af24-e27d52954d3c/gallery-4.jpg', src: '', duration: '1:24' },
-    { id: 'v2', title: 'Stall Setup Timelapse', poster: '/__l5e/assets-v1/2be1cb38-05ca-40f5-ad24-b5ed4679e0da/gallery-1.png', src: '', duration: '0:48' },
-    { id: 'v3', title: 'Diwali Night Highlights', poster: '/__l5e/assets-v1/7ff9952f-471d-4f56-ae79-fa4ad9ed6f8f/gallery-5.jpg', src: '', duration: '2:10' },
+    { id: 'v1', title: 'TCV Bazaar 2025 — Aftermovie', poster: galleryImage('DSC_4814.JPG'), src: '', duration: '1:24' },
+    { id: 'v2', title: 'Stall Setup Timelapse', poster: galleryImage('DSC_4272.JPG'), src: '', duration: '0:48' },
+    { id: 'v3', title: 'Diwali Night Highlights', poster: galleryImage('DSC_4917.JPG'), src: '', duration: '2:10' },
   ] as VideoItem[],
   testimonials: [
     { id: 't1', name: 'Priya Sharma', role: 'Owner, Gwalior Jewels', text: 'TCV Bazaar gave our brand visibility we could never afford otherwise. We sold out our festive collection by day two and collected 300+ genuine leads.', rating: 5 },
@@ -275,7 +278,7 @@ export const defaultState = {
     about: {
       heading: 'Gwalior\'s Premium Exhibition Platform',
       body: 'TCV Bazaar is where Gwalior comes together to celebrate. Born from the city\'s love for festivals, food and craftsmanship, we curate premium exhibition experiences that connect ambitious businesses, beloved brands and thousands of visitors under one glittering roof.\n\nOur Diwali Edition transforms Keshar Towers into three nights of lights — premium tents, curated brands, live performances, food avenues and festive shopping. For exhibitors, we offer end-to-end support: prime stall locations, marketing reels, on-ground logistics and a premium audience that comes ready to shop.\n\nFor visitors, TCV Bazaar is the city\'s most awaited festive tradition — an evening of discovery, celebration and togetherness.',
-      image: '/__l5e/assets-v1/2be1cb38-05ca-40f5-ad24-b5ed4679e0da/gallery-1.png',
+      image: galleryImage('DSC_4272.JPG'),
     },
     why: {
       heading: 'Why Brands Choose TCV Bazaar',
