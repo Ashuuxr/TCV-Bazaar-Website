@@ -35,7 +35,7 @@ export default function Home() {
           <HeroVideo
             src={hero.videoDataUrl}
             poster={hero.poster}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="hero-video-motion absolute inset-0 h-full w-full object-cover"
           />
         )}
         <div className="absolute inset-0 bg-black/45" />
@@ -75,7 +75,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="mt-10 flex flex-wrap items-center justify-center gap-3"
           >
-            <Link to="/book" className="rounded-full bg-[#d9b45f] px-7 py-3.5 text-sm font-semibold text-[#17130c] transition hover:-translate-y-0.5 hover:bg-[#e8cc85] hover:shadow-[0_16px_40px_-10px_rgba(217,180,95,.7)]">
+            <Link to="/book" className="motion-press rounded-full bg-[#d9b45f] px-7 py-3.5 text-sm font-semibold text-[#17130c] transition hover:-translate-y-0.5 hover:bg-[#e8cc85] hover:shadow-[0_16px_40px_-10px_rgba(217,180,95,.7)]">
               Book Your Stall
             </Link>
             <Link to="/stall-layout" className="rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-[#d9b45f] hover:bg-[#d9b45f] hover:text-[#17130c]">
@@ -113,7 +113,7 @@ export default function Home() {
             <span className="eyebrow">About TCV Bazaar</span>
             <h2 className="font-display mt-4 text-3xl font-medium leading-[1.08] tracking-tight sm:text-5xl">{pages.about.heading}</h2>
             <p className="mt-5 leading-relaxed text-[var(--ink-soft)]">{pages.about.body.split('\n')[0]}</p>
-            <Link to="/about" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-gold transition hover:gap-3">
+            <Link to="/about" className="motion-icon mt-7 inline-flex items-center gap-2 text-sm font-semibold text-gold transition hover:gap-3">
               Our story <ArrowRight size={16} />
             </Link>
           </Reveal>

@@ -95,6 +95,7 @@ export default function StallMap({
                 setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top })
               }}
               onMouseLeave={() => setHover(null)}
+              className={clickable ? 'stall-interactive' : undefined}
               style={{ cursor: clickable ? 'pointer' : 'default' }}
             >
               <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="0.8"
@@ -136,7 +137,7 @@ export default function StallMap({
 
       {hover && (
         <div
-          className="pointer-events-none absolute z-20 -translate-x-1/2 rounded-xl border border-[var(--line)] bg-[var(--card-bg)] px-3.5 py-2.5 text-xs shadow-xl"
+          className="stall-tooltip pointer-events-none absolute z-20 -translate-x-1/2 rounded-xl border border-[var(--line)] bg-[var(--card-bg)] px-3.5 py-2.5 text-xs shadow-xl"
           style={{ left: tip.x, top: tip.y - 12, transform: 'translate(-50%, -100%)' }}
         >
           <div className="font-semibold">Stall {hover.label}{hover.zone ? ` · ${hover.zone}` : ''}</div>

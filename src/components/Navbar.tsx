@@ -42,7 +42,7 @@ export default function Navbar() {
       }`}
     >
       <div className="container-x flex h-[72px] items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-3" aria-label="TCV Bazaar home">
+        <Link to="/" className="motion-press flex items-center gap-3" aria-label="TCV Bazaar home">
           <Logo className="" useBrandSize gold={!scrolled && loc.pathname === '/'} />
         </Link>
 
@@ -52,7 +52,7 @@ export default function Navbar() {
               key={l.to}
               to={l.to}
               className={({ isActive }) =>
-                `rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                `motion-press rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors ${
                   isActive ? 'text-gold' : 'hover:text-gold'
                 } ${!scrolled && loc.pathname === '/' && mode === 'light' ? 'text-white/85' : ''}`
               }
@@ -66,7 +66,7 @@ export default function Navbar() {
           <button
             onClick={() => patch('theme', { ...theme, mode: mode === 'dark' ? 'light' : 'dark' })}
             aria-label="Toggle theme"
-            className={`flex h-10 w-10 items-center justify-center rounded-full border transition ${
+            className={`motion-press flex h-10 w-10 items-center justify-center rounded-full border transition ${
               !scrolled && loc.pathname === '/' && mode === 'light'
                 ? 'border-white/25 text-white hover:bg-white/10'
                 : 'border-[var(--line)] hover:border-[var(--gold)]'
@@ -78,7 +78,7 @@ export default function Navbar() {
             Book Your Stall
           </Link>
           <button
-            className={`flex h-10 w-10 items-center justify-center rounded-full border xl:hidden ${
+            className={`motion-press flex h-10 w-10 items-center justify-center rounded-full border xl:hidden ${
               !scrolled && loc.pathname === '/' && mode === 'light' ? 'border-white/25 text-white' : 'border-[var(--line)]'
             }`}
             onClick={() => setOpen(!open)}
@@ -97,7 +97,7 @@ export default function Navbar() {
                 key={l.to}
                 to={l.to}
                 className={({ isActive }) =>
-                  `rounded-xl px-4 py-3 text-sm font-medium ${isActive ? 'bg-[var(--bg-soft)] text-gold' : ''}`
+                  `motion-press rounded-xl px-4 py-3 text-sm font-medium transition-colors ${isActive ? 'bg-[var(--bg-soft)] text-gold' : ''}`
                 }
               >
                 {l.label}

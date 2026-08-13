@@ -105,6 +105,7 @@
 @layer base {
   * { border-color: hsl(var(--border)); }
   html { scroll-behavior: smooth; }
+  body { scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--ink);
@@ -221,6 +222,38 @@
 
 @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 .animate-pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+@keyframes hero-drift {
+  0%, 100% { transform: scale(1.02) translate3d(0, 0, 0); }
+  50% { transform: scale(1.06) translate3d(0, -0.6%, 0); }
+}
+.hero-video-motion {
+  animation: hero-drift 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Consistent tactile feedback for touch and pointer interactions. */
+.motion-press { transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, background-color .25s ease; }
+.motion-press:active { transform: translateY(1px) scale(.985); }
+.motion-icon { transition: transform .28s cubic-bezier(.22,1,.36,1); }
+.motion-icon:hover { transform: translateX(3px); }
+.stall-interactive { transform-box: fill-box; transform-origin: center; transition: transform .22s cubic-bezier(.22,1,.36,1), filter .22s ease; }
+.stall-interactive:hover { transform: scale(1.018); filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--gold) 22%, transparent)); }
+.stall-tooltip { animation: tooltip-in .18s cubic-bezier(.22,1,.36,1) both; transform-origin: bottom center; }
+@keyframes tooltip-in { from { opacity: 0; transform: translate(-50%, -92%) scale(.96); } to { opacity: 1; transform: translate(-50%, -100%) scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html, body { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+  .hero-video-motion { transform: none; }
+  .stall-interactive:hover { transform: none; filter: none; }
+  .stall-tooltip { animation: none; }
+}
 
 @media print {
   body * { visibility: hidden; }
