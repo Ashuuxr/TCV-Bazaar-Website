@@ -30,7 +30,20 @@ export default function Home() {
     <div>
       {/* ============ HERO ============ */}
       <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0a0812]">
-        {/* The primary hero intentionally has no image or video background. */}
+        {hero.videoDataUrl && (
+          <video
+            key={`main-hero-${hero.videoDataUrl}`}
+            className="absolute inset-0 h-full w-full object-cover"
+            src={hero.videoDataUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+          />
+        )}
+        <div className="absolute inset-0 bg-black/45" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--bg)] to-transparent" />
 
         <div className="container-x relative z-10 flex flex-col items-center pb-24 pt-32 text-center">
