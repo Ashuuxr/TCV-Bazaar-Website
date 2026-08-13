@@ -21,7 +21,10 @@ export default function Faq() {
               name: f.q,
               acceptedAnswer: { '@type': 'Answer', text: f.a },
             })),
-          }),
+          })
+            .replace(/</g, '\\u003c')
+            .replace(/>/g, '\\u003e')
+            .replace(/&/g, '\\u0026'),
         }}
       />
       <PageHero eyebrow="FAQ" title="Questions, answered" sub="Everything exhibitors and visitors ask us most." />
