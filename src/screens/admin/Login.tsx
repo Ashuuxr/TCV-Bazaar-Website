@@ -4,7 +4,15 @@ import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
 import Logo from '@/components/Logo'
 import { supabase } from '@/integrations/supabase/client'
 import { useCms } from '@/lib/store'
-import { getMyRoles } from '@/lib/users.functions'
+
+const LOGIN_TIMEOUT_MS = 15000
+
+function withTimeout<T>(promise: PromiseLike<T>, message: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = window.setTimeout(() => reject(new Error(message)), LOGIN_TIMEOUT_MS)
+    Promise.resolve(promise).then((value) => { window.clearTimeout(timer); resolve(value) }, (error) => { window.clearTimeout(timer); reject(error) })
+  })
+}
 
 export default function AdminLogin() {
   const log = useCms((s) => s.log)
@@ -34,18 +42,31 @@ export default function AdminLogin() {
     }
     setBusy(true)
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: normalizedEmail,
-        password: pass,
-      })
+      const { data: authData, error } = await withTimeout(
+        supabase.auth.signInWithPassword({
+          email: normalizedEmail,
+          password: pass,
+        }),
+        'Login timed out. Check your connection and try again.',
+      )
       if (error) {
         setErr(error.message === 'Invalid login credentials'
           ? 'Invalid email or password.'
           : error.message)
         return
       }
-      const access = await getMyRoles()
-      const isAdmin = access.roles.includes('admin') || access.roles.includes('super_admin')
+      const userId = authData.user?.id
+      if (!userId) {
+        setErr('Login completed without a valid user session. Please try again.')
+        return
+      }
+      const { data: roleRows, error: roleError } = await withTimeout(
+        supabase.from('user_roles').select('role').eq('user_id', userId),
+        'Login succeeded, but admin access verification timed out. Please try again.',
+      )
+      if (roleError) throw new Error(roleError.message)
+      const roles = (roleRows ?? []).map((row) => row.role)
+      const isAdmin = roles.includes('admin') || roles.includes('super_admin')
       if (!isAdmin) {
         await supabase.auth.signOut()
         setErr('This account is authenticated but is not authorized for the Admin Console.')
