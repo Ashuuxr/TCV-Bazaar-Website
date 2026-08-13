@@ -4,7 +4,6 @@ import {
   ArrowRight, CalendarDays, MapPin, Sparkles, Users, TrendingUp, Megaphone,
   Handshake, BadgeCheck, Crown, LayoutGrid, Phone, Star,
 } from 'lucide-react'
-import HeroCanvas from '@/components/HeroCanvas'
 import Countdown from '@/components/Countdown'
 import Reveal from '@/components/Reveal'
 import SectionHead from '@/components/SectionHead'
@@ -12,8 +11,6 @@ import StallMap from '@/components/StallMap'
 import Logo from '@/components/Logo'
 import BrochureButton from '@/components/BrochureButton'
 import { inr, useCms } from '@/lib/store'
-import { useIsMobile } from '@/hooks/use-mobile'
-import { useEffect, useState } from 'react'
 
 const whyIcons = [Users, Crown, TrendingUp, Handshake, BadgeCheck, Megaphone, Sparkles]
 const whyItems = [
@@ -28,52 +25,12 @@ const whyItems = [
 
 export default function Home() {
   const { hero, event, packages, gallery, testimonials, pages } = useCms()
-  const isMobile = useIsMobile()
-  const showVideo =
-    hero.enabled !== false &&
-    hero.visible !== false &&
-    !!hero.videoDataUrl &&
-    (hero.playOnMobile !== false || !isMobile)
-  const [videoReady, setVideoReady] = useState(false)
-  useEffect(() => { setVideoReady(false) }, [hero.videoDataUrl, showVideo])
 
   return (
     <div>
       {/* ============ HERO ============ */}
       <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0a0812]">
-        {showVideo ? (
-          <>
-            {/* Poster/fallback shown until the video is ready — avoids a blank frame. */}
-            {!videoReady && (
-              hero.poster ? (
-                <img src={hero.poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
-              ) : (
-                <div className="absolute inset-0"><HeroCanvas /></div>
-              )
-            )}
-            <video
-              key={hero.videoDataUrl}
-              className="absolute inset-0 h-full w-full object-cover"
-              src={hero.videoDataUrl}
-              poster={hero.poster || undefined}
-              autoPlay={hero.autoplay !== false}
-              loop={hero.loop !== false}
-              muted={hero.muted !== false}
-              playsInline
-              preload="metadata"
-              onLoadedData={() => setVideoReady(true)}
-              onCanPlay={() => setVideoReady(true)}
-              onError={() => setVideoReady(false)}
-            />
-          </>
-        ) : (
-          hero.poster ? (
-            <img src={hero.poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          ) : (
-            <div className="absolute inset-0"><HeroCanvas /></div>
-          )
-        )}
-        <div className="absolute inset-0" style={{ background: `rgba(8,6,10,${hero.overlay})` }} />
+        {/* The primary hero intentionally has no image or video background. */}
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--bg)] to-transparent" />
 
         <div className="container-x relative z-10 flex flex-col items-center pb-24 pt-32 text-center">
@@ -286,7 +243,19 @@ export default function Home() {
 
       {/* ============ CTA BAND ============ */}
       <section className="relative overflow-hidden py-24 sm:py-32">
-        <img src="https://drmqujjazvxcubsizmlw.supabase.co/storage/v1/render/image/public/gallery/DSC_4814.JPG?width=1600&quality=75&resize=contain" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        {hero.videoDataUrl && (
+          <video
+            key={`cta-${hero.videoDataUrl}`}
+            className="absolute inset-0 h-full w-full object-cover"
+            src={hero.videoDataUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+          />
+        )}
         <div className="absolute inset-0 bg-black/55" />
         <div className="container-x relative z-10 text-center">
           <Reveal>
