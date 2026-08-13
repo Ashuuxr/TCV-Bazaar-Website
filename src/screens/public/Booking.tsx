@@ -181,7 +181,7 @@ export default function BookingPage() {
             {/* STEP 1 — event */}
             {step === 0 && (
               <div className="card-lux mx-auto max-w-2xl overflow-hidden">
-                <img src="/__l5e/assets-v1/52c0135d-0530-458b-af24-e27d52954d3c/gallery-4.jpg" alt="Diwali celebration" className="h-52 w-full object-cover" />
+                <img src="https://drmqujjazvxcubsizmlw.supabase.co/storage/v1/render/image/public/gallery/DSC_4814.JPG?width=1600&quality=75&resize=contain" alt="Diwali celebration" className="h-52 w-full object-cover" />
                 <div className="p-8">
                   <span className="rounded-full bg-[var(--bg-soft)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gold">{event.edition}</span>
                   <h2 className="font-display mt-4 text-3xl font-medium">{event.name}</h2>
@@ -503,7 +503,7 @@ export function Invoice({ booking: b }: { booking: Booking }) {
     <div id="invoice-print" className="print-area mt-10 hidden rounded-2xl bg-white p-10 text-[#17130c]">
       <div className="flex items-start justify-between border-b-2 border-[#b98a2f] pb-6">
         <div>
-          <img src="/__l5e/assets-v1/391c7eb3-eb53-41d6-b4cb-3f82f713da73/logo-black.png" alt="TCV Bazaar" className="h-14" />
+          <div className="font-display text-3xl font-semibold tracking-tight">TCV Bazaar</div>
           <div className="mt-2 text-xs text-[#5c554a]">{site.contact.address} · {site.contact.email}</div>
         </div>
         <div className="text-right">

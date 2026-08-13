@@ -286,7 +286,7 @@ export default function Home() {
 
       {/* ============ CTA BAND ============ */}
       <section className="relative overflow-hidden py-24 sm:py-32">
-        <img src="/__l5e/assets-v1/ebec3b64-8605-4983-94a7-fc9dcf6aad6b/cta-band.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="https://drmqujjazvxcubsizmlw.supabase.co/storage/v1/render/image/public/gallery/DSC_4814.JPG?width=1600&quality=75&resize=contain" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/55" />
         <div className="container-x relative z-10 text-center">
           <Reveal>
