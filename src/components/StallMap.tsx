@@ -155,7 +155,7 @@ export default function StallMap({
             {STATUS_STYLE[k].label}
           </span>
         ))}
-        <span className="ml-auto hidden sm:block">{visible.filter((s) => s.status === 'available').length} of {visible.length} stalls available</span>
+        <span className="ml-auto hidden sm:block">{visible.length === 0 ? 'Loading live stalls…' : `${visible.filter((s) => s.status === 'available').length} of ${visible.length} stalls available`}</span>
       </div>
     </div>
   )
