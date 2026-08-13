@@ -233,11 +233,11 @@ export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: C
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
 
-  const subtotal = booking.subtotal ?? booking.total
-  const gstAmount = booking.gstAmount ?? 0
+  const subtotal = Number(booking.subtotal ?? booking.total) || 0
+  const gstAmount = Number(booking.gstAmount) || 0
   const taxMode = gstSettings?.tax_mode ?? 'cgst_sgst'
   const gstRatePct = Math.round((booking.gstRate ?? gstSettings?.default_rate ?? 18) * (booking.gstRate && booking.gstRate < 1 ? 100 : 1))
-  const showGstBreakdown = kind === 'gst' && gstAmount > 0
+  const showGstBreakdown = kind === 'gst'
   const cgst = gstAmount / 2
   const sgst = gstAmount / 2
 
@@ -252,12 +252,21 @@ export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: C
 
   row(`${pkg?.name || 'Stall Package'} — Stall ${booking.stallId}`, inr(subtotal))
   if (showGstBreakdown) {
-    if (taxMode === 'igst') {
-      row(`IGST @ ${gstRatePct}%`, inr(gstAmount))
+    if (gstAmount > 0) {
+      if (taxMode === 'igst') {
+        row(`IGST @ ${gstRatePct}%`, inr(gstAmount))
+      } else {
+        const half = gstRatePct / 2
+        row(`CGST @ ${half}%`, inr(cgst))
+        row(`SGST @ ${half}%`, inr(sgst))
+      }
     } else {
-      const half = gstRatePct / 2
-      row(`CGST @ ${half}%`, inr(cgst))
-      row(`SGST @ ${half}%`, inr(sgst))
+      row(`GST @ ${gstRatePct}%`, inr(0))
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(8)
+      doc.setTextColor(...SOFT)
+      doc.text('GST not charged: a valid 15-character GSTIN was not recorded for this booking.', M + 10, y + 13, { maxWidth: W - M * 2 })
+      y += 14
     }
   } else if (gstAmount > 0) {
     row(`GST @ ${gstRatePct}%${b.gst ? ` (GSTIN ${b.gst})` : ''}`, inr(gstAmount))
