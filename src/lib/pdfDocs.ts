@@ -1,5 +1,4 @@
 import jsPDF from 'jspdf'
-import QRCode from 'qrcode'
 import { OFFICIAL_LOGO_URL } from './store'
 import type { Booking, Pkg, EventInfo, SiteContent, BrandAssets } from './store'
 import { useCms } from './store'
@@ -50,6 +49,7 @@ async function imageUrlToDataUrl(url: string): Promise<string> {
 }
 
 async function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
+  const { default: QRCode } = await import('qrcode')
   const dataUrl = await QRCode.toDataURL(value, {
     errorCorrectionLevel: 'M',
     margin: 1,
