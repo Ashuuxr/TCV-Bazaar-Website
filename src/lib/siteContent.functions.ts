@@ -12,7 +12,7 @@ type Json = string | number | boolean | null | { [k: string]: Json } | Json[]
 export const getSiteContent = createServerFn({ method: 'GET' }).handler(async () => {
   try {
     const url = process.env.SUPABASE_URL!
-    const key = process.env.SUPABASE_PUBLISHABLE_KEY!
+    const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
     const supabase = createClient<Database>(url, key, {
       auth: { persistSession: false, autoRefreshToken: false },
       global: {
