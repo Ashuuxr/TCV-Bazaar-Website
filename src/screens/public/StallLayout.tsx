@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useServerFn } from '@tanstack/react-start'
 import { Link, useNavigate } from '@/lib/router-compat'
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
@@ -6,12 +7,20 @@ import StallMap from '@/components/StallMap'
 import { inr, useCms } from '@/lib/store'
 import type { Stall } from '@/lib/store'
 import { X } from 'lucide-react'
+import { recordAnalyticsEvent } from '@/lib/analytics.functions'
 
 export default function StallLayout() {
   const packages = useCms((s) => s.packages)
   const [pkg, setPkg] = useState<string | null>(null)
   const [sel, setSel] = useState<Stall | null>(null)
   const nav = useNavigate()
+  const recordEvent = useServerFn(recordAnalyticsEvent)
+
+  const selectStall = (stall: Stall) => {
+    setSel(stall)
+    const sessionId = typeof window !== 'undefined' ? window.sessionStorage.getItem('tcv-analytics-session') : null
+    void recordEvent({ data: { eventName: 'layout_click', path: '/stall-layout', sessionId, metadata: { stall_id: stall.id, status: stall.status } } })
+  }
 
   return (
     <div>
@@ -36,7 +45,7 @@ export default function StallLayout() {
               </button>
             ))}
           </div>
-          <StallMap selectable selected={sel?.id} filterPkg={pkg} onSelect={(s) => setSel(s)} />
+          <StallMap selectable selected={sel?.id} filterPkg={pkg} onSelect={selectStall} />
         </Reveal>
 
         {sel && (

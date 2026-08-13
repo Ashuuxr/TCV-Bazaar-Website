@@ -38,6 +38,33 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_name: string
+          id: string
+          metadata: Json
+          path: string
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          id?: string
+          metadata?: Json
+          path?: string
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          id?: string
+          metadata?: Json
+          path?: string
+          session_id?: string | null
+        }
+        Relationships: []
+      }
       banks: {
         Row: {
           account_number: string
@@ -917,6 +944,7 @@ export type Database = {
         Returns: undefined
       }
       preview_next_invoice_number: { Args: never; Returns: string }
+      reset_analytics_events: { Args: never; Returns: number }
       reset_invoice_series: { Args: { _fy?: string }; Returns: undefined }
       restore_site_content_version: {
         Args: { _reason?: string; _version_id: string }
