@@ -5,6 +5,7 @@ import { listAllBookings, type BookingRow } from '@/lib/bookings.functions'
 import { listStalls } from '@/lib/stallsPublic.functions'
 import { getSiteContent, saveSiteContent } from '@/lib/siteContent.functions'
 import { supabase } from '@/integrations/supabase/client'
+import { loadPublicStorageMedia } from '@/lib/publicStorageMedia'
 
 /** Convert a DB booking row → app Booking shape. */
 export function rowToBooking(r: BookingRow): Booking {
@@ -149,6 +150,35 @@ export function useSyncAdminBookings() {
 }
 
 /** Public + admin: hydrate CMS blob from Cloud on mount, then keep in sync via realtime + tab-focus. */
+export function useSyncPublicStorageMedia() {
+  const gallery = useCms((s) => s.gallery)
+  const videos = useCms((s) => s.videos)
+  const hero = useCms((s) => s.hero)
+  const patch = useCms((s) => s.patch)
+  useEffect(() => {
+    let cancelled = false
+    loadPublicStorageMedia(gallery, videos)
+      .then((media) => {
+        if (cancelled) return
+        suppressPush = true
+        if (media.gallery) patch('gallery', media.gallery)
+        if (media.videos) patch('videos', media.videos)
+        if (media.heroVideoUrl || media.heroPosterUrl) {
+          patch('hero', {
+            ...hero,
+            ...(media.heroVideoUrl ? { videoDataUrl: media.heroVideoUrl } : {}),
+            ...(media.heroPosterUrl ? { poster: media.heroPosterUrl } : {}),
+          })
+        }
+        setTimeout(() => { suppressPush = false }, 0)
+      })
+      .catch((err) => console.warn('[storage] public media hydration failed', err))
+    return () => { cancelled = true }
+    // Load the initial CMS snapshot once; storage objects are stable public data.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+}
+
 export function useSyncSiteContent() {
   const patch = useCms((s) => s.patch)
   useEffect(() => {
