@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf'
+import { OFFICIAL_LOGO_URL } from './store'
 import type { Booking, Pkg, EventInfo, SiteContent, BrandAssets } from './store'
 import { useCms } from './store'
 import type { CompanyProfile, GstSettings } from './company.functions'
@@ -33,6 +34,20 @@ function invoiceNumber(b: Booking, kind: DocKind) {
   return `${META[kind].prefix}/${y}${m}/${idPart}`
 }
 
+async function imageUrlToDataUrl(url: string): Promise<string> {
+  if (url.startsWith('data:')) return url
+  const response = await fetch(url, { cache: 'force-cache' })
+  if (!response.ok) throw new Error(`Logo request failed: ${response.status}`)
+  const bytes = new Uint8Array(await response.arrayBuffer())
+  let binary = ''
+  const chunkSize = 0x8000
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize))
+  }
+  const mime = response.headers.get('content-type') || 'image/png'
+  return `data:${mime};base64,${btoa(binary)}`
+}
+
 function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
   const cells = 21
   const cell = size / cells
@@ -64,7 +79,7 @@ function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
   }
 }
 
-export function generateBookingPdf(booking: Booking, kind: DocKind, ctx: Ctx) {
+export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: Ctx) {
   const { packages, event, site } = ctx
   const brand = ctx.brand ?? useCms.getState().brand
   const company = ctx.company
@@ -90,10 +105,15 @@ export function generateBookingPdf(booking: Booking, kind: DocKind, ctx: Ctx) {
   doc.setFillColor(...GOLD)
   doc.rect(0, 90, W, 3, 'F')
 
-  // Brand logo — only inlined data URLs render safely; remote URLs can't be
-  // fetched synchronously by jsPDF so we fall back to the wordmark alone.
-  const rawLogo = brand?.logoDark || brand?.logoLight || ''
-  const logoData = rawLogo.startsWith('data:') ? rawLogo : ''
+  // Embed the exact official logo in the PDF. Remote CMS logos are fetched client-side
+  // first; the supplied local asset remains the reliable fallback.
+  const rawLogo = brand?.logoDark || brand?.logoLight || OFFICIAL_LOGO_URL
+  let logoData = ''
+  try {
+    logoData = await imageUrlToDataUrl(rawLogo)
+  } catch {
+    try { logoData = await imageUrlToDataUrl(OFFICIAL_LOGO_URL) } catch { /* wordmark fallback */ }
+  }
   if (logoData) {
     try {
       const match = /^data:image\/(png|jpe?g|webp)/i.exec(logoData)?.[1]?.toUpperCase()
