@@ -10,6 +10,7 @@ import SectionHead from '@/components/SectionHead'
 import StallMap from '@/components/StallMap'
 import Logo from '@/components/Logo'
 import BrochureButton from '@/components/BrochureButton'
+import HeroVideo from '@/components/HeroVideo'
 import { inr, useCms } from '@/lib/store'
 
 const whyIcons = [Users, Crown, TrendingUp, Handshake, BadgeCheck, Megaphone, Sparkles]
@@ -30,17 +31,11 @@ export default function Home() {
     <div>
       {/* ============ HERO ============ */}
       <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0a0812]">
-        {hero.videoDataUrl && (
-          <video
-            key={`main-hero-${hero.videoDataUrl}`}
-            className="absolute inset-0 h-full w-full object-cover"
+        {hero.videoDataUrl && hero.enabled !== false && hero.visible !== false && (
+          <HeroVideo
             src={hero.videoDataUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
+            poster={hero.poster}
+            className="absolute inset-0 h-full w-full object-cover"
           />
         )}
         <div className="absolute inset-0 bg-black/45" />
