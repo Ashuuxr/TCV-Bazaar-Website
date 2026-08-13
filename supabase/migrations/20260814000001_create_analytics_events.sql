@@ -55,7 +55,8 @@ begin
     raise exception 'Forbidden: admin role required';
   end if;
 
-  delete from public.analytics_events;
+  delete from public.analytics_events
+  where id is not null;
   get diagnostics deleted_count = row_count;
   return deleted_count;
 end;
