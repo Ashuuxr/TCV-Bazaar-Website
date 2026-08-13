@@ -60,13 +60,55 @@ type CmsKey = typeof CMS_KEYS[number]
 let cloudHydrated = false
 let suppressPush = false
 
+function isLegacyAssetUrl(value: unknown): value is string {
+  return typeof value === 'string' && value.includes('/__l5e/assets-v1/')
+}
+
+function safeCloudValue(key: CmsKey, value: unknown) {
+  const current = useCms.getState()
+  if (key === 'brand' && value && typeof value === 'object') {
+    const brand = value as Record<string, unknown>
+    return {
+      ...brand,
+      logoLight: isLegacyAssetUrl(brand.logoLight) ? '' : brand.logoLight,
+      logoDark: isLegacyAssetUrl(brand.logoDark) ? '' : brand.logoDark,
+      logoMobile: isLegacyAssetUrl(brand.logoMobile) ? '' : brand.logoMobile,
+      favicon: isLegacyAssetUrl(brand.favicon) ? '' : brand.favicon,
+    }
+  }
+  if (key === 'hero' && value && typeof value === 'object') {
+    const hero = value as Record<string, unknown>
+    return { ...hero, poster: isLegacyAssetUrl(hero.poster) ? current.hero.poster : hero.poster }
+  }
+  if (key === 'gallery' && Array.isArray(value)) {
+    return value.map((item, index) => ({
+      ...(item as Record<string, unknown>),
+      src: isLegacyAssetUrl((item as Record<string, unknown>).src) ? current.gallery[index]?.src : (item as Record<string, unknown>).src,
+    }))
+  }
+  if (key === 'videos' && Array.isArray(value)) {
+    return value.map((item, index) => ({
+      ...(item as Record<string, unknown>),
+      poster: isLegacyAssetUrl((item as Record<string, unknown>).poster) ? current.videos[index]?.poster : (item as Record<string, unknown>).poster,
+    }))
+  }
+  if (key === 'pages' && value && typeof value === 'object') {
+    const pages = value as Record<string, unknown>
+    const about = pages.about && typeof pages.about === 'object' ? pages.about as Record<string, unknown> : null
+    return about && isLegacyAssetUrl(about.image)
+      ? { ...pages, about: { ...about, image: current.pages.about.image } }
+      : value
+  }
+  return value
+}
+
 function applyCloudBlob(blob: Record<string, unknown>, patch: <K extends CmsKey>(k: K, v: unknown) => void) {
   suppressPush = true
   try {
     for (const k of CMS_KEYS) {
       const v = blob[k]
       if (v === undefined || v === null) continue
-      patch(k, v as never)
+      patch(k, safeCloudValue(k, v) as never)
     }
   } finally {
     // Flip back next tick so the resulting re-render's effect sees suppressPush=true.

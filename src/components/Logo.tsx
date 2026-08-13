@@ -33,11 +33,23 @@ export default function Logo({
   const useDark = gold || mode === 'dark'
   let src = useDark ? brand.logoDark : brand.logoLight
   if (isMobile && brand.logoMobile) src = brand.logoMobile
+  const [broken, setBroken] = useState(false)
+  useEffect(() => { setBroken(false) }, [src])
 
   const brandStyle: React.CSSProperties | undefined = useBrandSize
     ? { height: isMobile ? brand.heightMobile : brand.heightDesktop }
     : undefined
 
+  if (broken || !src) {
+    return (
+      <span
+        className={`inline-flex items-center font-display font-semibold tracking-tight ${className}`}
+        style={{ color: useDark ? '#d9b45f' : 'var(--ink)', ...brandStyle, ...style }}
+      >
+        TCV Bazaar
+      </span>
+    )
+  }
   return (
     <img
       src={src}
@@ -45,6 +57,7 @@ export default function Logo({
       className={`w-auto object-contain ${className}`}
       style={{ ...brandStyle, ...style }}
       draggable={false}
+      onError={() => setBroken(true)}
     />
   )
 }
