@@ -80,6 +80,11 @@ function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
 }
 
 export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: Ctx) {
+  // iOS Safari does not reliably honor jsPDF.save() after an awaited operation.
+  // Open a user-initiated tab synchronously, then navigate it to the generated blob.
+  const isIosSafari = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  const handoff = isIosSafari ? window.open('', '_blank') : null
   const { packages, event, site } = ctx
   const brand = ctx.brand ?? useCms.getState().brand
   const company = ctx.company
@@ -365,7 +370,25 @@ export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: C
   let ty = termsY + 12
   terms.forEach((t) => { doc.text(t, M, ty, { maxWidth: W - M * 2 }); ty += 10 })
 
-  // Save
+  // Use a Blob URL instead of jsPDF.save(). This works in iOS Safari where
+  // an async-generated anchor download is commonly ignored by the browser.
   const filename = `TCV-${meta.file}-${booking.id}.pdf`
-  doc.save(filename)
+  const blob = doc.output('blob')
+  const blobUrl = URL.createObjectURL(blob)
+
+  if (handoff && !handoff.closed) {
+    handoff.document.title = filename
+    handoff.location.href = blobUrl
+    window.setTimeout(() => URL.revokeObjectURL(blobUrl), 60_000)
+    return
+  }
+
+  const anchor = document.createElement('a')
+  anchor.href = blobUrl
+  anchor.download = filename
+  anchor.rel = 'noopener'
+  document.body.appendChild(anchor)
+  anchor.click()
+  anchor.remove()
+  window.setTimeout(() => URL.revokeObjectURL(blobUrl), 60_000)
 }

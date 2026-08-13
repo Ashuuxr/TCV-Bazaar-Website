@@ -5,7 +5,7 @@ import Reveal from '@/components/Reveal'
 import { inr, useCms } from '@/lib/store'
 import type { Booking } from '@/lib/store'
 import { Invoice } from './Booking'
-import { generateBookingPdf } from '@/lib/pdfDocs'
+import { generateBookingPdf, type DocKind } from '@/lib/pdfDocs'
 import { findBooking, submitBalancePayment } from '@/lib/bookings.functions'
 import { useInvoiceContext } from '@/hooks/useInvoiceContext'
 import { rowToBooking } from '@/lib/useCloudSync'
@@ -35,6 +35,27 @@ export default function Portal() {
   const [utr, setUtr] = useState('')
   const [searching, setSearching] = useState(false)
   const [snapshot, setSnapshot] = useState<{ company: unknown; gst: unknown } | null>(null)
+  const [downloading, setDownloading] = useState<DocKind | null>(null)
+
+  const downloadPdf = async (kind: DocKind) => {
+    if (!found || downloading) return
+    setDownloading(kind)
+    try {
+      await generateBookingPdf(found, kind, {
+        packages,
+        event,
+        site,
+        company: (snapshot?.company as never) ?? invoiceCtx.company,
+        gst: (snapshot?.gst as never) ?? invoiceCtx.gst,
+      })
+      toast.success(`${kind === 'gst' ? 'GST Invoice' : kind === 'receipt' ? 'Receipt' : 'Invoice'} is ready.`)
+    } catch (error) {
+      console.error('PDF generation failed', error)
+      toast.error('Could not generate the PDF. Please try again.')
+    } finally {
+      setDownloading(null)
+    }
+  }
 
   const search = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -146,9 +167,9 @@ export default function Portal() {
               </div>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <button onClick={() => generateBookingPdf(found, 'invoice', { packages, event, site, company: (snapshot?.company as never) ?? invoiceCtx.company, gst: (snapshot?.gst as never) ?? invoiceCtx.gst })} className="btn-outline-gold flex items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold"><Download size={14} /> Invoice</button>
-                <button onClick={() => generateBookingPdf(found, 'gst', { packages, event, site, company: (snapshot?.company as never) ?? invoiceCtx.company, gst: (snapshot?.gst as never) ?? invoiceCtx.gst })} className="btn-outline-gold flex items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold"><Download size={14} /> GST Invoice</button>
-                <button onClick={() => generateBookingPdf(found, 'receipt', { packages, event, site, company: (snapshot?.company as never) ?? invoiceCtx.company, gst: (snapshot?.gst as never) ?? invoiceCtx.gst })} className="btn-outline-gold flex items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold"><Receipt size={14} /> Receipt</button>
+                <button disabled={Boolean(downloading)} onClick={() => downloadPdf('invoice')} className="btn-outline-gold flex items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold disabled:cursor-wait disabled:opacity-60"><Download size={14} /> {downloading === 'invoice' ? 'Preparing…' : 'Invoice'}</button>
+                <button disabled={Boolean(downloading)} onClick={() => downloadPdf('gst')} className="btn-outline-gold flex items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold disabled:cursor-wait disabled:opacity-60"><Download size={14} /> {downloading === 'gst' ? 'Preparing…' : 'GST Invoice'}</button>
+                <button disabled={Boolean(downloading)} onClick={() => downloadPdf('receipt')} className="btn-outline-gold flex items-center justify-center gap-2 rounded-full py-3 text-xs font-semibold disabled:cursor-wait disabled:opacity-60"><Receipt size={14} /> {downloading === 'receipt' ? 'Preparing…' : 'Receipt'}</button>
               </div>
 
               {found.balance > 0 && found.status !== 'cancelled' && found.status !== 'rejected' && (
