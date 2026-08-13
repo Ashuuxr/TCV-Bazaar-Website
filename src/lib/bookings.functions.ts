@@ -287,6 +287,62 @@ export const updateBookingStatus = createServerFn({ method: 'POST' })
     return updated
   })
 
+/** Delete a booking after the UI has completed its two-step confirmation. */
+export const deleteBooking = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((raw: unknown) => {
+    const r = raw as { dbId?: string }
+    if (!r?.dbId || typeof r.dbId !== 'string') throw new Error('Booking id required')
+    return { dbId: r.dbId }
+  })
+  .handler(async ({ context, data }) => {
+    const { data: roleRows, error: roleError } = await context.supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', context.userId)
+    if (roleError) throw new Error(roleError.message)
+    const canDelete = (roleRows ?? []).some((r: { role: string }) => r.role === 'admin' || r.role === 'super_admin')
+    if (!canDelete) throw new Error('Forbidden: admin role required')
+
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { data: booking, error: bookingError } = await supabaseAdmin
+      .from('bookings')
+      .select('id, invoice_number, stall_id, status, business_name, owner_name')
+      .eq('id', data.dbId)
+      .maybeSingle()
+    if (bookingError) throw new Error(bookingError.message)
+    if (!booking) throw new Error('Booking not found')
+
+    if (booking.stall_id) {
+      const { error: stallError } = await supabaseAdmin
+        .from('stalls')
+        .update({ status: 'available', customer_name: null })
+        .eq('id', booking.stall_id)
+      if (stallError) throw new Error(`Could not release stall: ${stallError.message}`)
+    }
+
+    const { error: deleteError } = await supabaseAdmin
+      .from('bookings')
+      .delete()
+      .eq('id', data.dbId)
+    if (deleteError) throw new Error(deleteError.message)
+
+    await supabaseAdmin.from('activity_log').insert({
+      text: `Booking deleted ${booking.invoice_number} — ${booking.business_name || booking.owner_name || 'customer'}`,
+      meta: { action: 'booking.delete', booking_id: booking.id, invoice_number: booking.invoice_number },
+    })
+    await (context.supabase as any).rpc('log_user_audit', {
+      _target_id: booking.id,
+      _target_email: null,
+      _action: 'booking.delete',
+      _from_role: null,
+      _to_role: null,
+      _metadata: { invoice_number: booking.invoice_number, stall_id: booking.stall_id },
+    }).then(() => undefined, () => undefined)
+
+    return { ok: true as const, dbId: booking.id, invoiceNumber: booking.invoice_number }
+  })
+
 /** Helper for both client screens: convert a DB row to the app's Booking shape. */
 export type BookingRow = {
   id: string
