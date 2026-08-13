@@ -242,21 +242,8 @@ export default function Home() {
       </section>
 
       {/* ============ CTA BAND ============ */}
-      <section className="relative overflow-hidden py-24 sm:py-32">
-        {hero.videoDataUrl && (
-          <video
-            key={`cta-${hero.videoDataUrl}`}
-            className="absolute inset-0 h-full w-full object-cover"
-            src={hero.videoDataUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-          />
-        )}
-        <div className="absolute inset-0 bg-black/55" />
+      <section className="relative overflow-hidden bg-black py-24 sm:py-32">
+        <div className="absolute inset-0 bg-black" />
         <div className="container-x relative z-10 text-center">
           <Reveal>
             <span className="eyebrow justify-center">Limited Stalls</span>
