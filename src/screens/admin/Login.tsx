@@ -9,10 +9,11 @@ import { getMyRoles } from '@/lib/users.functions'
 export default function AdminLogin() {
   const log = useCms((s) => s.log)
   const nav = useNavigate()
-  const [stage, setStage] = useState<'login' | 'forgot'>('login')
+  const [stage, setStage] = useState<'login' | 'forgot' | 'verify'>('login')
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [forgotEmail, setForgotEmail] = useState('')
+  const [otp, setOtp] = useState('')
   const [err, setErr] = useState('')
   const [info, setInfo] = useState('')
   const [busy, setBusy] = useState(false)
@@ -76,7 +77,9 @@ export default function AdminLogin() {
         setErr(error.message)
         return
       }
-      setInfo(`If an admin account exists for ${target}, a password reset link has been emailed. Check your inbox (and spam).`)
+      setInfo(`If an admin account exists for ${target}, a 6-digit recovery code has been emailed. Check your inbox (and spam).`)
+      setOtp('')
+      setStage('verify')
     } catch (e: any) {
       setErr(e?.message ?? 'Could not send reset email.')
     } finally {
@@ -122,11 +125,44 @@ export default function AdminLogin() {
           {stage === 'forgot' && (
             <form onSubmit={sendResetLink} className="space-y-5">
               <h1 className="font-display text-2xl font-medium">Reset password</h1>
-              <p className="text-sm text-[var(--ink-soft)]">Enter your admin email — we'll send a secure reset link to your inbox.</p>
+              <p className="text-sm text-[var(--ink-soft)]">Enter your admin email — we'll send a 6-digit recovery code to your inbox.</p>
               <div><label htmlFor="reset-email" className="label-lux">Admin Email</label><input id="reset-email" name="email" type="email" autoComplete="email" required className="input-lux" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} /></div>
               {err && <p className="text-xs font-medium text-red-500">{err}</p>}
               {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
-              <button disabled={busy} type="submit" className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Sending…' : 'Send Reset Link'}</button>
+              <button disabled={busy} type="submit" className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Sending…' : 'Send Recovery Code'}</button>
+              <button type="button" onClick={() => { setErr(''); setInfo(''); setStage('login') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">← Back to sign in</button>
+            </form>
+          )}
+          {stage === 'verify' && (
+            <form onSubmit={async (e) => {
+              e.preventDefault()
+              setErr(''); setInfo('')
+              const target = forgotEmail.trim().toLowerCase()
+              if (!/^\d{6}$/.test(otp.trim())) {
+                setErr('Enter the 6-digit code from your email.')
+                return
+              }
+              setBusy(true)
+              try {
+                const { error } = await supabase.auth.verifyOtp({ email: target, token: otp.trim(), type: 'recovery' })
+                if (error) {
+                  setErr('That code is invalid or expired. Request a new code and try again.')
+                  return
+                }
+                nav('/admin/reset-password')
+              } catch (e: any) {
+                setErr(e?.message ?? 'Could not verify the recovery code.')
+              } finally {
+                setBusy(false)
+              }
+            }} className="space-y-5">
+              <h1 className="font-display text-2xl font-medium">Verify recovery code</h1>
+              <p className="text-sm text-[var(--ink-soft)]">Enter the 6-digit code sent to <strong>{forgotEmail}</strong>. The code expires according to your Supabase Auth email-OTP settings.</p>
+              <div><label htmlFor="recovery-otp" className="label-lux">Email code</label><input id="recovery-otp" name="otp" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required className="input-lux tracking-[0.35em]" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="123456" /></div>
+              {err && <p className="text-xs font-medium text-red-500">{err}</p>}
+              {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
+              <button disabled={busy} type="submit" className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Verifying…' : 'Verify Code'}</button>
+              <button type="button" disabled={busy} onClick={() => { setErr(''); setInfo(''); setStage('forgot') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">Resend code</button>
               <button type="button" onClick={() => { setErr(''); setInfo(''); setStage('login') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">← Back to sign in</button>
             </form>
           )}
