@@ -60,7 +60,7 @@ export default function Home() {
               loop={hero.loop !== false}
               muted={hero.muted !== false}
               playsInline
-              preload="auto"
+              preload="metadata"
               onLoadedData={() => setVideoReady(true)}
               onCanPlay={() => setVideoReady(true)}
               onError={() => setVideoReady(false)}
