@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf'
+import QRCode from 'qrcode'
 import { OFFICIAL_LOGO_URL } from './store'
 import type { Booking, Pkg, EventInfo, SiteContent, BrandAssets } from './store'
 import { useCms } from './store'
@@ -48,35 +49,14 @@ async function imageUrlToDataUrl(url: string): Promise<string> {
   return `data:${mime};base64,${btoa(binary)}`
 }
 
-function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
-  const cells = 21
-  const cell = size / cells
-  let h = 2166136261
-  for (let i = 0; i < value.length; i++) {
-    h ^= value.charCodeAt(i)
-    h = Math.imul(h, 16777619)
-  }
-  const seed = h >>> 0
-  doc.setFillColor(255, 255, 255)
-  doc.rect(x, y, size, size, 'F')
-  doc.setFillColor(23, 19, 12)
-  const finder = (cx: number, cy: number) =>
-    (cx < 7 && cy < 7) || (cx >= cells - 7 && cy < 7) || (cx < 7 && cy >= cells - 7)
-  for (let i = 0; i < cells * cells; i++) {
-    const cx = i % cells
-    const cy = Math.floor(i / cells)
-    if (finder(cx, cy)) continue
-    const r = ((seed * (i + 2654435761)) >>> 0) % 100
-    if (r < 46) doc.rect(x + cx * cell, y + cy * cell, cell, cell, 'F')
-  }
-  for (const [fx, fy] of [[0, 0], [cells - 7, 0], [0, cells - 7]] as const) {
-    doc.setFillColor(23, 19, 12)
-    doc.rect(x + fx * cell, y + fy * cell, 7 * cell, 7 * cell, 'F')
-    doc.setFillColor(255, 255, 255)
-    doc.rect(x + (fx + 1) * cell, y + (fy + 1) * cell, 5 * cell, 5 * cell, 'F')
-    doc.setFillColor(23, 19, 12)
-    doc.rect(x + (fx + 2) * cell, y + (fy + 2) * cell, 3 * cell, 3 * cell, 'F')
-  }
+async function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
+  const dataUrl = await QRCode.toDataURL(value, {
+    errorCorrectionLevel: 'M',
+    margin: 1,
+    width: 512,
+    color: { dark: '#17130c', light: '#ffffff' },
+  })
+  doc.addImage(dataUrl, 'PNG', x, y, size, size, undefined, 'FAST')
 }
 
 export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: Ctx) {
@@ -317,8 +297,9 @@ export async function generateBookingPdf(booking: Booking, kind: DocKind, ctx: C
   // QR + organizer + signatory
   const qrSize = 90
   const qrY = Math.min(y, H - 200)
-  const qrValue = `TCV|${booking.id}|${booking.total}`
-  drawQr(doc, qrValue, M, qrY, qrSize)
+  const verificationUrl = new URL('/portal', window.location.origin)
+  verificationUrl.searchParams.set('booking', booking.id)
+  await drawQr(doc, verificationUrl.toString(), M, qrY, qrSize)
   doc.setFontSize(8)
   doc.setTextColor(...SOFT)
   doc.text('Scan to verify booking', M, qrY + qrSize + 12)

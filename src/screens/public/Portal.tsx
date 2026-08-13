@@ -27,7 +27,10 @@ const payStyle: Record<string, string> = {
 export default function Portal() {
   const { packages, upsertBooking, log, event, site } = useCms()
   const invoiceCtx = useInvoiceContext()
-  const [q, setQ] = useState({ id: '', phone: '' })
+  const [q, setQ] = useState(() => ({
+    id: typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('booking') ?? '',
+    phone: '',
+  }))
   const [found, setFound] = useState<Booking | null | undefined>()
   const [err, setErr] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
