@@ -11,38 +11,38 @@ export function LayoutBackground({ children }: { children?: ReactNode }) {
   return (
     <g>
       {/* ROAD strip along the top */}
-      <rect x="7.5" y="0" width="107" height="5.5" fill="#5c554a" />
-      <line x1="10" y1="2.75" x2="112" y2="2.75" stroke="#f3ead7" strokeWidth="0.35" strokeDasharray="2.6 2.4" />
-      <text x="61" y="3.9" textAnchor="middle" fill="#f3ead7" fontSize="2.6" fontWeight="800" letterSpacing="1.8">ROAD</text>
+      <rect x="7.5" y="0" width="107" height="5.5" fill="var(--stall-road)" />
+      <line x1="10" y1="2.75" x2="112" y2="2.75" stroke="var(--stall-on-dark)" strokeWidth="0.35" strokeDasharray="2.6 2.4" />
+      <text x="61" y="3.9" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="2.6" fontWeight="800" letterSpacing="1.8">ROAD</text>
       {/* Small TCV badge top-right */}
-      <rect x="117" y="0" width="15.5" height="5.5" fill="#5c554a" rx="0.5" />
-      <text x="124.75" y="3.9" textAnchor="middle" fill="#f3ead7" fontSize="2.6" fontWeight="800" letterSpacing="1">TCV</text>
+      <rect x="117" y="0" width="15.5" height="5.5" fill="var(--stall-road)" rx="0.5" />
+      <text x="124.75" y="3.9" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="2.6" fontWeight="800" letterSpacing="1">TCV</text>
 
       {/* Left vertical banner — TCV CARNIVAL */}
-      <rect x="0" y="6.5" width="7.5" height="46" fill="#302a21" />
-      <text x="3.75" y="29.5" textAnchor="middle" fill="#f3ead7" fontSize="2.6" fontWeight="800"
+      <rect x="0" y="6.5" width="7.5" height="46" fill="var(--stall-side)" />
+      <text x="3.75" y="29.5" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="2.6" fontWeight="800"
             letterSpacing="1.6" transform="rotate(-90 3.75 29.5)">TCV CARNIVAL</text>
 
       {/* Right vertical banner — ENTRY */}
-      <rect x="132.5" y="6.5" width="7.5" height="46" fill="#302a21" />
-      <text x="136.25" y="29.5" textAnchor="middle" fill="#f3ead7" fontSize="2.6" fontWeight="800"
+      <rect x="132.5" y="6.5" width="7.5" height="46" fill="var(--stall-side)" />
+      <text x="136.25" y="29.5" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="2.6" fontWeight="800"
             letterSpacing="1.6" transform="rotate(-90 136.25 29.5)">ENTRY</text>
 
       {/* Central walkway between the two rows */}
-      <rect x="7.5" y="22" width="125" height="19" fill="#f3ede2" />
+      <rect x="7.5" y="22" width="125" height="19" fill="var(--stall-walkway)" />
       {/* Two large left-pointing walkway arrows */}
-      <path d="M55 31.5 L38 31.5 M45 27 L38 31.5 L45 36" stroke="#aa9774" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M105 31.5 L88 31.5 M95 27 L88 31.5 L95 36" stroke="#aa9774" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M55 31.5 L38 31.5 M45 27 L38 31.5 L45 36" stroke="var(--stall-arrow)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M105 31.5 L88 31.5 M95 27 L88 31.5 L95 36" stroke="var(--stall-arrow)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
 
       {/* Bottom band: SPONSORS PANEL + small TCV badge on the right */}
-      <rect x="7.5" y="54" width="107" height="7" fill="#efe2c5" stroke="#c8a95d" strokeWidth="0.25" />
-      <text x="61" y="58.9" textAnchor="middle" fill="#4a4032" fontSize="2.8" fontWeight="800" letterSpacing="1.4">SPONSORS PANEL</text>
-      <rect x="117" y="54" width="15.5" height="7" fill="#5c554a" rx="0.5" />
-      <text x="124.75" y="58.9" textAnchor="middle" fill="#f3ead7" fontSize="2.6" fontWeight="800" letterSpacing="1">TCV</text>
+      <rect x="7.5" y="54" width="107" height="7" fill="var(--stall-sponsor)" stroke="var(--stall-sponsor-border)" strokeWidth="0.25" />
+      <text x="61" y="58.9" textAnchor="middle" fill="var(--stall-footer)" fontSize="2.8" fontWeight="800" letterSpacing="1.4">SPONSORS PANEL</text>
+      <rect x="117" y="54" width="15.5" height="7" fill="var(--stall-road)" rx="0.5" />
+      <text x="124.75" y="58.9" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="2.6" fontWeight="800" letterSpacing="1">TCV</text>
 
       {/* KESHAR TOWERS footer */}
-      <rect x="0" y="63" width="140" height="10" fill="#4a4032" />
-      <text x="70" y="69.6" textAnchor="middle" fill="#f8e7ad" fontSize="3.8" fontWeight="800" letterSpacing="2.2">KESHAR TOWERS</text>
+      <rect x="0" y="63" width="140" height="10" fill="var(--stall-footer)" />
+      <text x="70" y="69.6" textAnchor="middle" fill="var(--stall-on-dark)" fontSize="3.8" fontWeight="800" letterSpacing="2.2">KESHAR TOWERS</text>
       {children}
     </g>
   )
