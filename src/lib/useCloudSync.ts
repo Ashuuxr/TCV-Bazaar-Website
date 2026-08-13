@@ -150,33 +150,20 @@ export function useSyncAdminBookings() {
 }
 
 /** Public + admin: hydrate CMS blob from Cloud on mount, then keep in sync via realtime + tab-focus. */
-export function useSyncPublicStorageMedia() {
-  const gallery = useCms((s) => s.gallery)
-  const videos = useCms((s) => s.videos)
-  const hero = useCms((s) => s.hero)
-  const patch = useCms((s) => s.patch)
-  useEffect(() => {
-    let cancelled = false
-    loadPublicStorageMedia(gallery, videos)
-      .then((media) => {
-        if (cancelled) return
-        suppressPush = true
-        if (media.gallery) patch('gallery', media.gallery)
-        if (media.videos) patch('videos', media.videos)
-        if (media.heroVideoUrl || media.heroPosterUrl) {
-          patch('hero', {
-            ...hero,
-            ...(media.heroVideoUrl ? { videoDataUrl: media.heroVideoUrl } : {}),
-            ...(media.heroPosterUrl ? { poster: media.heroPosterUrl } : {}),
-          })
-        }
-        setTimeout(() => { suppressPush = false }, 0)
-      })
-      .catch((err) => console.warn('[storage] public media hydration failed', err))
-    return () => { cancelled = true }
-    // Load the initial CMS snapshot once; storage objects are stable public data.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+async function hydratePublicStorageMedia() {
+  const state = useCms.getState()
+  const media = await loadPublicStorageMedia(state.gallery, state.videos)
+  suppressPush = true
+  if (media.gallery) state.patch('gallery', media.gallery)
+  if (media.videos) state.patch('videos', media.videos)
+  if (media.heroVideoUrl || media.heroPosterUrl) {
+    state.patch('hero', {
+      ...useCms.getState().hero,
+      ...(media.heroVideoUrl ? { videoDataUrl: media.heroVideoUrl } : {}),
+      ...(media.heroPosterUrl ? { poster: media.heroPosterUrl } : {}),
+    })
+  }
+  setTimeout(() => { suppressPush = false }, 0)
 }
 
 export function useSyncSiteContent() {
@@ -197,6 +184,7 @@ export function useSyncSiteContent() {
           if (res && res.ok !== false) {
             const blob = (res.data ?? {}) as Record<string, unknown>
             applyCloudBlob(blob, patch as never)
+            void hydratePublicStorageMedia().catch((err) => console.warn('[storage] public media hydration failed', err))
             cloudHydrated = true
             return
           }
@@ -217,7 +205,9 @@ export function useSyncSiteContent() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'site_content', filter: 'id=eq.main' }, (payload) => {
         const row = (payload.new ?? payload.old) as { data?: Record<string, unknown> } | null
         if (!row?.data) return
-        applyCloudBlob(row.data, patch as never)
+                  applyCloudBlob(row.data, patch as never)
+          void hydratePublicStorageMedia().catch((err) => console.warn('[storage] public media hydration failed', err))
+
       })
       .subscribe()
 
