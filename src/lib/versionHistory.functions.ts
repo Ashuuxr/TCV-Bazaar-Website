@@ -63,6 +63,7 @@ export const restoreVersion = createServerFn({ method: 'POST' })
     return { id: o.id, reason: o.reason ?? undefined }
   })
   .handler(async ({ context, data }) => {
+    await assertAdmin(context)
     const { error } = await context.supabase.rpc('restore_site_content_version', {
       _version_id: data.id,
       _reason: data.reason ?? undefined,

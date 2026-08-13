@@ -10,6 +10,7 @@ import { useHydrated } from '@/lib/use-hydrated'
 import { useApplyTheme } from '@/components/Theme'
 import { supabase } from '@/integrations/supabase/client'
 import { useSyncAdminBookings, useSyncStallsFromCloud, useSyncSiteContent, useAutoPushSiteContent } from '@/lib/useCloudSync'
+import { getMyRoles } from '@/lib/users.functions'
 import { useApplyBrand } from '@/lib/useApplyBrand'
 import TrackingLoader from '@/components/TrackingLoader'
 
@@ -62,16 +63,22 @@ export default function AdminLayout() {
   const hydrated = useHydrated()
   const [open, setOpen] = useState(false)
   const nav2 = useNavigate()
-  const [authState, setAuthState] = useState<'loading' | 'in' | 'out'>('loading')
+  const [authState, setAuthState] = useState<'loading' | 'in' | 'out' | 'forbidden'>('loading')
 
   useEffect(() => {
     let cancelled = false
-    supabase.auth.getSession().then(({ data }) => {
-      if (cancelled) return
-      setAuthState(data.session ? 'in' : 'out')
-    })
+    const checkAccess = async (session: { user?: { email?: string | null } } | null) => {
+      if (!session) {
+        if (!cancelled) setAuthState('out')
+        return
+      }
+      const access = await getMyRoles()
+      const allowed = access.roles.includes('admin') || access.roles.includes('super_admin')
+      if (!cancelled) setAuthState(allowed ? 'in' : 'forbidden')
+    }
+    supabase.auth.getSession().then(({ data }) => checkAccess(data.session))
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setAuthState(session ? 'in' : 'out')
+      void checkAccess(session)
     })
     return () => { cancelled = true; sub.subscription.unsubscribe() }
   }, [])
@@ -79,6 +86,21 @@ export default function AdminLayout() {
   useEffect(() => { if (authState === 'out') nav2('/admin/login') }, [authState, nav2])
   if (!hydrated || authState === 'loading') return <div className="min-h-screen" style={{ background: '#faf7f1' }} />
   if (authState === 'out') return <Navigate to="/admin/login" replace />
+  if (authState === 'forbidden') {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[var(--bg)] p-6">
+        <div className="card-lux w-full max-w-md p-8 text-center">
+          <ShieldCheck className="mx-auto mb-4 text-red-500" size={34} />
+          <h1 className="font-display text-2xl font-medium">Access denied</h1>
+          <p className="mt-3 text-sm text-[var(--ink-soft)]">Your account is signed in, but it is not authorized to access the Admin Console.</p>
+          <div className="mt-6 flex justify-center gap-3">
+            <button onClick={() => { void supabase.auth.signOut(); nav2('/admin/login') }} className="btn-gold rounded-full px-5 py-3 text-sm font-semibold">Sign out</button>
+            <NavLink to="/" className="btn-outline-gold rounded-full px-5 py-3 text-sm font-semibold">Public site</NavLink>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex min-h-screen bg-[var(--bg)]">

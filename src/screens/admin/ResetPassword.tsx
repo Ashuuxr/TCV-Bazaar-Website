@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from '@/lib/router-compat'
-import { Lock, ShieldCheck } from 'lucide-react'
+import { Eye, EyeOff, Lock, ShieldCheck } from 'lucide-react'
 import Logo from '@/components/Logo'
 import { supabase } from '@/integrations/supabase/client'
 import { useCms } from '@/lib/store'
@@ -15,6 +15,8 @@ export default function AdminResetPassword() {
   const [err, setErr] = useState('')
   const [info, setInfo] = useState('')
   const [busy, setBusy] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
     // Supabase parses the recovery token from the URL hash and emits
@@ -36,7 +38,10 @@ export default function AdminResetPassword() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     setErr(''); setInfo('')
-    if (pass.length < 8) { setErr('Password must be at least 8 characters.'); return }
+    if (pass.length < 12 || !/[A-Z]/.test(pass) || !/[a-z]/.test(pass) || !/\d/.test(pass) || !/[^A-Za-z0-9]/.test(pass)) {
+      setErr('Use at least 12 characters with uppercase, lowercase, number, and symbol.')
+      return
+    }
     if (pass !== confirm) { setErr('Passwords do not match.'); return }
     setBusy(true)
     try {
@@ -75,14 +80,16 @@ export default function AdminResetPassword() {
             <form onSubmit={submit} className="space-y-5">
               <h1 className="font-display text-2xl font-medium">Choose a new password</h1>
               <div>
-                <label className="label-lux">New Password</label>
+                <label htmlFor="new-password" className="label-lux">New Password</label>
                 <div className="relative"><Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]" />
-                  <input type="password" required className="input-lux pl-11" value={pass} onChange={(e) => setPass(e.target.value)} placeholder="At least 8 characters" /></div>
+                  <input id="new-password" name="new-password" type={showPassword ? 'text' : 'password'} autoComplete="new-password" required className="input-lux pl-11 pr-12" value={pass} onChange={(e) => setPass(e.target.value)} placeholder="12+ characters, mixed case, number, symbol" />
+                  <button type="button" aria-label={showPassword ? 'Hide new password' : 'Show new password'} onClick={() => setShowPassword((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ink-soft)] hover:text-gold">{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button></div>
               </div>
               <div>
-                <label className="label-lux">Confirm Password</label>
+                <label htmlFor="confirm-password" className="label-lux">Confirm Password</label>
                 <div className="relative"><Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]" />
-                  <input type="password" required className="input-lux pl-11" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repeat new password" /></div>
+                  <input id="confirm-password" name="confirm-password" type={showConfirm ? 'text' : 'password'} autoComplete="new-password" required className="input-lux pl-11 pr-12" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repeat new password" />
+                  <button type="button" aria-label={showConfirm ? 'Hide password confirmation' : 'Show password confirmation'} onClick={() => setShowConfirm((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ink-soft)] hover:text-gold">{showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}</button></div>
               </div>
               {err && <p className="text-xs font-medium text-red-500">{err}</p>}
               {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
