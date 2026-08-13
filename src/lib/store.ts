@@ -157,7 +157,7 @@ export interface CmsState {
   pages: PageContent
   templates: Templates
   brochureSection: BrochureSection
-  admin: { email: string; password: string; twoFactor: boolean }
+  admin: { email: string; twoFactor: boolean }
   activity: { id: string; text: string; at: string }[]
 
   patch: <K extends keyof CmsState>(key: K, value: CmsState[K]) => void
@@ -290,7 +290,7 @@ export const defaultState = {
     whatsappConfirmation: 'Namaste {name}! 🪔 Your stall {stall} ({package}) at {event} is booked. Booking ID: {booking_id}. Paid: ₹{paid}, Balance: ₹{balance}. Portal: tcvbazaar.com/portal',
   },
   brochureSection: { enabled: true, heading: 'Download Brochure', subheading: 'Get the full deck as a PDF' } as BrochureSection,
-  admin: { email: 'ashuuxxr@gmail.com', password: 'Ashu@5580', twoFactor: false },
+  admin: { email: '', twoFactor: false },
   activity: [] as { id: string; text: string; at: string }[],
 }
 
@@ -313,8 +313,20 @@ export const useCms = create<CmsState>()(
       // Cloud is the source of truth for CMS content. Persist only local-only
       // state so a stale localStorage blob can never mask fresh cloud data on
       // the public site.
+      version: 8,
+      migrate: (persistedState) => {
+        const state = (persistedState ?? {}) as Partial<Pick<CmsState, 'admin' | 'activity' | 'bookings'>>
+        return {
+          admin: {
+            email: state.admin?.email ?? '',
+            twoFactor: state.admin?.twoFactor ?? false,
+          },
+          activity: state.activity ?? [],
+          bookings: state.bookings ?? [],
+        }
+      },
       partialize: (state) => ({
-        admin: state.admin,
+        admin: { email: state.admin.email, twoFactor: state.admin.twoFactor },
         activity: state.activity,
         bookings: state.bookings,
       }),

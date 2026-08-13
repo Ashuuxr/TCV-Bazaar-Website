@@ -17,7 +17,9 @@ export default function Settings() {
         <ACard title="Admin login" sub="Email + password for this dashboard">
           <div className="space-y-5">
             <Field label="Admin Email"><input type="email" className="input-lux" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value } as never)} /></Field>
-            <Field label="Password"><input className="input-lux" value={draft.password} onChange={(e) => setDraft({ ...draft, password: e.target.value } as never)} /></Field>
+            <div className="rounded-2xl border border-[var(--line)] bg-[var(--bg-soft)] p-4 text-xs leading-relaxed text-[var(--ink-soft)]">
+              Passwords are managed securely by Supabase Auth and are never stored in the browser CMS state. Use the password-reset flow from the admin login screen to change the password.
+            </div>
             <button onClick={() => setDraft({ ...draft, twoFactor: !draft.twoFactor } as never)}
               className={`flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-semibold ${draft.twoFactor ? 'border-[var(--gold)] bg-[var(--gold)] text-[#17130c]' : 'border-[var(--line)]'}`}>
               <Smartphone size={14} /> Email OTP 2FA {draft.twoFactor ? 'Enabled' : 'Disabled'}
