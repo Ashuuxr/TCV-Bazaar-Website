@@ -503,7 +503,7 @@ export function Invoice({ booking: b }: { booking: Booking }) {
     <div id="invoice-print" className="print-area mt-10 hidden rounded-2xl bg-white p-10 text-[#17130c]">
       <div className="flex items-start justify-between border-b-2 border-[#b98a2f] pb-6">
         <div>
-          <div className="font-display text-3xl font-semibold tracking-tight">TCV Bazaar</div>
+          <img src="/tcv-bazaar-official-logo.png" alt="TCV Bazaar" className="h-14 w-auto object-contain" />
           <div className="mt-2 text-xs text-[#5c554a]">{site.contact.address} · {site.contact.email}</div>
         </div>
         <div className="text-right">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useCms } from '@/lib/store'
+import { OFFICIAL_LOGO_URL, useCms } from '@/lib/store'
 
 /**
  * Brand logo — reads from the CMS Brand settings so admin uploads propagate everywhere.
@@ -33,6 +33,7 @@ export default function Logo({
   const useDark = gold || mode === 'dark'
   let src = useDark ? brand.logoDark : brand.logoLight
   if (isMobile && brand.logoMobile) src = brand.logoMobile
+  if (!src || src.includes('/__l5e/assets-v1/')) src = OFFICIAL_LOGO_URL
   const [broken, setBroken] = useState(false)
   useEffect(() => { setBroken(false) }, [src])
 

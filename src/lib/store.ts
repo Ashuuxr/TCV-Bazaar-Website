@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware'
 
 const SUPABASE_PUBLIC_MEDIA = 'https://drmqujjazvxcubsizmlw.supabase.co/storage/v1'
 const galleryImage = (name: string) => `${SUPABASE_PUBLIC_MEDIA}/render/image/public/gallery/${name}?width=1600&quality=75&resize=contain`
+export const OFFICIAL_LOGO_URL = '/tcv-bazaar-official-logo.png'
+export const OFFICIAL_FAVICON_URL = '/favicon.ico'
 
 /* ---------------- types ---------------- */
 export type StallStatus = 'available' | 'reserved' | 'pending' | 'booked' | 'blocked' | 'sold'
@@ -198,10 +200,10 @@ export const defaultState = {
     },
   },
   brand: {
-    logoLight: '',
-    logoDark: '',
-    logoMobile: '',
-    favicon: '',
+    logoLight: OFFICIAL_LOGO_URL,
+    logoDark: OFFICIAL_LOGO_URL,
+    logoMobile: OFFICIAL_LOGO_URL,
+    favicon: OFFICIAL_FAVICON_URL,
     heightDesktop: 44,
     heightMobile: 40,
     position: 'left' as const,
