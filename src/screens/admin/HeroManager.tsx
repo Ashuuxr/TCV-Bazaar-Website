@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Loader2, Trash2, UploadCloud, X } from 'lucide-react'
 import HeroCanvas from '@/components/HeroCanvas'
+import HeroVideo from '@/components/HeroVideo'
 import { ACard, Field, SaveBar, useDraft } from './ui'
 import { useCms } from '@/lib/store'
 import { supabase } from '@/integrations/supabase/client'
@@ -159,7 +160,7 @@ export default function HeroManager() {
       <ACard title="Live preview">
         <div className="relative h-72 overflow-hidden rounded-2xl">
           {draft.videoDataUrl && draft.enabled !== false && draft.visible !== false ? (
-            <video key={draft.videoDataUrl} src={draft.videoDataUrl} autoPlay loop muted playsInline poster={draft.poster || undefined} className="absolute inset-0 h-full w-full object-cover" />
+            <HeroVideo src={draft.videoDataUrl} poster={draft.poster || undefined} className="absolute inset-0 h-full w-full object-cover" />
           ) : draft.poster ? (
             <img src={draft.poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
           ) : (
