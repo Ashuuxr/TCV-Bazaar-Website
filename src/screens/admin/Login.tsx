@@ -78,6 +78,14 @@ export default function AdminLogin() {
         }
         setInfo('Signed in for this browser session. This session will end when the tab is refreshed or closed.')
       }
+      await (supabase.rpc as any)('log_user_audit', {
+        _target_id: userId,
+        _target_email: normalizedEmail,
+        _action: 'login',
+        _from_role: null,
+        _to_role: null,
+        _metadata: { method: 'password' },
+      }).then(() => undefined, () => undefined)
       log('Admin signed in')
       nav('/admin')
     } catch (e: any) {

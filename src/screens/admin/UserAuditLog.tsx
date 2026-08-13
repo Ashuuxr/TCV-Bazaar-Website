@@ -4,7 +4,7 @@ import { Loader2, RefreshCw } from 'lucide-react'
 import { ACard } from './ui'
 import { listAuditLog, type AuditRow } from '@/lib/users.functions'
 
-const ACTIONS = ['', 'invite', 'create', 'promote', 'demote', 'role_change', 'suspend', 'reactivate', 'remove', 'password_reset', 'ownership_transfer'] as const
+const ACTIONS = ['', 'login', 'invite', 'create', 'promote', 'demote', 'role_change', 'suspend', 'reactivate', 'remove', 'password_reset', 'ownership_transfer'] as const
 
 export default function UserAuditLog() {
   const call = useServerFn(listAuditLog)
