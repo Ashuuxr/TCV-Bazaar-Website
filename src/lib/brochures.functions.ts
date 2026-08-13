@@ -60,7 +60,7 @@ function s(v: unknown): string | null {
 /** Admin: list brochures (optionally including archived). */
 export const adminListBrochures = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { includeArchived?: unknown }
     return { includeArchived: !!r.includeArchived }
   })
@@ -81,7 +81,7 @@ export const adminListBrochures = createServerFn({ method: 'GET' })
 /** Admin: create a brochure row after uploading the file to storage. */
 export const createBrochure = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.title || typeof r.title !== 'string') throw new Error('title required')
     if (!r.file_path || typeof r.file_path !== 'string') throw new Error('file_path required')
@@ -124,7 +124,7 @@ export const createBrochure = createServerFn({ method: 'POST' })
 /** Admin: edit metadata only. */
 export const updateBrochureMeta = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.id || typeof r.id !== 'string') throw new Error('id required')
     return {
@@ -149,7 +149,7 @@ export const updateBrochureMeta = createServerFn({ method: 'POST' })
 /** Admin: replace file. Previous file is snapshotted into version history. */
 export const replaceBrochureFile = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.id || typeof r.id !== 'string') throw new Error('id required')
     if (!r.file_path || typeof r.file_path !== 'string') throw new Error('file_path required')
@@ -182,7 +182,7 @@ export const replaceBrochureFile = createServerFn({ method: 'POST' })
 /** Admin: set active (unsets other siblings in the same event scope). */
 export const setActiveBrochure = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.id || typeof r.id !== 'string') throw new Error('id required')
     return { id: r.id, active: r.active === undefined ? true : !!r.active }
@@ -207,7 +207,7 @@ export const setActiveBrochure = createServerFn({ method: 'POST' })
 /** Admin: archive/unarchive. Archiving also deactivates. */
 export const setBrochureArchived = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.id || typeof r.id !== 'string') throw new Error('id required')
     return { id: r.id, archived: !!r.archived }
@@ -224,7 +224,7 @@ export const setBrochureArchived = createServerFn({ method: 'POST' })
 /** Admin: delete brochure + all versions + storage objects. */
 export const deleteBrochure = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.id || typeof r.id !== 'string') throw new Error('id required')
     return { id: r.id }
@@ -243,7 +243,7 @@ export const deleteBrochure = createServerFn({ method: 'POST' })
 /** Admin: list version history for a brochure. */
 export const listBrochureVersions = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.brochure_id || typeof r.brochure_id !== 'string') throw new Error('brochure_id required')
     return { brochure_id: r.brochure_id }
@@ -262,7 +262,7 @@ export const listBrochureVersions = createServerFn({ method: 'GET' })
 /** Admin: restore a version → swap current file with version file, pushing current to history. */
 export const restoreBrochureVersion = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.version_id || typeof r.version_id !== 'string') throw new Error('version_id required')
     return { version_id: r.version_id }
@@ -298,7 +298,7 @@ export const restoreBrochureVersion = createServerFn({ method: 'POST' })
 /** Admin: signed URL for preview. */
 export const getBrochureAdminSignedUrl = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.file_path || typeof r.file_path !== 'string') throw new Error('file_path required')
     return { file_path: r.file_path }

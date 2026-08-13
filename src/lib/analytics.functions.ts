@@ -28,7 +28,7 @@ function validateEvent(input: {
 
 /** Public, best-effort event capture. Never exposes analytics rows to visitors. */
 export const recordAnalyticsEvent = createServerFn({ method: 'POST' })
-  .inputValidator((input: {
+  .validator((input: {
     eventName: AnalyticsEventName
     path?: string
     sessionId?: string | null

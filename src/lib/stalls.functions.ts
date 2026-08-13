@@ -63,7 +63,7 @@ function sanitizePatch(raw: unknown) {
 
 export const createStall = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Record<string, unknown>
     if (!r.id || typeof r.id !== 'string') throw new Error('id required')
     if (!r.label || typeof r.label !== 'string') throw new Error('label required')
@@ -95,7 +95,7 @@ export const createStall = createServerFn({ method: 'POST' })
 
 export const updateStall = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { id?: string; patch?: unknown }
     if (!r.id) throw new Error('id required')
     return { id: r.id, patch: sanitizePatch(r.patch) }
@@ -111,7 +111,7 @@ export const updateStall = createServerFn({ method: 'POST' })
 
 export const bulkUpdateStalls = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { items?: unknown }
     if (!Array.isArray(r.items)) throw new Error('items required')
     const items = r.items
@@ -142,7 +142,7 @@ export const bulkUpdateStalls = createServerFn({ method: 'POST' })
 /** Admin: single-round-trip upsert of layout geometry + sort order for the whole board. */
 export const saveStallLayout = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { items?: unknown }
     if (!Array.isArray(r.items)) throw new Error('items required')
     const items = r.items
@@ -182,7 +182,7 @@ export const saveStallLayout = createServerFn({ method: 'POST' })
 
 export const deleteStall = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { id?: string }
     if (!r.id) throw new Error('id required')
     return { id: r.id }

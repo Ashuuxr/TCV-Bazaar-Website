@@ -83,7 +83,7 @@ async function logAudit(context: any, action: string, metadata: Record<string, u
 /** Billing-only: save company profile. */
 export const saveCompanyProfile = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => (raw ?? {}) as Partial<CompanyProfile>)
+  .validator((raw: unknown) => (raw ?? {}) as Partial<CompanyProfile>)
   .handler(async ({ context, data }) => {
     await assertBilling(context)
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
@@ -97,7 +97,7 @@ export const saveCompanyProfile = createServerFn({ method: 'POST' })
 /** Billing-only: save GST settings. */
 export const saveGstSettings = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Partial<GstSettings>
     if (r.default_rate != null && ![0, 5, 12, 18, 28].includes(Number(r.default_rate))) {
       throw new Error('Rate must be 0, 5, 12, 18, or 28')
@@ -120,7 +120,7 @@ export const saveGstSettings = createServerFn({ method: 'POST' })
 /** Billing-only: save invoice settings. */
 export const saveInvoiceSettings = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as Partial<InvoiceSettings>
     if (r.prefix != null && !/^[A-Z0-9_-]{1,10}$/i.test(String(r.prefix))) {
       throw new Error('Prefix must be 1-10 letters/digits')
@@ -146,7 +146,7 @@ export const saveInvoiceSettings = createServerFn({ method: 'POST' })
 /** Billing-only: reset invoice series for a given FY (defaults to current). */
 export const resetInvoiceSeries = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => (raw ?? {}) as { fy?: string })
+  .validator((raw: unknown) => (raw ?? {}) as { fy?: string })
   .handler(async ({ context, data }) => {
     await assertBilling(context)
     // Use the authenticated session client here: reset_invoice_series checks
@@ -160,7 +160,7 @@ export const resetInvoiceSeries = createServerFn({ method: 'POST' })
 /** Billing-only: upload company asset. Returns signed upload URL for the client to PUT to. */
 export const createCompanyAssetUploadUrl = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { kind?: string; ext?: string }
     if (!r.kind || !['logo', 'signature', 'stamp'].includes(r.kind)) throw new Error('Invalid asset kind')
     const ext = String(r.ext || 'png').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 5)
@@ -228,7 +228,7 @@ export const getCompanyProfileFull = createServerFn({ method: 'GET' })
 /** Billing-only: mint a short-lived signed URL for a company asset (signature/stamp/logo preview). */
 export const getCompanyAssetSignedUrl = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { path?: string }
     if (!r.path || typeof r.path !== 'string') throw new Error('path required')
     if (r.path.includes('..')) throw new Error('invalid path')

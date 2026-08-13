@@ -9,7 +9,7 @@ async function assertAdmin(context: any) {
 
 export const listVersions = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const o = (raw ?? {}) as Record<string, unknown>
     return {
       module: typeof o.module === 'string' && o.module ? (o.module as string) : null,
@@ -39,7 +39,7 @@ export const listVersions = createServerFn({ method: 'POST' })
 
 export const getVersion = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const o = (raw ?? {}) as { id?: string }
     if (!o.id) throw new Error('id required')
     return { id: o.id }
@@ -57,7 +57,7 @@ export const getVersion = createServerFn({ method: 'POST' })
 
 export const restoreVersion = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const o = (raw ?? {}) as { id?: string; reason?: string }
     if (!o.id) throw new Error('id required')
     return { id: o.id, reason: o.reason ?? undefined }
@@ -74,7 +74,7 @@ export const restoreVersion = createServerFn({ method: 'POST' })
 
 export const deleteVersions = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const o = (raw ?? {}) as { ids?: string[] }
     if (!Array.isArray(o.ids) || o.ids.length === 0) throw new Error('ids required')
     return { ids: o.ids.filter((x): x is string => typeof x === 'string') }

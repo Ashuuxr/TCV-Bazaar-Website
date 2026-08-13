@@ -93,7 +93,7 @@ export const listAllTrackingIntegrations = createServerFn({ method: 'GET' })
 
 export const upsertTrackingIntegration = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
+  .validator((input: {
     provider: TrackingProvider
     enabled: boolean
     tracking_id?: string | null
@@ -133,7 +133,7 @@ export const upsertTrackingIntegration = createServerFn({ method: 'POST' })
 
 export const deleteTrackingIntegration = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { provider: TrackingProvider }) => input)
+  .validator((input: { provider: TrackingProvider }) => input)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context)
     const { error } = await context.supabase

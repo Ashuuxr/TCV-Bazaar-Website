@@ -40,7 +40,7 @@ export const getSiteContent = createServerFn({ method: 'GET' }).handler(async ()
 /** Admin: save (upsert) full CMS content blob. */
 export const saveSiteContent = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     if (!raw || typeof raw !== 'object') throw new Error('Invalid payload')
     const obj = raw as { data?: unknown; reason?: unknown }
     const data = (obj.data ?? raw) as Json

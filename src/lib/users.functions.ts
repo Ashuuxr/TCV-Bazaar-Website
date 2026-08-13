@@ -101,7 +101,7 @@ export const listUsers = createServerFn({ method: 'GET' })
 /** Invite a new user by email; they receive a magic link to set password. */
 export const inviteUser = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { email?: string; role?: string; fullName?: string }
     if (!r.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email)) throw new Error('Valid email required')
     if (!r.role || !isManageable(r.role)) throw new Error('Invalid role')
@@ -130,7 +130,7 @@ export const inviteUser = createServerFn({ method: 'POST' })
 /** Create user immediately with temp password. */
 export const createUserWithPassword = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { email?: string; password?: string; role?: string; fullName?: string }
     if (!r.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email)) throw new Error('Valid email required')
     if (!r.password || r.password.length < 8) throw new Error('Password must be 8+ characters')
@@ -163,7 +163,7 @@ export const createUserWithPassword = createServerFn({ method: 'POST' })
 /** Replace a user's roles with `roles` array. Only super admins may grant/revoke super_admin. */
 export const setUserRoles = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { userId?: string; roles?: unknown }
     if (!r.userId) throw new Error('userId required')
     if (!Array.isArray(r.roles)) throw new Error('roles required')
@@ -221,7 +221,7 @@ export const setUserRoles = createServerFn({ method: 'POST' })
 
 export const setUserStatus = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { userId?: string; status?: string }
     if (!r.userId) throw new Error('userId required')
     if (r.status !== 'active' && r.status !== 'suspended') throw new Error('Invalid status')
@@ -255,7 +255,7 @@ export const setUserStatus = createServerFn({ method: 'POST' })
 
 export const removeUser = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { userId?: string }
     if (!r.userId) throw new Error('userId required')
     return { userId: r.userId }
@@ -285,7 +285,7 @@ export const removeUser = createServerFn({ method: 'POST' })
 
 export const resetUserPassword = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { userId?: string }
     if (!r.userId) throw new Error('userId required')
     return { userId: r.userId }
@@ -312,7 +312,7 @@ export const resetUserPassword = createServerFn({ method: 'POST' })
 
 export const transferOwnership = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { toUserId?: string }
     if (!r.toUserId) throw new Error('toUserId required')
     return { toUserId: r.toUserId }
@@ -344,7 +344,7 @@ export const transferOwnership = createServerFn({ method: 'POST' })
 
 export const listAuditLog = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = (raw ?? {}) as { limit?: number; action?: string }
     return { limit: Math.min(Math.max(Number(r.limit ?? 200), 1), 500), action: r.action ?? '' }
   })

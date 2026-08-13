@@ -60,7 +60,7 @@ function validateProof(proof: unknown): string {
 
 /** Create a booking anonymously (public). Uses admin client server-side. */
 export const createBooking = createServerFn({ method: 'POST' })
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = raw as Partial<BookingInput>
     if (!r || typeof r !== 'object') throw new Error('Invalid payload')
     for (const k of ['pkgId', 'stallId', 'eventName', 'payType', 'method', 'utr'] as const) {
@@ -166,7 +166,7 @@ export const createBooking = createServerFn({ method: 'POST' })
 
 /** Look up a booking by invoice number + last-10-digits of phone (public portal). */
 export const findBooking = createServerFn({ method: 'POST' })
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = raw as { invoiceNumber?: string; phone?: string }
     if (!r?.invoiceNumber || !r?.phone) throw new Error('Missing lookup')
     const invoiceNumber = r.invoiceNumber.trim().toUpperCase()
@@ -198,7 +198,7 @@ async function loadInvoiceSnapshot(admin: any) {
 
 /** Submit balance payment (public, id+phone gated). */
 export const submitBalancePayment = createServerFn({ method: 'POST' })
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = raw as { invoiceNumber?: string; phone?: string; utr?: string; proof?: string }
     if (!r?.invoiceNumber || !r?.phone || !r?.utr) throw new Error('Missing fields')
     const invoiceNumber = r.invoiceNumber.trim().toUpperCase()
@@ -255,7 +255,7 @@ export const listAllBookings = createServerFn({ method: 'GET' })
 /** Update booking status (admin). Cascades stall status. */
 export const updateBookingStatus = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = raw as { dbId?: string; status?: string }
     if (!r?.dbId || !r?.status) throw new Error('Missing fields')
     if (!['pending', 'approved', 'rejected', 'cancelled'].includes(r.status)) throw new Error('Bad status')
@@ -290,7 +290,7 @@ export const updateBookingStatus = createServerFn({ method: 'POST' })
 /** Delete a booking after the UI has completed its two-step confirmation. */
 export const deleteBooking = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = raw as { dbId?: string }
     if (!r?.dbId || typeof r.dbId !== 'string') throw new Error('Booking id required')
     return { dbId: r.dbId }
@@ -369,7 +369,7 @@ export type BookingRow = {
 
 /** Upload a payment proof screenshot for an anonymous booking. */
 export const uploadPaymentProof = createServerFn({ method: 'POST' })
-  .inputValidator((raw: unknown) => {
+  .validator((raw: unknown) => {
     const r = raw as { filename?: string; contentType?: string; dataBase64?: string }
     if (!r || typeof r !== 'object') throw new Error('Invalid payload')
     const contentType = String(r.contentType || '').toLowerCase()
