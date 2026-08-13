@@ -1,19 +1,22 @@
 import { useMemo, useState } from 'react'
-import { BadgeCheck, Ban, Download, Eye, Search, X, XCircle } from 'lucide-react'
+import { BadgeCheck, Ban, Download, Eye, Search, Trash2, X, XCircle } from 'lucide-react'
 import { ACard } from './ui'
 import { inr, useCms } from '@/lib/store'
 import type { Booking } from '@/lib/store'
-import { updateBookingStatus } from '@/lib/bookings.functions'
+import { deleteBooking, updateBookingStatus } from '@/lib/bookings.functions'
 import { rowToBooking } from '@/lib/useCloudSync'
 import { generateBookingPdf, type DocKind } from '@/lib/pdfDocs'
 import { useInvoiceContext } from '@/hooks/useInvoiceContext'
 import { toast } from 'sonner'
+import { BookingDeleteDialog } from './BookingDeleteDialog'
 
 export default function BookingManager() {
   const { bookings, packages, stalls, patch, upsertBooking, log, event, site } = useCms()
   const { company, gst } = useInvoiceContext()
   const [q, setQ] = useState('')
   const [view, setView] = useState<Booking | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Booking | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const download = (b: Booking, kind: DocKind) =>
     generateBookingPdf(b, kind, { packages, event, site, company, gst })
@@ -42,6 +45,21 @@ export default function BookingManager() {
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Update failed')
     }
+  }
+
+  const removeBooking = async () => {
+    if (!deleteTarget?.dbId) { toast.error('This booking is not synced to the cloud yet.'); return }
+    setDeleting(true)
+    try {
+      await deleteBooking({ data: { dbId: deleteTarget.dbId } })
+      patch('bookings', bookings.filter((b) => b.dbId !== deleteTarget.dbId))
+      if (deleteTarget.stallId) patch('stalls', stalls.map((s) => s.id === deleteTarget.stallId ? { ...s, status: 'available' as const, customer: undefined } : s))
+      if (view?.dbId === deleteTarget.dbId) setView(null)
+      setDeleteTarget(null)
+      toast.success(`Booking ${deleteTarget.id} deleted.`)
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Delete failed')
+    } finally { setDeleting(false) }
   }
 
   const exportCsv = () => {
@@ -92,6 +110,7 @@ export default function BookingManager() {
                       {b.status !== 'approved' && <button title="Approve" onClick={() => setStatus(b, 'approved')} className="rounded-lg border border-[var(--line)] p-2 text-green-600 hover:border-green-400"><BadgeCheck size={13} /></button>}
                       {b.status !== 'rejected' && <button title="Reject" onClick={() => setStatus(b, 'rejected')} className="rounded-lg border border-[var(--line)] p-2 text-red-500 hover:border-red-400"><XCircle size={13} /></button>}
                       {b.status !== 'cancelled' && <button title="Cancel" onClick={() => setStatus(b, 'cancelled')} className="rounded-lg border border-[var(--line)] p-2 text-stone-500 hover:border-stone-400"><Ban size={13} /></button>}
+                      <button title="Delete" onClick={() => setDeleteTarget(b)} className="rounded-lg border border-red-200 p-2 text-red-600 hover:border-red-400"><Trash2 size={13} /></button>
                     </div>
                   </td>
                 </tr>
@@ -100,6 +119,8 @@ export default function BookingManager() {
           </table>
         </div>
       </ACard>
+
+      {deleteTarget && <BookingDeleteDialog bookingId={deleteTarget.id} customerName={deleteTarget.business.brandName || deleteTarget.business.ownerName} busy={deleting} onClose={() => { if (!deleting) setDeleteTarget(null) }} onConfirm={removeBooking} />}
 
       {view && (
         <div className="fixed inset-0 z-[80] flex items-start justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur" onClick={() => setView(null)}>
@@ -123,6 +144,7 @@ export default function BookingManager() {
               <button onClick={() => download(view, 'gst')} className="btn-outline-gold rounded-full px-5 py-2.5 text-xs font-semibold">Print GST Invoice</button>
               <button onClick={() => download(view, 'receipt')} className="btn-outline-gold rounded-full px-5 py-2.5 text-xs font-semibold">Print Receipt</button>
               <button onClick={() => setStatus(view, 'approved')} className="btn-gold rounded-full px-5 py-2.5 text-xs font-semibold">Approve & Confirm</button>
+              <button onClick={() => setDeleteTarget(view)} className="inline-flex items-center gap-2 rounded-full border border-red-200 px-5 py-2.5 text-xs font-semibold text-red-600"><Trash2 size={13} /> Delete booking</button>
             </div>
           </div>
         </div>
