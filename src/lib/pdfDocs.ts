@@ -49,13 +49,8 @@ async function imageUrlToDataUrl(url: string): Promise<string> {
 }
 
 async function drawQr(doc: jsPDF, value: string, x: number, y: number, size: number) {
-  const { default: QRCode } = await import('qrcode')
-  const dataUrl = await QRCode.toDataURL(value, {
-    errorCorrectionLevel: 'M',
-    margin: 1,
-    width: 512,
-    color: { dark: '#17130c', light: '#ffffff' },
-  })
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=512x512&format=png&margin=8&color=17130c&bgcolor=ffffff&data=${encodeURIComponent(value)}`
+  const dataUrl = await imageUrlToDataUrl(qrUrl)
   doc.addImage(dataUrl, 'PNG', x, y, size, size, undefined, 'FAST')
 }
 
