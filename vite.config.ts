@@ -7,6 +7,13 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // The current largest browser chunk is ~655 kB uncompressed. Keep the
+  // warning meaningful while avoiding a false-positive on this dependency set.
+  vite: {
+    build: {
+      chunkSizeWarningLimit: 700,
+    },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
