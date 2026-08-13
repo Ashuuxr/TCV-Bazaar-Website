@@ -1,7 +1,15 @@
 import { supabase } from '@/integrations/supabase/client'
 
-/** Long-lived signed URL expiry (10 years). */
-const SIGN_TTL = 60 * 60 * 24 * 365 * 10
+/** Private-file signed URL lifetime. Public buckets use stable public URLs. */
+const SIGN_TTL = 60 * 60
+
+const PUBLIC_BUCKETS = new Set<BucketName>([
+  'brand-assets',
+  'gallery',
+  'page-assets',
+  'hero-videos',
+  'brochures',
+])
 
 export type BucketName =
   | 'brand-assets'
@@ -33,13 +41,19 @@ function makePath(folder: string | undefined, name: string) {
   return `${folder ? folder + '/' : ''}${ts}-${rand}-${clean}`
 }
 
-async function signUrl(bucket: BucketName, path: string): Promise<string> {
+async function getAssetUrl(bucket: BucketName, path: string): Promise<string> {
+  if (PUBLIC_BUCKETS.has(bucket)) {
+    const { data } = supabase.storage.from(bucket).getPublicUrl(path)
+    if (!data.publicUrl) throw new Error('Failed to create public URL')
+    return data.publicUrl
+  }
+
   const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, SIGN_TTL)
-  if (error || !data?.signedUrl) throw error ?? new Error('Failed to sign URL')
+  if (error || !data?.signedUrl) throw error ?? new Error('Failed to sign private URL')
   return data.signedUrl
 }
 
-/** Upload a File/Blob to a bucket and return metadata + a long-lived signed URL. */
+/** Upload a File/Blob and return metadata plus a public or short-lived private URL. */
 export async function uploadToBucket(
   bucket: BucketName,
   file: File | Blob,
@@ -52,7 +66,7 @@ export async function uploadToBucket(
     .from(bucket)
     .upload(path, file, { contentType, upsert: opts?.upsert ?? false })
   if (error) throw error
-  const url = await signUrl(bucket, path)
+  const url = await getAssetUrl(bucket, path)
   return { bucket, path, url, name, size: (file as File).size ?? 0, type: contentType }
 }
 
@@ -72,7 +86,7 @@ export function parseStorageUrl(url: string | undefined | null): { bucket: Bucke
 
 /** Refresh a signed URL (call if the original expires). */
 export async function refreshSignedUrl(bucket: BucketName, path: string) {
-  return signUrl(bucket, path)
+  return getAssetUrl(bucket, path)
 }
 
 export function isDataUrl(v: string | undefined | null): boolean {
