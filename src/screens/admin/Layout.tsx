@@ -9,7 +9,7 @@ import Logo from '@/components/Logo'
 import { useHydrated } from '@/lib/use-hydrated'
 import { useApplyTheme } from '@/components/Theme'
 import { supabase } from '@/integrations/supabase/client'
-import { useSyncAdminBookings, useSyncStallsFromCloud, useSyncSiteContent, useSyncPublicStorageMedia, useAutoPushSiteContent } from '@/lib/useCloudSync'
+import { useSyncAdminBookings, useSyncStallsFromCloud, useSyncSiteContent, useAutoPushSiteContent } from '@/lib/useCloudSync'
 import { getMyRoles } from '@/lib/users.functions'
 import { useApplyBrand } from '@/lib/useApplyBrand'
 import TrackingLoader from '@/components/TrackingLoader'
@@ -59,7 +59,6 @@ export default function AdminLayout() {
   useSyncStallsFromCloud()
   useSyncAdminBookings()
   useSyncSiteContent()
-  useSyncPublicStorageMedia()
   useAutoPushSiteContent()
   const hydrated = useHydrated()
   const [open, setOpen] = useState(false)
