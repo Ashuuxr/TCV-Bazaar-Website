@@ -38,7 +38,7 @@ export default function Videos() {
           <button className="absolute right-5 top-5 rounded-full border border-white/30 p-2.5 text-white"><X size={18} /></button>
           <div className="w-full max-w-4xl overflow-hidden rounded-2xl" onClick={(e) => e.stopPropagation()}>
             {open.src ? (
-              <video src={open.src} controls autoPlay className="aspect-video w-full bg-black" />
+              <video src={open.src} controls autoPlay preload="metadata" className="aspect-video w-full bg-black" />
             ) : (
               <div className="relative aspect-video w-full">
                 <HeroCanvas />
