@@ -149,8 +149,9 @@ export const resetInvoiceSeries = createServerFn({ method: 'POST' })
   .inputValidator((raw: unknown) => (raw ?? {}) as { fy?: string })
   .handler(async ({ context, data }) => {
     await assertBilling(context)
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
-    const { error } = await (supabaseAdmin.rpc as any)('reset_invoice_series', { _fy: data.fy ?? null })
+    // Use the authenticated session client here: reset_invoice_series checks
+    // auth.uid() and billing access inside the SECURITY DEFINER function.
+    const { error } = await (context.supabase.rpc as any)('reset_invoice_series', { _fy: data.fy ?? null })
     if (error) throw new Error(error.message)
     await logAudit(context, 'invoice_reset', { fy: data.fy ?? 'current' })
     return { ok: true }
