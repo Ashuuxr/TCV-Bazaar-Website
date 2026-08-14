@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_public/')({
           '@type': 'Organization',
           name: 'TCV Bazaar',
           url: 'https://tcvbazaar.com/',
-          logo: 'https://tcvbazaar.com/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png',
+          logo: 'https://tcvbazaar.com/tcv-bazaar-official-logo.png',
           sameAs: ['https://www.instagram.com/tcvbazaar'],
         }),
       },
