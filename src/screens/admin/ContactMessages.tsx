@@ -6,6 +6,24 @@ function formatDate(value: string) {
   return new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 }
 
+function readableContactError(error: unknown, fallback: string) {
+  if (typeof error === 'string' && error.trim()) return error.trim()
+  if (error instanceof Error && error.message.trim()) return error.message
+  if (error && typeof error === 'object') {
+    const value = error as { message?: unknown; error?: unknown; details?: unknown }
+    for (const candidate of [value.message, value.error, value.details]) {
+      if (typeof candidate === 'string' && candidate.trim()) return candidate.trim()
+    }
+    try {
+      const serialized = JSON.stringify(error)
+      if (serialized && serialized !== '{}') return serialized
+    } catch {
+      // Use the readable fallback for non-serializable errors.
+    }
+  }
+  return fallback
+}
+
 export default function ContactMessages() {
   const [rows, setRows] = useState<ContactMessage[]>([])
   const [loading, setLoading] = useState(true)
@@ -17,7 +35,7 @@ export default function ContactMessages() {
     setLoading(true)
     setError('')
     try { setRows(await listContactMessages()) }
-    catch (err) { setError(err instanceof Error ? err.message : 'Could not load messages.') }
+    catch (err) { setError(readableContactError(err, 'Could not load messages.')) }
     finally { setLoading(false) }
   }
 
@@ -34,7 +52,7 @@ export default function ContactMessages() {
     try {
       await markContactMessageRead({ data: { id: row.id, read: !row.read_at } })
       setRows((current) => current.map((r) => r.id === row.id ? { ...r, read_at: row.read_at ? null : new Date().toISOString() } : r))
-    } catch (err) { setError(err instanceof Error ? err.message : 'Could not update message.') }
+    } catch (err) { setError(readableContactError(err, 'Could not update message.')) }
     finally { setBusy(null) }
   }
 
@@ -47,7 +65,7 @@ export default function ContactMessages() {
     try {
       await deleteContactMessage({ data: { id: row.id } })
       setRows((current) => current.filter((r) => r.id !== row.id))
-    } catch (err) { setError(err instanceof Error ? err.message : 'Could not delete message.') }
+    } catch (err) { setError(readableContactError(err, 'Could not delete message.')) }
     finally { setBusy(null) }
   }
 

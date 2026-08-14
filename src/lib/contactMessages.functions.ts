@@ -27,15 +27,12 @@ function validateContact(input: ContactInput): ContactInput {
   return { name, phone, email, message }
 }
 
-/** Public contact form submission. The database RLS policy allows insert only. */
+/** Public contact form submission. The server-only client keeps persistence independent of anon-key/RLS drift. */
 export const submitContactMessage = createServerFn({ method: 'POST' })
   .validator((raw: ContactInput) => validateContact(raw))
   .handler(async ({ data }) => {
-    const url = process.env.SUPABASE_URL
-    const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY
-    if (!url || !key) throw new Error('Contact service is not configured.')
-    const client = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } })
-    const { error } = await client.from('contact_messages' as never).insert({
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { error } = await supabaseAdmin.from('contact_messages' as never).insert({
       name: data.name,
       phone: data.phone,
       email: data.email || null,
@@ -45,11 +42,21 @@ export const submitContactMessage = createServerFn({ method: 'POST' })
     return { ok: true as const }
   })
 
-/** Admin inbox list. RLS enforces the admin role on the authenticated client. */
+/** Verify the caller’s admin role before using the server-only client. */
+async function requireContactAdmin(context: { supabase: any; userId: string }) {
+  const { data, error } = await context.supabase.from('user_roles').select('role').eq('user_id', context.userId)
+  if (error) throw new Error(error.message)
+  const allowed = (data ?? []).some((row: { role: string }) => row.role === 'admin' || row.role === 'super_admin')
+  if (!allowed) throw new Error('Forbidden')
+}
+
+/** Admin inbox list. Authorization is checked explicitly before the server-only query. */
 export const listContactMessages = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<ContactMessage[]> => {
-    const { data, error } = await context.supabase
+    await requireContactAdmin(context)
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { data, error } = await supabaseAdmin
       .from('contact_messages' as never)
       .select('*')
       .order('created_at', { ascending: false })
@@ -62,7 +69,9 @@ export const markContactMessageRead = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .validator((input: { id: string; read: boolean }) => input)
   .handler(async ({ context, data }) => {
-    const { error } = await context.supabase
+    await requireContactAdmin(context)
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { error } = await supabaseAdmin
       .from('contact_messages' as never)
       .update({ read_at: data.read ? new Date().toISOString() : null } as never)
       .eq('id', data.id)
@@ -74,7 +83,9 @@ export const deleteContactMessage = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .validator((input: { id: string }) => input)
   .handler(async ({ context, data }) => {
-    const { error } = await context.supabase
+    await requireContactAdmin(context)
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    const { error } = await supabaseAdmin
       .from('contact_messages' as never)
       .delete()
       .eq('id', data.id)
