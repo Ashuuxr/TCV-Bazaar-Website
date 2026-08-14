@@ -20,6 +20,28 @@ const ROLE_COLOR: Record<AppRole, string> = {
   customer: 'bg-gray-100 text-gray-700 border-gray-300',
 }
 
+function readableUserError(error: unknown, fallback: string): string {
+  if (typeof error === 'string') return error.trim() || fallback
+  if (error instanceof Error && error.message.trim()) return error.message
+  if (error && typeof error === 'object') {
+    const value = error as { message?: unknown; error?: unknown; details?: unknown; hint?: unknown; cause?: unknown }
+    for (const candidate of [value.message, value.error, value.details, value.hint]) {
+      if (typeof candidate === 'string' && candidate.trim()) return candidate.trim()
+      if (candidate && typeof candidate === 'object') {
+        const nested = readableUserError(candidate, '')
+        if (nested) return nested
+      }
+    }
+    try {
+      const serialized = JSON.stringify(error)
+      if (serialized && serialized !== '{}') return serialized
+    } catch {
+      // Keep the readable fallback for non-serializable values.
+    }
+  }
+  return fallback
+}
+
 export default function UserManager() {
   const call = {
     list: useServerFn(listUsers),
@@ -54,7 +76,7 @@ export default function UserManager() {
     try {
       const [rows, me] = await Promise.all([call.list(), call.me()])
       setUsers(rows); setMyRoles(me.roles); setMyId(me.userId)
-    } catch (e) { setErr((e as Error).message) }
+    } catch (e) { setErr(readableUserError(e, 'Unable to load users. Please try again.')) }
     finally { setLoading(false) }
   }, [call])
 
@@ -63,7 +85,7 @@ export default function UserManager() {
   const withBusy = async (id: string, fn: () => Promise<unknown>) => {
     setBusy(id); setErr('')
     try { await fn(); await refresh() }
-    catch (e) { setErr((e as Error).message) }
+    catch (e) { setErr(readableUserError(e, 'The action could not be completed. Please try again.')) }
     finally { setBusy('') }
   }
 

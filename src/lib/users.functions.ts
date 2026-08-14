@@ -267,8 +267,11 @@ export const removeUser = createServerFn({ method: 'POST' })
     requireRole(callerRoles, ['super_admin', 'admin'])
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
 
+    if (data.userId === context.userId) throw new Error('You cannot remove your own signed-in account.')
+
     const { data: target } = await supabaseAdmin.from('profiles').select('email, is_owner').eq('id', data.userId).maybeSingle()
-    if (target?.is_owner) throw new Error('Cannot remove the account owner. Transfer ownership first.')
+    if (!target) throw new Error('User account was not found. Refresh the list and try again.')
+    if (target.is_owner) throw new Error('Cannot remove the account owner. Transfer ownership first.')
 
     const { data: targetRoles } = await supabaseAdmin.from('user_roles').select('role').eq('user_id', data.userId)
     if ((targetRoles ?? []).some((r) => r.role === 'super_admin') && !callerRoles.includes('super_admin')) {
@@ -277,7 +280,7 @@ export const removeUser = createServerFn({ method: 'POST' })
     const targetEmail = (target?.email as string | null) ?? null
 
     const { error } = await supabaseAdmin.auth.admin.deleteUser(data.userId)
-    if (error) throw new Error(error.message)
+    if (error) throw new Error(error.message || 'Supabase could not delete this user account.')
     await (context.supabase.rpc as any)('log_user_audit', {
       _target_id: data.userId, _target_email: targetEmail,
       _action: 'remove', _from_role: null, _to_role: null, _metadata: {},
