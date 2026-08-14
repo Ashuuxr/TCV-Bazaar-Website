@@ -100,7 +100,10 @@ export default function AdminLogin() {
     setErr(''); setInfo(''); setBusy(true)
     try {
       const target = forgotEmail.trim().toLowerCase()
-      const redirectTo = `${window.location.origin}/admin/reset-password`
+      const origin = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'https://www.tcvbazaar.com'
+        : window.location.origin
+      const redirectTo = `${origin}/admin/reset-password`
       const { error } = await supabase.auth.resetPasswordForEmail(target, { redirectTo })
       if (error) {
         setErr(error.message)

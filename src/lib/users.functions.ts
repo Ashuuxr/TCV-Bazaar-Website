@@ -113,7 +113,9 @@ export const inviteUser = createServerFn({ method: 'POST' })
     if (data.role === 'super_admin') requireRole(roles, ['super_admin'])
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
 
+    const siteUrl = process.env.SITE_URL || 'https://www.tcvbazaar.com'
     const { data: inv, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email, {
+      redirectTo: `${siteUrl}/admin/reset-password`,
       data: { full_name: data.fullName },
     })
     if (error) throw new Error(error.message)
@@ -300,7 +302,7 @@ export const resetUserPassword = createServerFn({ method: 'POST' })
     if (!targetEmail) throw new Error('User email not found')
 
     const { error } = await supabaseAdmin.auth.resetPasswordForEmail(targetEmail, {
-      redirectTo: `${process.env.SITE_URL ?? ''}/admin/reset-password`,
+      redirectTo: `${process.env.SITE_URL || 'https://www.tcvbazaar.com'}/admin/reset-password`,
     })
     if (error) throw new Error(error.message)
     await (context.supabase.rpc as any)('log_user_audit', {
