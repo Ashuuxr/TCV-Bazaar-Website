@@ -194,7 +194,7 @@ export const defaultState = {
       address: 'Keshar Towers, Gwalior, Madhya Pradesh',
     },
     social: {
-      instagram: 'https://instagram.com/thecityvibes',
+      instagram: 'https://www.instagram.com/tcv.bazaar',
       whatsapp: 'https://wa.me/917999166397',
       phone: '+917999166397',
     },
