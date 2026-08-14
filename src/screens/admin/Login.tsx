@@ -138,7 +138,7 @@ export default function AdminLogin() {
         setErr(readableAuthError(error, 'Could not send the recovery email. Check the email address and try again.'))
         return
       }
-      setInfo(`If an admin account exists for ${target}, a 6-digit recovery code has been emailed. Check your inbox (and spam).`)
+      setInfo(`If an admin account exists for ${target}, an 8-digit recovery code has been emailed. Check your inbox (and spam).`)
       setOtp('')
       setStage('verify')
     } catch (e: unknown) {
@@ -199,8 +199,8 @@ export default function AdminLogin() {
               e.preventDefault()
               setErr(''); setInfo('')
               const target = forgotEmail.trim().toLowerCase()
-              if (!/^\d{6}$/.test(otp.trim())) {
-                setErr('Enter the 6-digit code from your email.')
+              if (!/^\d{8}$/.test(otp.trim())) {
+                setErr('Enter the 8-digit code from your email.')
                 return
               }
               setBusy(true)
@@ -218,8 +218,8 @@ export default function AdminLogin() {
               }
             }} className="space-y-5">
               <h1 className="font-display text-2xl font-medium">Verify recovery code</h1>
-              <p className="text-sm text-[var(--ink-soft)]">Enter the 6-digit code sent to <strong>{forgotEmail}</strong>. The code expires according to your Supabase Auth email-OTP settings.</p>
-              <div><label htmlFor="recovery-otp" className="label-lux">Email code</label><input id="recovery-otp" name="otp" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required className="input-lux tracking-[0.35em]" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="123456" /></div>
+              <p className="text-sm text-[var(--ink-soft)]">Enter the 8-digit code sent to <strong>{forgotEmail}</strong>. The code expires according to your Supabase Auth email-OTP settings.</p>
+              <div><label htmlFor="recovery-otp" className="label-lux">Email code</label><input id="recovery-otp" name="otp" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{8}" maxLength={8} required className="input-lux tracking-[0.35em]" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 8))} placeholder="12345678" /></div>
               {err && <p className="text-xs font-medium text-red-500">{err}</p>}
               {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
               <button disabled={busy} type="submit" className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Verifying…' : 'Verify Code'}</button>
