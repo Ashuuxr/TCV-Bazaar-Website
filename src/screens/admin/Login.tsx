@@ -15,12 +15,23 @@ function withTimeout<T>(promise: PromiseLike<T>, message: string): Promise<T> {
 }
 
 function readableAuthError(error: unknown, fallback: string): string {
-  if (typeof error === 'string' && error.trim()) return error
-  if (error instanceof Error && error.message.trim()) return error.message
+  if (typeof error === 'string') {
+    const text = error.trim()
+    if (!text || text === '{}' || text === '[object Object]') return fallback
+    if (text.startsWith('{') && text.endsWith('}')) {
+      try {
+        return readableAuthError(JSON.parse(text), fallback)
+      } catch {
+        // Treat malformed object-shaped strings as an unavailable error.
+      }
+    }
+    return text
+  }
+  if (error instanceof Error && error.message.trim() && error.message.trim() !== '{}') return error.message
   if (error && typeof error === 'object') {
     const value = error as { message?: unknown; error_description?: unknown; msg?: unknown }
     for (const candidate of [value.message, value.error_description, value.msg]) {
-      if (typeof candidate === 'string' && candidate.trim()) return candidate
+      if (typeof candidate === 'string' && candidate.trim() && candidate.trim() !== '{}') return candidate.trim()
     }
     try {
       const serialized = JSON.stringify(error)
