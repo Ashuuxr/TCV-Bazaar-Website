@@ -14,6 +14,24 @@ function withTimeout<T>(promise: PromiseLike<T>, message: string): Promise<T> {
   })
 }
 
+function readableAuthError(error: unknown, fallback: string): string {
+  if (typeof error === 'string' && error.trim()) return error
+  if (error instanceof Error && error.message.trim()) return error.message
+  if (error && typeof error === 'object') {
+    const value = error as { message?: unknown; error_description?: unknown; msg?: unknown }
+    for (const candidate of [value.message, value.error_description, value.msg]) {
+      if (typeof candidate === 'string' && candidate.trim()) return candidate
+    }
+    try {
+      const serialized = JSON.stringify(error)
+      if (serialized && serialized !== '{}') return serialized
+    } catch {
+      // Keep the user-facing fallback below for non-serializable errors.
+    }
+  }
+  return fallback
+}
+
 export default function AdminLogin() {
   const log = useCms((s) => s.log)
   const nav = useNavigate()
@@ -106,14 +124,14 @@ export default function AdminLogin() {
       const redirectTo = `${origin}/admin/reset-password`
       const { error } = await supabase.auth.resetPasswordForEmail(target, { redirectTo })
       if (error) {
-        setErr(error.message)
+        setErr(readableAuthError(error, 'Could not send the recovery email. Check the email address and try again.'))
         return
       }
       setInfo(`If an admin account exists for ${target}, a 6-digit recovery code has been emailed. Check your inbox (and spam).`)
       setOtp('')
       setStage('verify')
-    } catch (e: any) {
-      setErr(e?.message ?? 'Could not send reset email.')
+    } catch (e: unknown) {
+      setErr(readableAuthError(e, 'Could not send the recovery email. Check your connection and try again.'))
     } finally {
       setBusy(false)
     }
@@ -182,8 +200,8 @@ export default function AdminLogin() {
                   return
                 }
                 nav('/admin/reset-password')
-              } catch (e: any) {
-                setErr(e?.message ?? 'Could not verify the recovery code.')
+              } catch (e: unknown) {
+                setErr(readableAuthError(e, 'Could not verify the recovery code. Request a new code and try again.'))
               } finally {
                 setBusy(false)
               }
