@@ -37,6 +37,7 @@ const nav = [
     { to: '/admin/invoices', label: 'Invoice Manager', icon: Wallet },
   ]},
   { group: 'Money & Comms', items: [
+    { to: '/admin/messages', label: 'Contact Messages', icon: Mail },
     { to: '/admin/banks', label: 'Bank Manager', icon: Landmark },
     { to: '/admin/banks?tab=qr', label: 'QR Manager', icon: QrCode },
     { to: '/admin/banks?tab=upi', label: 'UPI Manager', icon: Sparkles },

@@ -3,6 +3,7 @@ import { Instagram, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-reac
 import PageHero from '@/components/PageHero'
 import Reveal from '@/components/Reveal'
 import { useCms } from '@/lib/store'
+import { submitContactMessage } from '@/lib/contactMessages.functions'
 import { track } from '@/lib/useTracker'
 
 export default function Contact() {
@@ -10,12 +11,23 @@ export default function Contact() {
   const log = useCms((s) => s.log)
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    log(`Contact enquiry from ${form.name} (${form.phone})`)
-    track('Contact', { source: 'contact_form' })
-    setSent(true)
+    setSending(true)
+    setError('')
+    try {
+      await submitContactMessage({ data: form })
+      log(`Contact enquiry from ${form.name} (${form.phone})`)
+      track('Contact', { source: 'contact_form' })
+      setSent(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send your message. Please try again.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -59,8 +71,9 @@ export default function Contact() {
                 <div><label className="label-lux">Phone</label><input required className="input-lux" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+91" /></div>
                 <div className="sm:col-span-2"><label className="label-lux">Email</label><input type="email" className="input-lux" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@email.com" /></div>
                 <div className="sm:col-span-2"><label className="label-lux">Message</label><textarea rows={4} required className="input-lux" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell us about your brand and what you're looking for…" /></div>
-                <button className="btn-gold flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold sm:col-span-2">
-                  <Send size={15} /> Send Message
+                {error && <p className="sm:col-span-2 text-sm text-red-600" role="alert">{error}</p>}
+                <button disabled={sending} className="btn-gold flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold sm:col-span-2 disabled:cursor-wait disabled:opacity-60">
+                  <Send size={15} /> {sending ? 'Sending…' : 'Send Message'}
                 </button>
               </div>
             )}

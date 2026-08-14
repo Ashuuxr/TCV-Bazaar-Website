@@ -45,6 +45,7 @@ import { Route as AdminAdminHistoryRouteImport } from './routes/_admin.admin.his
 import { Route as AdminAdminInvoicesRouteImport } from './routes/_admin.admin.invoices'
 import { Route as AdminAdminLogosRouteImport } from './routes/_admin.admin.logos'
 import { Route as AdminAdminMediaRouteImport } from './routes/_admin.admin.media'
+import { Route as AdminAdminMessagesRouteImport } from './routes/_admin.admin.messages'
 import { Route as AdminAdminPackagesRouteImport } from './routes/_admin.admin.packages'
 import { Route as AdminAdminPaymentsRouteImport } from './routes/_admin.admin.payments'
 import { Route as AdminAdminReportsRouteImport } from './routes/_admin.admin.reports'
@@ -235,6 +236,11 @@ const AdminAdminMediaRoute = AdminAdminMediaRouteImport.update({
   path: '/admin/media',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminMessagesRoute = AdminAdminMessagesRouteImport.update({
+  id: '/admin/messages',
+  path: '/admin/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAdminPackagesRoute = AdminAdminPackagesRouteImport.update({
   id: '/admin/packages',
   path: '/admin/packages',
@@ -325,6 +331,7 @@ export interface FileRoutesByFullPath {
   '/admin/invoices': typeof AdminAdminInvoicesRoute
   '/admin/logos': typeof AdminAdminLogosRoute
   '/admin/media': typeof AdminAdminMediaRoute
+  '/admin/messages': typeof AdminAdminMessagesRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/payments': typeof AdminAdminPaymentsRoute
   '/admin/reports': typeof AdminAdminReportsRoute
@@ -372,6 +379,7 @@ export interface FileRoutesByTo {
   '/admin/invoices': typeof AdminAdminInvoicesRoute
   '/admin/logos': typeof AdminAdminLogosRoute
   '/admin/media': typeof AdminAdminMediaRoute
+  '/admin/messages': typeof AdminAdminMessagesRoute
   '/admin/packages': typeof AdminAdminPackagesRoute
   '/admin/payments': typeof AdminAdminPaymentsRoute
   '/admin/reports': typeof AdminAdminReportsRoute
@@ -422,6 +430,7 @@ export interface FileRoutesById {
   '/_admin/admin/invoices': typeof AdminAdminInvoicesRoute
   '/_admin/admin/logos': typeof AdminAdminLogosRoute
   '/_admin/admin/media': typeof AdminAdminMediaRoute
+  '/_admin/admin/messages': typeof AdminAdminMessagesRoute
   '/_admin/admin/packages': typeof AdminAdminPackagesRoute
   '/_admin/admin/payments': typeof AdminAdminPaymentsRoute
   '/_admin/admin/reports': typeof AdminAdminReportsRoute
@@ -471,6 +480,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/logos'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/packages'
     | '/admin/payments'
     | '/admin/reports'
@@ -518,6 +528,7 @@ export interface FileRouteTypes {
     | '/admin/invoices'
     | '/admin/logos'
     | '/admin/media'
+    | '/admin/messages'
     | '/admin/packages'
     | '/admin/payments'
     | '/admin/reports'
@@ -567,6 +578,7 @@ export interface FileRouteTypes {
     | '/_admin/admin/invoices'
     | '/_admin/admin/logos'
     | '/_admin/admin/media'
+    | '/_admin/admin/messages'
     | '/_admin/admin/packages'
     | '/_admin/admin/payments'
     | '/_admin/admin/reports'
@@ -843,6 +855,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminMediaRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/messages': {
+      id: '/_admin/admin/messages'
+      path: '/admin/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminAdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/admin/packages': {
       id: '/_admin/admin/packages'
       path: '/admin/packages'
@@ -939,6 +958,7 @@ interface AdminRouteChildren {
   AdminAdminInvoicesRoute: typeof AdminAdminInvoicesRoute
   AdminAdminLogosRoute: typeof AdminAdminLogosRoute
   AdminAdminMediaRoute: typeof AdminAdminMediaRoute
+  AdminAdminMessagesRoute: typeof AdminAdminMessagesRoute
   AdminAdminPackagesRoute: typeof AdminAdminPackagesRoute
   AdminAdminPaymentsRoute: typeof AdminAdminPaymentsRoute
   AdminAdminReportsRoute: typeof AdminAdminReportsRoute
@@ -969,6 +989,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminInvoicesRoute: AdminAdminInvoicesRoute,
   AdminAdminLogosRoute: AdminAdminLogosRoute,
   AdminAdminMediaRoute: AdminAdminMediaRoute,
+  AdminAdminMessagesRoute: AdminAdminMessagesRoute,
   AdminAdminPackagesRoute: AdminAdminPackagesRoute,
   AdminAdminPaymentsRoute: AdminAdminPaymentsRoute,
   AdminAdminReportsRoute: AdminAdminReportsRoute,
