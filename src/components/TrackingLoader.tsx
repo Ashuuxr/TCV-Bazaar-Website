@@ -114,10 +114,12 @@ function installProvider(row: PublicTrackingRow) {
   }
 }
 
-function firePageView() {
+function firePageView(options: { skipMeta?: boolean } = {}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const w = window as any
-  try { w.fbq?.('track', 'PageView') } catch { /* noop */ }
+  if (!options.skipMeta) {
+    try { w.fbq?.('track', 'PageView') } catch { /* noop */ }
+  }
   try { w.gtag?.('event', 'page_view', { page_path: window.location.pathname }) } catch { /* noop */ }
   try { (w.dataLayer = w.dataLayer || []).push({ event: 'gtm.pageview', page_path: window.location.pathname }) } catch { /* noop */ }
   try { w.ttq?.page?.() } catch { /* noop */ }
@@ -170,7 +172,9 @@ export default function TrackingLoader({ scope = 'public' }: { scope?: Scope }) 
       installedRef.current = wanted
       // Fire one initial view after the provider queues have been installed.
       // Route changes are handled by the pathname effect below.
-      firePageView()
+      // The static root-shell Pixel already emitted the initial PageView.
+      // Avoid a duplicate event while still initializing other providers.
+      firePageView({ skipMeta: typeof (window as any).fbq === 'function' })
     }
     const load = () =>
       listTrackingIntegrations().then((rows) => { if (!cancelled) apply(rows) }).catch(() => { /* noop */ })
