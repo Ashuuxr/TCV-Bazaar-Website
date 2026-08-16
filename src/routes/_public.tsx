@@ -17,7 +17,6 @@ export const Route = createFileRoute('/_public')({
   head: () => ({
     scripts: [
       {
-        attrs: { 'data-tcv-meta-pixel-static': 'true' },
         children: META_PIXEL_STATIC_CODE,
       },
     ],

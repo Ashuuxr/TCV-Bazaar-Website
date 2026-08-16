@@ -45,7 +45,10 @@ function installProvider(row: PublicTrackingRow) {
       // Public pages contain a statically rendered Meta Pixel so Meta's Event
       // Setup Tool can discover it from the initial HTML. Reuse that instance
       // instead of injecting a second SDK/bootstrap at runtime.
-      if (document.querySelector('script[data-tcv-meta-pixel-static="true"]')) {
+      // The static public-head script initializes fbq before React mounts.
+      // Reuse that queue instead of injecting a second Meta SDK/bootstrap.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (typeof (window as any).fbq === 'function' || document.querySelector('script[data-tcv-meta-pixel-static="true"]')) {
         return
       }
       // Keep the queue bootstrap, external SDK, and initialization as separate
