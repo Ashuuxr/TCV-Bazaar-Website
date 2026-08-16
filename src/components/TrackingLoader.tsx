@@ -42,10 +42,14 @@ function installProvider(row: PublicTrackingRow) {
   switch (p) {
     case 'meta_pixel': {
       if (!id) return
-      injectInline(key,
-        "!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');" +
-        "fbq('init','" + id + "');fbq('track','PageView');"
+      // Keep the queue bootstrap, external SDK, and initialization as separate
+      // script elements. Meta's Event Setup Tool detects this standard shape
+      // more reliably than an inline script that creates the SDK dynamically.
+      injectInline(key + ':bootstrap',
+        "!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');"
       )
+      injectExternal(key + ':sdk', 'https://connect.facebook.net/en_US/fbevents.js')
+      injectInline(key + ':init', "fbq('init','" + id + "');")
       injectNoscript(key,
         '<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=' + id + '&ev=PageView&noscript=1"/>'
       )
@@ -155,6 +159,9 @@ export default function TrackingLoader({ scope = 'public' }: { scope?: Scope }) 
       }
       for (const r of filtered) installProvider(r)
       installedRef.current = wanted
+      // Fire one initial view after the provider queues have been installed.
+      // Route changes are handled by the pathname effect below.
+      firePageView()
     }
     const load = () =>
       listTrackingIntegrations().then((rows) => { if (!cancelled) apply(rows) }).catch(() => { /* noop */ })
@@ -170,6 +177,10 @@ export default function TrackingLoader({ scope = 'public' }: { scope?: Scope }) 
   }, [scope])
 
   useEffect(() => {
+    // The initial PageView is emitted after integrations load in apply().
+    // This effect handles SPA route changes without creating a duplicate
+    // initial event before the Meta SDK is ready.
+    if (pathname === '/') return
     const t = setTimeout(() => firePageView(), 50)
     return () => clearTimeout(t)
   }, [pathname])
