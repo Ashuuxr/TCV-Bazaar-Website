@@ -45,7 +45,7 @@ type DbStallRow = {
 const CMS_KEYS = [
   'theme', 'site', 'brand', 'hero', 'event', 'packages', 'gallery',
   'videos', 'testimonials', 'faqs', 'banks', 'pages', 'templates', 'media',
-  'brochureSection',
+  'brochureSection', 'bookingOpen',
 ] as const
 type CmsKey = typeof CMS_KEYS[number]
 

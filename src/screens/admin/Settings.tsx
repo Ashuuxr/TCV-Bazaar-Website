@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { KeyRound, ShieldCheck, Smartphone, Users, Loader2, RefreshCw } from 'lucide-react'
+import { KeyRound, ShieldCheck, Smartphone, Users, Loader2, RefreshCw, Power } from 'lucide-react'
 import { useServerFn } from '@tanstack/react-start'
 import { supabase } from '@/integrations/supabase/client'
 import { ACard } from './ui'
 import { getMyRoles, listAuditLog, type AppRole, type AuditRow } from '@/lib/users.functions'
+import { useCms } from '@/lib/store'
 
 const ROLE_LABEL: Record<AppRole, string> = {
   super_admin: 'Super Admin',
@@ -23,6 +24,8 @@ export default function Settings() {
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [err, setErr] = useState('')
+  const bookingOpen = useCms((s) => s.bookingOpen)
+  const patch = useCms((s) => s.patch)
 
   const load = async (background = false) => {
     if (background) setRefreshing(true)
@@ -65,6 +68,39 @@ export default function Settings() {
       </div>
 
       {err && <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">{err}</div>}
+
+      <ACard title="Booking Availability" sub="Control whether new public stall bookings are accepted">
+        <div className={`flex flex-col gap-5 rounded-2xl border p-5 sm:flex-row sm:items-center sm:justify-between ${bookingOpen ? 'border-emerald-200 bg-emerald-50' : 'border-red-200 bg-red-50'}`}>
+          <div className="flex items-start gap-3">
+            <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${bookingOpen ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+              <Power size={18} />
+            </span>
+            <div>
+              <div className={`text-sm font-semibold ${bookingOpen ? 'text-emerald-900' : 'text-red-900'}`}>
+                Booking is {bookingOpen ? 'ON' : 'CLOSED'}
+              </div>
+              <p className={`mt-1 max-w-xl text-xs leading-relaxed ${bookingOpen ? 'text-emerald-800' : 'text-red-800'}`}>
+                {bookingOpen
+                  ? 'Visitors can open the public booking portal and submit new stall bookings.'
+                  : 'The public portal is closed, the booking form is hidden, and new submissions are blocked server-side.'}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={bookingOpen}
+            onClick={() => {
+              if (bookingOpen && !window.confirm('Close public booking now? New booking submissions will be blocked.')) return
+              patch('bookingOpen', !bookingOpen)
+            }}
+            className={`relative inline-flex h-8 w-14 shrink-0 rounded-full border-2 transition-colors ${bookingOpen ? 'border-emerald-600 bg-emerald-600' : 'border-red-500 bg-red-500'}`}
+          >
+            <span className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${bookingOpen ? 'translate-x-7' : 'translate-x-1'}`} />
+            <span className="sr-only">Turn booking {bookingOpen ? 'off' : 'on'}</span>
+          </button>
+        </div>
+      </ACard>
 
       <div className="grid gap-6 xl:grid-cols-2">
         <ACard title="Admin login" sub="Managed by Supabase Auth">

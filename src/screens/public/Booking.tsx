@@ -3,7 +3,7 @@ import { Link, useSearchParams } from '@/lib/router-compat'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowLeft, ArrowRight, BadgeCheck, Building2, CalendarDays, Check, Copy, CreditCard,
-  Download, FileText, Landmark, LayoutGrid, Package as PkgIcon, QrCode, Receipt, Upload, User, MessageCircle, Mail,
+  Download, FileText, Landmark, LayoutGrid, Package as PkgIcon, QrCode, Receipt, Upload, User, MessageCircle, Mail, LockKeyhole,
 } from 'lucide-react'
 import StallMap from '@/components/StallMap'
 import { inr, useCms } from '@/lib/store'
@@ -40,7 +40,7 @@ const BIZ_FIELDS: { key: string; label: string; required?: boolean; span?: boole
 
 export default function BookingPage() {
   const [sp] = useSearchParams()
-  const { event, packages, stalls, banks, upsertBooking, patch, log, site } = useCms()
+  const { event, packages, stalls, banks, upsertBooking, patch, log, site, bookingOpen } = useCms()
   const [step, setStep] = useState(0)
   const [pkgId, setPkgId] = useState<string | null>(sp.get('pkg'))
   const invoiceCtx = useInvoiceContext()
@@ -78,6 +78,29 @@ export default function BookingPage() {
       default: return false
     }
   }, [step, pkgId, stallId, biz, method, proof])
+
+  if (!bookingOpen) {
+    return (
+      <div className="min-h-screen pb-24 pt-28">
+        <div className="container-x flex min-h-[60vh] items-center justify-center">
+          <div className="card-lux w-full max-w-2xl p-8 text-center sm:p-12">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 text-gold">
+              <LockKeyhole size={28} />
+            </div>
+            <span className="eyebrow mt-6 justify-center">Online Booking</span>
+            <h1 className="font-display mt-3 text-3xl font-medium sm:text-5xl">Booking Closed</h1>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--ink-soft)]">
+              नई stall bookings अभी स्वीकार नहीं की जा रही हैं। कृपया बाद में दोबारा check करें या हमारी team से संपर्क करें।
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link to="/" className="btn-gold rounded-full px-6 py-3 text-sm font-semibold">Back to Home</Link>
+              <Link to="/contact" className="btn-outline-gold rounded-full px-6 py-3 text-sm font-semibold">Contact Team</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const next = () => {
     if (!canNext) { setTried(true); return }

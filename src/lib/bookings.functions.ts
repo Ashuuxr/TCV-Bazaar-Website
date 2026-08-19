@@ -77,6 +77,14 @@ export const createBooking = createServerFn({ method: 'POST' })
   })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server')
+    // The public CMS flag is the source of truth for whether new bookings are
+    // accepted. Default to open if the legacy blob has no flag yet.
+    const { data: cmsRow, error: cmsError } = await supabaseAdmin
+      .from('site_content').select('data').eq('id', 'main').maybeSingle()
+    if (cmsError) return fail('Booking status unavailable. Please try again.')
+    const cmsData = (cmsRow?.data ?? {}) as { bookingOpen?: unknown }
+    if (cmsData.bookingOpen === false) return fail('Booking is currently closed. Please check back later.')
+
     // Prevent double-booking: refuse if the stall isn't available.
     const { data: stallRow } = await supabaseAdmin
       .from('stalls').select('id, status, active').eq('id', data.stallId).maybeSingle()

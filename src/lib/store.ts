@@ -162,6 +162,8 @@ export interface CmsState {
   pages: PageContent
   templates: Templates
   brochureSection: BrochureSection
+  /** Master switch for accepting new public stall bookings. */
+  bookingOpen: boolean
   admin: { email: string; twoFactor: boolean }
   activity: { id: string; text: string; at: string }[]
 
@@ -295,6 +297,7 @@ export const defaultState = {
     whatsappConfirmation: 'Namaste {name}! 🪔 Your stall {stall} ({package}) at {event} is booked. Booking ID: {booking_id}. Paid: ₹{paid}, Balance: ₹{balance}. Portal: tcvbazaar.com/portal',
   },
   brochureSection: { enabled: true, heading: 'Download Brochure', subheading: 'Get the full deck as a PDF' } as BrochureSection,
+  bookingOpen: true,
   admin: { email: '', twoFactor: false },
   activity: [] as { id: string; text: string; at: string }[],
 }
