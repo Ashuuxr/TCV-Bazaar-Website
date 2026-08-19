@@ -90,7 +90,7 @@ export default function BookingPage() {
             <span className="eyebrow mt-6 justify-center">Online Booking</span>
             <h1 className="font-display mt-3 text-3xl font-medium sm:text-5xl">Booking Closed</h1>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--ink-soft)]">
-              नई stall bookings अभी स्वीकार नहीं की जा रही हैं। कृपया बाद में दोबारा check करें या हमारी team से संपर्क करें।
+              New stall bookings are currently unavailable. Please check back later or contact our team.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link to="/" className="btn-gold rounded-full px-6 py-3 text-sm font-semibold">Back to Home</Link>
