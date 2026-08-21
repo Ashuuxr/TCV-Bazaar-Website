@@ -19,7 +19,7 @@ export default function Footer() {
               { href: `tel:${site.social.phone}`, icon: Phone, label: 'Phone' },
             ].map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] transition hover:border-[var(--gold)] hover:bg-[var(--gold)] hover:text-[#17130c]">
+                className="glass-liquid glass-liquid-hover motion-press flex h-10 w-10 items-center justify-center rounded-full">
                 <s.icon size={16} />
               </a>
             ))}

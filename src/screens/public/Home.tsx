@@ -79,14 +79,14 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="mt-10 flex flex-wrap items-center justify-start gap-3"
           >
-            <Link to="/book" className="motion-press rounded-full bg-[#d9b45f] px-7 py-3.5 text-sm font-semibold text-[#17130c] transition hover:-translate-y-0.5 hover:bg-[#e8cc85] hover:shadow-[0_16px_40px_-10px_rgba(217,180,95,.7)]">
+            <Link to="/book" className="btn-gold motion-press rounded-full px-7 py-3.5 text-sm font-semibold">
               Book Your Stall
             </Link>
-            <Link to="/stall-layout" className="rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-[#d9b45f] hover:bg-[#d9b45f] hover:text-[#17130c]">
+            <Link to="/stall-layout" className="btn-outline-gold motion-press rounded-full px-7 py-3.5 text-sm font-semibold text-white">
               View Stall Layout
             </Link>
             <BrochureButton />
-            <Link to="/contact" className="flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-[#d9b45f] hover:bg-[#d9b45f] hover:text-[#17130c]">
+            <Link to="/contact" className="btn-outline-gold motion-press flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white">
               <Phone size={15} /> Contact Us
             </Link>
           </motion.div>

@@ -38,7 +38,7 @@ export default function BrochureButton({ className }: { className?: string }) {
       target="_blank"
       rel="noopener noreferrer"
       download={brochure.file_name}
-      className={className ?? 'flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-[#d9b45f] hover:bg-[#d9b45f] hover:text-[#17130c]'}
+      className={className ?? 'btn-outline-gold motion-press flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white'}
       title={brochure.description || brochure.title}
     >
       <Download size={15} /> {brochure.title || 'Brochure'}
