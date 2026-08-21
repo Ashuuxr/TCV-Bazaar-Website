@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div className="aurora-canvas">
       {/* ============ HERO ============ */}
-      <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-[#0a0812]">
+      <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-[#0b1515]">
         {hero.videoDataUrl && hero.enabled !== false && hero.visible !== false && (
           <HeroVideo
             src={hero.videoDataUrl}
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,180,95,.18),transparent_30%),linear-gradient(90deg,rgba(8,6,4,.58),transparent_58%,rgba(8,6,4,.34))]" />
         <div className="surface-grid pointer-events-none absolute inset-0 opacity-20" />
         <div className="glow-orb pointer-events-none absolute -right-24 top-24 h-80 w-80 opacity-70" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#071010]/90 via-[#071010]/25 to-transparent" />
 
         <div className="container-x relative z-10 flex flex-col items-start justify-between gap-12 pb-20 pt-32 text-left lg:flex-row lg:items-end">
           <div className="max-w-4xl">

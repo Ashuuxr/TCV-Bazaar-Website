@@ -43,9 +43,9 @@
 :root {
   --gold: #d9b45f;
   --gold-soft: #f1d993;
-  --bg: #070706;
-  --bg-soft: #11100d;
-  --ink: #f5f0e7;
+  --bg: #0b1414;
+  --bg-soft: #101c1b;
+  --ink: #f5f2e9;
   --ink-soft: #afa79a;
   --card-bg: rgba(255,255,255,.055);
   --line: rgba(255,255,255,.14);
@@ -276,7 +276,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(ellipse 55% 32% at 12% 12%, rgba(217,180,95,.16), transparent 68%), radial-gradient(ellipse 50% 34% at 88% 28%, rgba(91,68,147,.16), transparent 70%), radial-gradient(ellipse 60% 38% at 42% 78%, rgba(170,94,52,.13), transparent 72%);
+    background: radial-gradient(ellipse 58% 36% at 10% 12%, rgba(76,131,125,.28), transparent 68%), radial-gradient(ellipse 52% 38% at 88% 24%, rgba(217,180,95,.22), transparent 70%), radial-gradient(ellipse 62% 42% at 42% 78%, rgba(116,126,83,.2), transparent 72%), radial-gradient(ellipse 48% 34% at 70% 70%, rgba(176,103,61,.12), transparent 72%);
     filter: blur(32px) saturate(125%);
     opacity: .82;
     animation: aurora-drift 18s ease-in-out infinite alternate;
@@ -287,7 +287,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(125deg, rgba(7,7,6,.78), transparent 42%, rgba(7,7,6,.66));
+    background: linear-gradient(125deg, rgba(11,20,20,.72), transparent 42%, rgba(7,13,13,.58));
   }
 }
 @utility surface-grid {

@@ -12,8 +12,9 @@ export function useApplyTheme() {
     r.style.setProperty('--font-body', theme.fontBody)
     // TCV Bazaar is intentionally dark-only for the premium public experience.
     r.classList.add('dark')
-    r.style.setProperty('--bg', '#070706')
-    r.style.setProperty('--ink', '#f5f0e7')
+r.style.setProperty('--bg', '#0b1414')
+r.style.setProperty('--bg-soft', '#101c1b')
+r.style.setProperty('--ink', '#f5f2e9')
     r.style.setProperty('--card-bg', 'rgba(255,255,255,.055)')
     r.style.setProperty('--line', 'rgba(255,255,255,.14)')
     r.style.setProperty('--ink-soft', '#afa79a')
