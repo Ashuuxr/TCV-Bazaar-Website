@@ -280,8 +280,8 @@ export default function Home() {
             </h2>
             <div className="mt-9 flex justify-center"><Countdown target={event.startISO} /></div>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <Link to="/book" className="rounded-full bg-[#d9b45f] px-8 py-3.5 text-sm font-semibold text-[#17130c] transition hover:-translate-y-0.5 hover:bg-[#e8cc85]">Book Your Stall Now</Link>
-              <Link to="/contact" className="rounded-full border border-white/35 px-8 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:border-[#d9b45f] hover:bg-[#d9b45f] hover:text-[#17130c]">Talk to Us</Link>
+              <Link to="/book" className="btn-gold motion-press rounded-full px-8 py-3.5 text-sm font-semibold">Book Your Stall Now</Link>
+              <Link to="/contact" className="btn-outline-gold motion-press rounded-full px-8 py-3.5 text-sm font-semibold text-white">Talk to Us</Link>
             </div>
           </Reveal>
         </div>
