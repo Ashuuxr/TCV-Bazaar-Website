@@ -13,7 +13,11 @@ export default function Packages() {
         {packages.map((p, i) => (
           <Reveal key={p.id} delay={(i % 3) * 0.08}>
             <div className={`card-lux relative flex h-full flex-col p-8 ${p.popular ? 'ring-2 ring-[var(--gold)]' : ''}`}>
-              {p.popular && <span className="relative z-10 mb-4 self-start rounded-full border border-white/30 bg-gold px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#17130c] shadow-[0_6px_18px_-8px_rgba(217,180,95,.8)]">Most Popular</span>}
+              {p.popular && (
+                <div className="-mx-8 -mt-8 mb-6 flex min-h-11 items-center justify-center border-b border-[var(--gold)]/35 bg-[linear-gradient(135deg,rgba(217,180,95,.24),rgba(35,128,120,.2))] px-4">
+                  <span className="rounded-full border border-[var(--gold)]/65 bg-[var(--gold)] px-4 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#17130c] shadow-[0_6px_18px_-8px_rgba(217,180,95,.8)]">Most Popular</span>
+                </div>
+              )}
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="font-display text-2xl font-medium">{p.name}</h3>
