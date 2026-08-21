@@ -34,13 +34,22 @@ export default function HeroVideo({ src, poster, className = '', onPlaybackError
       })
     }
 
+    video.addEventListener('loadedmetadata', retryPlay)
     video.addEventListener('canplay', retryPlay)
+    video.addEventListener('canplaythrough', retryPlay)
     video.addEventListener('loadeddata', retryPlay)
+    window.addEventListener('pageshow', retryPlay)
+    window.addEventListener('touchstart', retryPlay, { once: true, passive: true })
+    video.load()
     retryPlay()
 
     return () => {
+      video.removeEventListener('loadedmetadata', retryPlay)
       video.removeEventListener('canplay', retryPlay)
+      video.removeEventListener('canplaythrough', retryPlay)
       video.removeEventListener('loadeddata', retryPlay)
+      window.removeEventListener('pageshow', retryPlay)
+      window.removeEventListener('touchstart', retryPlay)
     }
   }, [src, failed])
 
