@@ -26,14 +26,15 @@ const whyItems = [
 
 export default function Home() {
   const { hero, event, packages, gallery, testimonials, pages } = useCms()
+  const heroVideoSrc = hero.videoDataUrl || '/hero-video.mp4'
 
   return (
     <div className="aurora-canvas">
       {/* ============ HERO ============ */}
       <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-[#0b1515]">
-        {hero.videoDataUrl && hero.enabled !== false && hero.visible !== false && (
+        {heroVideoSrc && hero.enabled !== false && hero.visible !== false && (
           <HeroVideo
-            src={hero.videoDataUrl}
+            src={heroVideoSrc}
             poster={hero.poster}
             className="hero-video-motion absolute inset-0 h-full w-full object-cover"
           />
