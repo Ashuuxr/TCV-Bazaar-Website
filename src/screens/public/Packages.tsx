@@ -12,8 +12,8 @@ export default function Packages() {
       <section className="container-x grid gap-5 pb-24 md:grid-cols-2 xl:grid-cols-3">
         {packages.map((p, i) => (
           <Reveal key={p.id} delay={(i % 3) * 0.08}>
-            <div className={`card-lux relative flex h-full flex-col p-8 ${p.popular ? 'pt-12 ring-2 ring-[var(--gold)]' : ''}`}>
-              {p.popular && <span className="absolute left-8 top-3 z-10 rounded-full border border-white/30 bg-gold px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#17130c] shadow-[0_6px_18px_-8px_rgba(217,180,95,.8)]">Most Popular</span>}
+            <div className={`card-lux relative flex h-full flex-col p-8 ${p.popular ? 'ring-2 ring-[var(--gold)]' : ''}`}>
+              {p.popular && <span className="relative z-10 mb-4 self-start rounded-full border border-white/30 bg-gold px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#17130c] shadow-[0_6px_18px_-8px_rgba(217,180,95,.8)]">Most Popular</span>}
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="font-display text-2xl font-medium">{p.name}</h3>
