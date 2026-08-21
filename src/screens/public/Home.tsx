@@ -270,8 +270,9 @@ export default function Home() {
       </section>
 
       {/* ============ CTA BAND ============ */}
-      <section className="relative overflow-hidden bg-black py-24 sm:py-32">
-        <div className="absolute inset-0 bg-black" />
+      <section className="relative overflow-hidden bg-[#0d1919] py-24 sm:py-32">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_70%_at_18%_20%,rgba(76,131,125,.2),transparent_65%),radial-gradient(ellipse_58%_62%_at_86%_76%,rgba(217,180,95,.16),transparent_68%),linear-gradient(135deg,rgba(10,26,26,.82),rgba(17,27,25,.7))]" />
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-10" />
         <div className="container-x relative z-10 text-center">
           <Reveal>
             <span className="eyebrow justify-center">Limited Stalls</span>
