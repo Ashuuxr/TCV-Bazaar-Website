@@ -38,9 +38,10 @@ export default function Home() {
             className="hero-video-motion absolute inset-0 h-full w-full object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(217,180,95,.22),transparent_30%),linear-gradient(90deg,rgba(8,6,4,.88),rgba(8,6,4,.38) 58%,rgba(8,6,4,.58))]" />
-        <div className="surface-grid pointer-events-none absolute inset-0 opacity-30" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.66)_0%,rgba(0,0,0,.30)_34%,rgba(0,0,0,.42)_66%,rgba(0,0,0,.86)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,180,95,.18),transparent_30%),linear-gradient(90deg,rgba(8,6,4,.58),transparent_58%,rgba(8,6,4,.34))]" />
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-20" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
         <div className="container-x relative z-10 flex flex-col items-start justify-between gap-12 pb-20 pt-32 text-left lg:flex-row lg:items-end">
           <div className="max-w-4xl">
@@ -49,19 +50,19 @@ export default function Home() {
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-balance mt-6 max-w-4xl text-5xl font-medium leading-[.98] tracking-[-.04em] text-white sm:text-7xl md:text-[6.7rem]"
+            className="font-display text-balance mt-6 max-w-4xl text-5xl font-medium leading-[.98] tracking-[-.04em] text-white drop-shadow-[0_4px_18px_rgba(0,0,0,.72)] sm:text-7xl md:text-[6.7rem]"
           >
             {hero.heading}{' '}
             <span className="gold-shimmer">{hero.highlight}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3 }}
-            className="mt-6 max-w-xl text-sm leading-relaxed text-white/72 sm:text-lg"
+            className="mt-6 max-w-xl text-sm leading-relaxed text-white drop-shadow-[0_2px_10px_rgba(0,0,0,.8)] sm:text-lg"
           >
             {hero.subheading}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.45 }} className="mt-7 flex flex-wrap items-center justify-start gap-x-6 gap-y-2 text-[12px] font-medium uppercase tracking-[0.08em] text-white/78">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.45 }} className="mt-7 flex flex-wrap items-center justify-start gap-x-6 gap-y-2 text-[12px] font-medium uppercase tracking-[0.08em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,.82)]">
             <span className="flex items-center gap-2"><CalendarDays size={15} className="text-[#d9b45f]" /> {event.datesLabel}</span>
             <span className="flex items-center gap-2"><MapPin size={15} className="text-[#d9b45f]" /> {event.venue}, {event.city}</span>
             <span className="flex items-center gap-2"><Sparkles size={15} className="text-[#d9b45f]" /> {event.edition}</span>
