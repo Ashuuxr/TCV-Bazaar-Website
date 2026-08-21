@@ -32,13 +32,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-3 top-3 z-50 rounded-full px-3 transition-all duration-500 ${
-        scrolled || open
-          ? 'border border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl shadow-[0_12px_40px_-28px_rgba(23,19,12,.55)]'
-          : 'bg-transparent'
-      }`}
+      className="fixed inset-x-0 top-3 z-50 px-3"
     >
-      <div className={`container-x flex h-[66px] items-center justify-between gap-5 rounded-full border px-4 shadow-[0_18px_50px_-36px_rgba(23,19,12,.75)] transition-all sm:px-5 ${
+      <div className={`container-x pointer-events-auto flex h-[66px] items-center justify-between gap-5 rounded-full border px-4 shadow-[0_18px_50px_-36px_rgba(23,19,12,.75)] transition-all sm:px-5 ${
         scrolled || open
           ? 'border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl'
           : loc.pathname === '/'
