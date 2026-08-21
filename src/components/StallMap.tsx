@@ -76,7 +76,7 @@ export default function StallMap({
   return (
     <div className="relative">
       <svg viewBox="0 0 140 80" preserveAspectRatio="xMidYMid meet"
-           className={`w-full rounded-2xl border border-[var(--line)] bg-[var(--card-bg)] shadow-[0_18px_55px_-30px_rgba(78,55,20,.45)] ${compact ? 'max-h-[420px]' : ''}`}>
+           className={`w-full rounded-2xl border border-[var(--line)] bg-[var(--card-bg)] shadow-[0_18px_55px_-30px_rgba(23,126,117,.5)] ${compact ? 'max-h-[420px]' : ''}`}>
         <LayoutBackground />
         {visible.map((s) => {
           const st = STATUS_STYLE[s.status] ?? STATUS_STYLE.available
@@ -99,7 +99,7 @@ export default function StallMap({
               style={{ cursor: clickable ? 'pointer' : 'default' }}
             >
               <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="0.8"
-                    fill={col.fill} stroke={isSel ? '#b98a2f' : col.stroke}
+                    fill={col.fill} stroke={isSel ? 'var(--stall-selection)' : col.stroke}
                     strokeWidth={isSel ? 0.7 : 0.35}
                     style={{ transition: 'all .2s', filter: isHover && clickable ? 'brightness(1.08)' : undefined }} />
               {st.overlay && (
