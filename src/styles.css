@@ -188,23 +188,34 @@
   @media (min-width: 640px) { padding-inline: 2rem; }
 }
 @utility btn-gold {
-  background: var(--ink);
-  color: var(--bg);
-  transition: transform .2s cubic-bezier(.23,1,.32,1), background-color .2s ease, color .2s ease, box-shadow .2s ease;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.38);
+  background: linear-gradient(180deg, rgba(241,217,147,.92), rgba(185,138,47,.72));
+  color: #17130c;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), inset 0 -1px 0 rgba(100,65,8,.2), 0 10px 28px -12px rgba(217,180,95,.72);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  transition: transform .28s cubic-bezier(.23,1,.32,1), background .28s ease, box-shadow .28s ease, border-color .28s ease;
+  &::before { content: ''; position: absolute; inset: 1px 12% 55% 1px; border-radius: inherit; background: linear-gradient(105deg, rgba(255,255,255,.6), rgba(255,255,255,0)); opacity: .7; pointer-events: none; }
   &:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-  &:hover {
-    background: var(--gold);
-    color: #17130c;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px -8px color-mix(in srgb, var(--gold) 60%, transparent);
-  }
+  &:hover { background: linear-gradient(180deg, rgba(255,239,181,.98), rgba(217,180,95,.82)); transform: translateY(-3px) scale(1.012); border-color: rgba(255,255,255,.65); box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 18px 38px -12px rgba(217,180,95,.8); }
 }
 @utility btn-outline-gold {
-  border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent);
-  color: inherit;
-  transition: transform .2s cubic-bezier(.23,1,.32,1), background-color .2s ease, color .2s ease, border-color .2s ease;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.24);
+  background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.045));
+  color: var(--ink);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(0,0,0,.28), 0 10px 32px -20px rgba(0,0,0,.9);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+  backdrop-filter: blur(20px) saturate(145%);
+  transition: transform .28s cubic-bezier(.23,1,.32,1), background .28s ease, color .28s ease, border-color .28s ease, box-shadow .28s ease;
+  &::before { content: ''; position: absolute; inset: 1px 15% 55% 1px; border-radius: inherit; background: linear-gradient(105deg, rgba(255,255,255,.42), rgba(255,255,255,0)); opacity: .55; pointer-events: none; }
   &:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-  &:hover { background: var(--gold); color: #17130c; border-color: var(--gold); transform: translateY(-2px); }
+  &:hover { background: linear-gradient(135deg, rgba(255,255,255,.24), rgba(217,180,95,.16)); color: var(--ink); border-color: rgba(217,180,95,.68); transform: translateY(-3px) scale(1.012); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 18px 42px -20px rgba(217,180,95,.4); }
 }
 @utility text-gold { color: var(--gold); }
 @utility bg-gold { background-color: var(--gold); }
@@ -236,12 +247,14 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, white 14%, transparent);
-  background: linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.035) 52%, rgba(217,180,95,.055));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 24px 80px -40px rgba(0,0,0,.9);
-  -webkit-backdrop-filter: blur(22px) saturate(135%);
-  backdrop-filter: blur(22px) saturate(135%);
+  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.045) 50%, rgba(217,180,95,.08));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.25), 0 24px 80px -40px rgba(0,0,0,.9);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  backdrop-filter: blur(24px) saturate(145%);
   transition: transform .45s cubic-bezier(.23,1,.32,1), border-color .35s ease, background .35s ease, box-shadow .45s ease;
+  &::before { content: ''; position: absolute; inset: 1px 12% 60% 1px; border-radius: inherit; background: linear-gradient(110deg, rgba(255,255,255,.48), rgba(255,255,255,0)); opacity: .52; pointer-events: none; }
+  &::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 78% 125%, rgba(217,180,95,.18), transparent 42%); opacity: .8; pointer-events: none; }
 }
 @utility glass-liquid-hover {
   &:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--gold) 52%, transparent); background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.055) 52%, rgba(217,180,95,.09)); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 30px 90px -44px rgba(217,180,95,.36); }
