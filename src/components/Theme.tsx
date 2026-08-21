@@ -10,15 +10,13 @@ export function useApplyTheme() {
     r.style.setProperty('--radius-brand', `${theme.radius}px`)
     r.style.setProperty('--font-display', theme.fontDisplay)
     r.style.setProperty('--font-body', theme.fontBody)
-    if (theme.mode === 'dark') {
-      r.classList.add('dark')
-      r.style.setProperty('--bg', '#0e0b07')
-      r.style.setProperty('--ink', '#f4ecdd')
-    } else {
-      r.classList.remove('dark')
-      r.style.setProperty('--bg', theme.bg)
-      r.style.setProperty('--ink', theme.ink)
-    }
-    localStorage.setItem('tcv-theme-mode', theme.mode)
+    // TCV Bazaar is intentionally dark-only for the premium public experience.
+    r.classList.add('dark')
+    r.style.setProperty('--bg', '#070706')
+    r.style.setProperty('--ink', '#f5f0e7')
+    r.style.setProperty('--card-bg', 'rgba(255,255,255,.055)')
+    r.style.setProperty('--line', 'rgba(255,255,255,.14)')
+    r.style.setProperty('--ink-soft', '#afa79a')
+    localStorage.setItem('tcv-theme-mode', 'dark')
   }, [theme])
 }

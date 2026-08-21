@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from '@/lib/router-compat'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Logo from './Logo'
 import { useCms } from '@/lib/store'
 
@@ -20,9 +20,6 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const mode = useCms((s) => s.theme.mode)
-  const theme = useCms((s) => s.theme)
-  const patch = useCms((s) => s.patch)
   const loc = useLocation()
 
   useEffect(() => {
@@ -44,7 +41,7 @@ export default function Navbar() {
       <div className={`container-x flex h-[66px] items-center justify-between gap-5 rounded-full border px-4 shadow-[0_18px_50px_-36px_rgba(23,19,12,.75)] transition-all sm:px-5 ${
         scrolled || open
           ? 'border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl'
-          : loc.pathname === '/' && mode === 'light'
+          : loc.pathname === '/'
             ? 'border-white/20 bg-black/15 text-white backdrop-blur-xl'
             : 'border-[var(--line)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-xl'
       }`}>
@@ -60,7 +57,7 @@ export default function Navbar() {
               className={({ isActive }) =>
                 `motion-press rounded-full px-3 py-2 text-[12px] font-semibold tracking-[0.01em] transition-colors ${
                   isActive ? 'text-gold' : 'hover:text-gold'
-                } ${!scrolled && loc.pathname === '/' && mode === 'light' ? 'text-white/85' : ''}`
+                } ${!scrolled && loc.pathname === '/' ? 'text-white/85' : ''}`
               }
             >
               {l.label}
@@ -69,23 +66,12 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2.5">
-          <button
-            onClick={() => patch('theme', { ...theme, mode: mode === 'dark' ? 'light' : 'dark' })}
-            aria-label="Toggle theme"
-            className={`motion-press flex h-10 w-10 items-center justify-center rounded-full border transition ${
-              !scrolled && loc.pathname === '/' && mode === 'light'
-                ? 'border-white/25 text-white hover:bg-white/10'
-                : 'border-[var(--line)] hover:border-[var(--gold)]'
-            }`}
-          >
-            {mode === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
-          </button>
           <Link to="/book" className="btn-gold hidden rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide sm:inline-flex">
             Book Your Stall
           </Link>
           <button
             className={`motion-press flex h-10 w-10 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] xl:hidden ${
-              !scrolled && loc.pathname === '/' && mode === 'light' ? 'border-white/25 text-white' : 'border-[var(--line)]'
+              !scrolled && loc.pathname === '/' ? 'border-white/25 text-white' : 'border-[var(--line)]'
             }`}
             onClick={() => setOpen(!open)}
             aria-label="Menu"

@@ -24,14 +24,12 @@ export default function Countdown({ target, light = true }: { target: string; li
       {cells.map((c) => (
         <div
           key={c.l}
-          className={`min-w-[68px] sm:min-w-[86px] rounded-2xl border px-3 py-3 text-center backdrop-blur-md ${
-            light ? 'border-white/20 bg-white/10' : 'border-[var(--line)] bg-[var(--card-bg)]'
-          }`}
+          className="glass-liquid glass-liquid-hover min-w-[68px] rounded-2xl px-3 py-3 text-center sm:min-w-[86px]"
         >
-          <div className={`font-display text-2xl sm:text-4xl font-semibold tabular-nums ${light ? 'text-white' : ''}`}>
+          <div className="font-display text-2xl font-semibold tabular-nums text-white sm:text-4xl">
             {String(c.v).padStart(2, '0')}
           </div>
-          <div className={`mt-1 text-[10px] uppercase tracking-[0.2em] ${light ? 'text-white/60' : 'text-[var(--ink-soft)]'}`}>{c.l}</div>
+          <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/60">{c.l}</div>
         </div>
       ))}
     </div>
