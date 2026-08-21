@@ -421,3 +421,87 @@
   .print-area, .print-area * { visibility: visible; }
   .print-area { position: absolute; inset: 0; width: 100%; }
 }
+
+
+/* All-season website boot animation */
+.tcv-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(35, 128, 120, 0.18), transparent 35%),
+    linear-gradient(135deg, #071313 0%, #0b1e1c 48%, #081211 100%);
+  animation: tcv-boot-exit 0.45s ease 1.05s forwards;
+  pointer-events: none;
+}
+
+.tcv-boot__halo {
+  position: absolute;
+  width: min(62vw, 520px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(116, 227, 211, 0.2);
+  border-radius: 999px;
+  box-shadow: 0 0 80px rgba(42, 170, 157, 0.22), inset 0 0 60px rgba(217, 180, 95, 0.08);
+  animation: tcv-boot-halo 1.4s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+.tcv-boot__brand {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  animation: tcv-boot-brand 0.9s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.tcv-boot__logo {
+  width: min(42vw, 250px);
+  max-height: 92px;
+  filter: drop-shadow(0 0 24px rgba(217, 180, 95, 0.28));
+}
+
+.tcv-boot__line {
+  display: block;
+  width: 72px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #74e3d3, #d9b45f, transparent);
+  animation: tcv-boot-line 0.75s ease 0.18s both;
+}
+
+@keyframes tcv-boot-brand {
+  from { opacity: 0; transform: translateY(12px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes tcv-boot-halo {
+  from { opacity: 0; transform: scale(.72); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes tcv-boot-line {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes tcv-boot-exit {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tcv-boot,
+  .tcv-boot__halo,
+  .tcv-boot__brand,
+  .tcv-boot__line {
+    animation: none;
+  }
+
+  .tcv-boot {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

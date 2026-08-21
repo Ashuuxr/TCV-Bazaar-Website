@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
 import TrackingLoader from '@/components/TrackingLoader'
+import BootAnimation from '@/components/BootAnimation'
 import { useHydrated } from '@/lib/use-hydrated'
 import { useApplyTheme } from '@/components/Theme'
 import { useSyncStallsFromCloud, useSyncSiteContent } from '@/lib/useCloudSync'
@@ -41,6 +42,7 @@ export default function PublicLayout() {
     <div className="min-h-screen">
       <ScrollToTop />
       <TrackingLoader scope="public" />
+      <BootAnimation />
       <Navbar />
       <main>
         <Outlet />
