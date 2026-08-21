@@ -366,9 +366,8 @@
 /* shimmer */
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 .gold-shimmer {
-  background: linear-gradient(110deg, var(--gold) 40%, #f3dfa8 50%, var(--gold) 60%);
-  background-size: 200% 100%;
-  animation: shimmer 3.2s linear infinite;
+  background: linear-gradient(110deg, var(--gold) 0%, #f3dfa8 50%, var(--gold) 100%);
+  background-size: 100% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
