@@ -32,9 +32,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-3 z-50 px-3 transition-all duration-500 ${
+      className={`fixed inset-x-3 top-3 z-50 rounded-full px-3 transition-all duration-500 ${
         scrolled || open
-          ? 'border-b border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl shadow-[0_12px_40px_-28px_rgba(23,19,12,.55)]'
+          ? 'border border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl shadow-[0_12px_40px_-28px_rgba(23,19,12,.55)]'
           : 'bg-transparent'
       }`}
     >
