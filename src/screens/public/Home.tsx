@@ -197,12 +197,12 @@ export default function Home() {
                       <div className="font-display text-2xl font-semibold text-gold">{inr(p.price)}</div>
                     </div>
                   </div>
-                  <ul className="mt-6 space-y-2.5 text-sm text-[var(--ink-soft)]">
+                  <ul className="mt-6 flex-1 space-y-2.5 text-sm text-[var(--ink-soft)]">
                     {p.features.map((f) => (
                       <li key={f} className="flex items-start gap-2.5"><BadgeCheck size={15} className="mt-0.5 shrink-0 text-gold" /> {f}</li>
                     ))}
                   </ul>
-                  <Link to={`/book?pkg=${p.id}`} className="btn-gold mt-8 block rounded-full py-3 text-center text-sm font-semibold">Book {p.name}</Link>
+                  <Link to={`/book?pkg=${p.id}`} className="btn-gold mt-8 block min-h-12 rounded-full py-3 text-center text-sm font-semibold">Book {p.name}</Link>
                 </div>
               </Reveal>
             ))}
