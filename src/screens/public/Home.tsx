@@ -11,7 +11,6 @@ import StallMap from '@/components/StallMap'
 import Logo from '@/components/Logo'
 import BrochureButton from '@/components/BrochureButton'
 import HeroVideo from '@/components/HeroVideo'
-import { ParallaxScrolling } from '@/components/ui/parallax-scrolling'
 import { inr, useCms } from '@/lib/store'
 
 const whyIcons = [Users, Crown, TrendingUp, Handshake, BadgeCheck, Megaphone, Sparkles]
@@ -126,15 +125,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      {/* ============ PARALLAX MOMENT ============ */}
-      <ParallaxScrolling
-        image={pages.about.image}
-        eyebrow="The bazaar, in motion"
-        title="A premium platform"
-        highlight="for real moments."
-        description="From first arrival to the final Diwali night, every detail is shaped to make Gwalior's brands, makers and visitors feel part of something memorable."
-      />
 
       {/* ============ ABOUT TEASER ============ */}
       <section className="py-24 sm:py-32">
