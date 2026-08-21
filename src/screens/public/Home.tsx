@@ -28,7 +28,7 @@ export default function Home() {
   const { hero, event, packages, gallery, testimonials, pages } = useCms()
 
   return (
-    <div>
+    <div className="aurora-canvas">
       {/* ============ HERO ============ */}
       <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-[#0a0812]">
         {hero.videoDataUrl && hero.enabled !== false && hero.visible !== false && (
