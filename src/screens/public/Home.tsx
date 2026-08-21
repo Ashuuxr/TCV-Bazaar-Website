@@ -141,9 +141,9 @@ export default function Home() {
             <div className="relative">
               <div className="absolute -inset-4 rounded-[2rem] border border-[var(--gold)] opacity-30" />
               <img src={pages.about.image} alt="Premium Diwali exhibition stalls at Keshar Towers Gwalior" className="w-full rounded-[1.7rem] object-cover shadow-2xl" loading="lazy" />
-              <div className="card-lux absolute -bottom-6 -left-4 flex items-center gap-3 px-5 py-4 sm:-left-8">
-                <div className="font-display text-3xl font-semibold text-gold">10k+</div>
-                <div className="text-xs leading-tight text-[var(--ink-soft)]">Expected<br />Visitors</div>
+              <div className="hero-stat absolute z-10 -bottom-6 -left-4 flex items-center gap-3 rounded-2xl px-5 py-4 sm:-left-8">
+                <div className="font-display text-3xl font-semibold text-[var(--gold-soft)] drop-shadow-[0_2px_12px_rgba(217,180,95,.35)]">10K+</div>
+                <div className="text-xs font-semibold leading-tight text-white/90">Expected<br />Visitors</div>
               </div>
             </div>
           </Reveal>
