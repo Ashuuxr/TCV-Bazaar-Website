@@ -38,12 +38,12 @@ export default function Packages() {
           </Reveal>
         ))}
         <Reveal delay={0.2}>
-          <div className="card-lux flex h-full flex-col justify-between gap-8 p-8" style={{ background: 'var(--ink)', color: 'var(--bg)' }}>
+          <div className="card-lux flex h-full flex-col justify-between gap-8 p-8 text-[var(--ink)]">
             <div>
               <h3 className="font-display text-2xl font-medium">Not sure which package fits?</h3>
-              <p className="mt-3 text-sm leading-relaxed opacity-70">Talk to our team — we will recommend the perfect spot based on your products, budget and goals.</p>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">Talk to our team — we will recommend the perfect spot based on your products, budget and goals.</p>
             </div>
-            <Link to="/contact" className="rounded-full bg-gold py-3 text-center text-sm font-semibold text-[#17130c] transition hover:brightness-110">Get Free Advice</Link>
+            <Link to="/contact" className="btn-primary block rounded-full py-3 text-center text-sm font-semibold">Get Free Advice</Link>
           </div>
         </Reveal>
       </section>
