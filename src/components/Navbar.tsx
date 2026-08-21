@@ -35,13 +35,19 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+      className={`fixed inset-x-0 top-3 z-50 px-3 transition-all duration-500 ${
         scrolled || open
           ? 'border-b border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl shadow-[0_12px_40px_-28px_rgba(23,19,12,.55)]'
           : 'bg-transparent'
       }`}
     >
-      <div className="container-x flex h-[78px] items-center justify-between gap-5">
+      <div className={`container-x flex h-[66px] items-center justify-between gap-5 rounded-full border px-4 shadow-[0_18px_50px_-36px_rgba(23,19,12,.75)] transition-all sm:px-5 ${
+        scrolled || open
+          ? 'border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl'
+          : loc.pathname === '/' && mode === 'light'
+            ? 'border-white/20 bg-black/15 text-white backdrop-blur-xl'
+            : 'border-[var(--line)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-xl'
+      }`}>
         <Link to="/" className="motion-press flex items-center gap-3" aria-label="TCV Bazaar home">
           <Logo className="" useBrandSize gold={!scrolled && loc.pathname === '/'} />
         </Link>
