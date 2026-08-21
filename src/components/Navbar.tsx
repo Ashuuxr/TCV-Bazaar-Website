@@ -37,11 +37,11 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled || open
-          ? 'border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--bg)_82%,transparent)] backdrop-blur-xl'
+          ? 'border-b border-[color-mix(in_srgb,var(--line)_75%,transparent)] bg-[color-mix(in_srgb,var(--bg)_86%,transparent)] backdrop-blur-2xl shadow-[0_12px_40px_-28px_rgba(23,19,12,.55)]'
           : 'bg-transparent'
       }`}
     >
-      <div className="container-x flex h-[72px] items-center justify-between gap-4">
+      <div className="container-x flex h-[78px] items-center justify-between gap-5">
         <Link to="/" className="motion-press flex items-center gap-3" aria-label="TCV Bazaar home">
           <Logo className="" useBrandSize gold={!scrolled && loc.pathname === '/'} />
         </Link>
@@ -52,7 +52,7 @@ export default function Navbar() {
               key={l.to}
               to={l.to}
               className={({ isActive }) =>
-                `motion-press rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                `motion-press rounded-full px-3 py-2 text-[12px] font-semibold tracking-[0.01em] transition-colors ${
                   isActive ? 'text-gold' : 'hover:text-gold'
                 } ${!scrolled && loc.pathname === '/' && mode === 'light' ? 'text-white/85' : ''}`
               }
@@ -74,11 +74,11 @@ export default function Navbar() {
           >
             {mode === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
-          <Link to="/book" className="btn-gold hidden rounded-full px-5 py-2.5 text-[13px] font-semibold sm:inline-flex">
+          <Link to="/book" className="btn-gold hidden rounded-full px-5 py-2.5 text-[12px] font-semibold tracking-wide sm:inline-flex">
             Book Your Stall
           </Link>
           <button
-            className={`motion-press flex h-10 w-10 items-center justify-center rounded-full border xl:hidden ${
+            className={`motion-press flex h-10 w-10 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] xl:hidden ${
               !scrolled && loc.pathname === '/' && mode === 'light' ? 'border-white/25 text-white' : 'border-[var(--line)]'
             }`}
             onClick={() => setOpen(!open)}

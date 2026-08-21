@@ -49,7 +49,7 @@
   --ink-soft: #5c554a;
   --card-bg: #ffffff;
   --line: #e7ddcc;
-  --radius-brand: 1rem;
+  --radius-brand: 1.25rem;
   --stall-road: #5c554a;
   --stall-side: #302a21;
   --stall-walkway: #f3ede2;
@@ -190,7 +190,8 @@
 @utility btn-gold {
   background: var(--ink);
   color: var(--bg);
-  transition: all .35s cubic-bezier(.22,1,.36,1);
+  transition: transform .2s cubic-bezier(.23,1,.32,1), background-color .2s ease, color .2s ease, box-shadow .2s ease;
+  &:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   &:hover {
     background: var(--gold);
     color: #17130c;
@@ -201,7 +202,8 @@
 @utility btn-outline-gold {
   border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent);
   color: inherit;
-  transition: all .35s cubic-bezier(.22,1,.36,1);
+  transition: transform .2s cubic-bezier(.23,1,.32,1), background-color .2s ease, color .2s ease, border-color .2s ease;
+  &:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   &:hover { background: var(--gold); color: #17130c; border-color: var(--gold); transform: translateY(-2px); }
 }
 @utility text-gold { color: var(--gold); }
@@ -211,7 +213,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-brand);
   box-shadow: 0 10px 40px -18px rgba(60, 42, 10, .25);
-  transition: transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s cubic-bezier(.22,1,.36,1);
+  transition: transform .24s cubic-bezier(.23,1,.32,1), box-shadow .24s cubic-bezier(.23,1,.32,1);
   &:hover {
     transform: translateY(-6px);
     box-shadow: 0 24px 60px -20px color-mix(in srgb, var(--gold) 45%, rgba(60,42,10,.3));
@@ -222,6 +224,12 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+@utility text-balance { text-wrap: balance; }
+@utility surface-grid {
+  background-image: linear-gradient(color-mix(in srgb, var(--line) 42%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--line) 42%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
 }
 @utility eyebrow {
   display: inline-flex;
@@ -293,7 +301,7 @@
 }
 
 /* Consistent tactile feedback for touch and pointer interactions. */
-.motion-press { transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease, background-color .25s ease; }
+.motion-press {   transition: transform .16s cubic-bezier(.23,1,.32,1), box-shadow .2s ease, background-color .2s ease; }
 .motion-press:active { transform: translateY(1px) scale(.985); }
 .motion-icon { transition: transform .28s cubic-bezier(.22,1,.36,1); }
 .motion-icon:hover { transform: translateX(3px); }

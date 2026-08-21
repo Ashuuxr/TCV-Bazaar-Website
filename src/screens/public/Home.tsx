@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div>
       {/* ============ HERO ============ */}
-      <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#0a0812]">
+      <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-[#0a0812]">
         {hero.videoDataUrl && hero.enabled !== false && hero.visible !== false && (
           <HeroVideo
             src={hero.videoDataUrl}
@@ -38,28 +38,30 @@ export default function Home() {
             className="hero-video-motion absolute inset-0 h-full w-full object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(217,180,95,.22),transparent_30%),linear-gradient(90deg,rgba(8,6,4,.88),rgba(8,6,4,.38) 58%,rgba(8,6,4,.58))]" />
+        <div className="surface-grid pointer-events-none absolute inset-0 opacity-30" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--bg)] to-transparent" />
 
-        <div className="container-x relative z-10 flex flex-col items-center pb-24 pt-32 text-center">
+        <div className="container-x relative z-10 flex flex-col items-start justify-between gap-12 pb-20 pt-32 text-left lg:flex-row lg:items-end">
+          <div className="max-w-4xl">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-            <Logo className="mx-auto h-24 sm:h-32 drop-shadow-2xl" gold />
+            <Logo className="h-20 sm:h-24 drop-shadow-2xl" gold />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display mt-6 max-w-4xl text-4xl font-medium leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl"
+            className="font-display text-balance mt-6 max-w-4xl text-5xl font-medium leading-[.98] tracking-[-.04em] text-white sm:text-7xl md:text-[6.7rem]"
           >
             {hero.heading}{' '}
             <span className="gold-shimmer">{hero.highlight}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3 }}
-            className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-lg"
+            className="mt-6 max-w-xl text-sm leading-relaxed text-white/72 sm:text-lg"
           >
             {hero.subheading}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.45 }} className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium text-white/85">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.45 }} className="mt-7 flex flex-wrap items-center justify-start gap-x-6 gap-y-2 text-[12px] font-medium uppercase tracking-[0.08em] text-white/78">
             <span className="flex items-center gap-2"><CalendarDays size={15} className="text-[#d9b45f]" /> {event.datesLabel}</span>
             <span className="flex items-center gap-2"><MapPin size={15} className="text-[#d9b45f]" /> {event.venue}, {event.city}</span>
             <span className="flex items-center gap-2"><Sparkles size={15} className="text-[#d9b45f]" /> {event.edition}</span>
@@ -73,7 +75,7 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-3"
+            className="mt-10 flex flex-wrap items-center justify-start gap-3"
           >
             <Link to="/book" className="motion-press rounded-full bg-[#d9b45f] px-7 py-3.5 text-sm font-semibold text-[#17130c] transition hover:-translate-y-0.5 hover:bg-[#e8cc85] hover:shadow-[0_16px_40px_-10px_rgba(217,180,95,.7)]">
               Book Your Stall
@@ -85,6 +87,22 @@ export default function Home() {
             <Link to="/contact" className="flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-[#d9b45f] hover:bg-[#d9b45f] hover:text-[#17130c]">
               <Phone size={15} /> Contact Us
             </Link>
+          </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.6 }}
+            className="hidden w-full max-w-sm rounded-[1.5rem] border border-white/20 bg-black/20 p-5 text-white backdrop-blur-xl lg:block"
+          >
+            <div className="flex items-center justify-between border-b border-white/15 pb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
+              <span>Edition 01</span><span className="text-[#d9b45f]">2026</span>
+            </div>
+            <div className="grid grid-cols-2 gap-5 pt-5">
+              <div><div className="font-display text-3xl text-white">50+</div><div className="mt-1 text-xs text-white/55">Premium stalls</div></div>
+              <div><div className="font-display text-3xl text-white">3</div><div className="mt-1 text-xs text-white/55">Festive nights</div></div>
+              <div><div className="font-display text-3xl text-white">10k+</div><div className="mt-1 text-xs text-white/55">Expected visitors</div></div>
+              <div><div className="font-display text-3xl text-white">01</div><div className="mt-1 text-xs text-white/55">Prime venue</div></div>
+            </div>
           </motion.div>
         </div>
 
