@@ -183,11 +183,11 @@ export default function Home() {
       <section className="py-24 sm:py-32">
         <div className="container-x">
           <SectionHead eyebrow="Stall Packages" title="Choose your space at the bazaar" sub="Five thoughtfully priced packages — from branding spots to premium hot-spot tents." />
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {packages.filter((p) => p.enabled).slice(0, 3).map((p, i) => (
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {packages.filter((p) => p.enabled).slice(0, 4).map((p, i) => (
               <Reveal key={p.id} delay={i * 0.08}>
-                <div className={`card-lux relative h-full p-8 ${p.popular ? 'ring-2 ring-[var(--gold)]' : ''}`}>
-                  {p.popular && <span className="absolute -top-3 left-8 rounded-full bg-gold px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[#17130c]">Most Popular</span>}
+                <div className={`card-lux relative flex h-full flex-col p-8 ${p.popular ? 'ring-2 ring-[var(--gold)]' : ''}`}>
+                  {p.popular && <span className="relative z-10 mb-5 inline-flex self-start rounded-full border border-white/30 bg-gold px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#17130c] shadow-[0_6px_18px_-8px_rgba(217,180,95,.8)]">Most Popular</span>}
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-display text-2xl font-medium">{p.name}</h3>
