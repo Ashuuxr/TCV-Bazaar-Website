@@ -1,9 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from '@studio-freight/lenis'
 
 type ParallaxScrollingProps = {
   image: string
@@ -19,50 +16,67 @@ export function ParallaxScrolling({ image, eyebrow = 'A living destination', tit
   useEffect(() => {
     const root = rootRef.current
     if (!root) return
+    let cancelled = false
+    let cleanup: (() => void) | undefined
 
-    gsap.registerPlugin(ScrollTrigger)
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const layers = root.querySelectorAll<HTMLElement>('[data-parallax-layer]')
-    const context = gsap.context(() => {
-      if (!reduceMotion) {
-        const trigger = root.querySelector<HTMLElement>('[data-parallax-layers]')
-        if (trigger) {
-          gsap.timeline({
-            scrollTrigger: {
-              trigger,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 0.7,
-            },
-          })
-            .to(trigger.querySelector('[data-parallax-layer="1"]'), { yPercent: 18, ease: 'none' }, 0)
-            .to(trigger.querySelector('[data-parallax-layer="2"]'), { yPercent: 10, ease: 'none' }, 0)
-            .to(trigger.querySelector('[data-parallax-layer="3"]'), { yPercent: -5, ease: 'none' }, 0)
+    const setup = async () => {
+      const [{ default: gsap }, { ScrollTrigger }, { default: Lenis }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+        import('@studio-freight/lenis'),
+      ])
+      if (cancelled) return
+
+      gsap.registerPlugin(ScrollTrigger)
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const layers = root.querySelectorAll<HTMLElement>('[data-parallax-layer]')
+      const context = gsap.context(() => {
+        if (!reduceMotion) {
+          const trigger = root.querySelector<HTMLElement>('[data-parallax-layers]')
+          if (trigger) {
+            gsap.timeline({
+              scrollTrigger: {
+                trigger,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 0.7,
+              },
+            })
+              .to(trigger.querySelector('[data-parallax-layer="1"]'), { yPercent: 18, ease: 'none' }, 0)
+              .to(trigger.querySelector('[data-parallax-layer="2"]'), { yPercent: 10, ease: 'none' }, 0)
+              .to(trigger.querySelector('[data-parallax-layer="3"]'), { yPercent: -5, ease: 'none' }, 0)
+          }
+
+          const lenis = new Lenis()
+          const onScroll = () => ScrollTrigger.update()
+          const onTick = (time: number) => lenis.raf(time * 1000)
+          lenis.on('scroll', onScroll)
+          gsap.ticker.add(onTick)
+          gsap.ticker.lagSmoothing(0)
+          cleanup = () => {
+            lenis.off('scroll', onScroll)
+            lenis.destroy()
+            gsap.ticker.remove(onTick)
+            context.revert()
+          }
+        } else {
+          gsap.set(layers, { clearProps: 'transform' })
+          cleanup = () => context.revert()
         }
+      }, root)
 
-        const lenis = new Lenis()
-        const onScroll = () => ScrollTrigger.update()
-        const onTick = (time: number) => lenis.raf(time * 1000)
-        lenis.on('scroll', onScroll)
-        gsap.ticker.add(onTick)
-        gsap.ticker.lagSmoothing(0)
+      if (!cleanup) cleanup = () => context.revert()
+    }
 
-        return () => {
-          lenis.off('scroll', onScroll)
-          lenis.destroy()
-          gsap.ticker.remove(onTick)
-        }
-      }
-
-      gsap.set(layers, { clearProps: 'transform' })
-      return undefined
-    }, root)
+    setup().catch(() => {
+      // Keep the static parallax composition visible if animation libraries fail to load.
+    })
 
     return () => {
-      context.revert()
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger && root.contains(trigger.trigger as Node)) trigger.kill()
-      })
+      cancelled = true
+      cleanup?.()
+      const fallback = root.querySelectorAll<HTMLElement>('[data-parallax-layer]')
+      fallback.forEach((layer) => layer.style.removeProperty('transform'))
     }
   }, [])
 
