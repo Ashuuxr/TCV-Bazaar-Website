@@ -95,7 +95,7 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.6 }}
-            className="glass-liquid glass-liquid-hover hidden w-full max-w-sm rounded-[1.5rem] p-5 text-white lg:block"
+            className="hero-edition-stats hidden w-full max-w-sm rounded-[1.5rem] p-5 text-white lg:block"
           >
             <div className="flex items-center justify-between border-b border-white/15 pb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
               <span>Edition 01</span><span className="text-[#d9b45f]">2026</span>
