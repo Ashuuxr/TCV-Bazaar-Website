@@ -170,9 +170,9 @@ export default function Home() {
               )
             })}
             <Reveal delay={0.42}>
-              <Link to="/why-exhibit" className="card-lux flex h-full flex-col items-start justify-between gap-6 p-7" style={{ background: 'var(--ink)', color: 'var(--bg)' }}>
+              <Link to="/why-exhibit" className="card-lux flex h-full flex-col items-start justify-between gap-6 p-7 text-[var(--ink)]">
                 <span className="font-display text-xl font-medium">Explore every advantage for exhibitors</span>
-                <span className="flex items-center gap-2 text-sm font-semibold text-gold">Why Exhibit <ArrowRight size={16} /></span>
+                <span className="flex items-center gap-2 text-sm font-semibold text-[#8ee9da]">Why Exhibit <ArrowRight size={16} /></span>
               </Link>
             </Reveal>
           </div>
