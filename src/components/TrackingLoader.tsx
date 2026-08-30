@@ -8,6 +8,10 @@ import {
 
 type Scope = "public" | "admin";
 
+type TrackingWindow = Window & {
+  fbq?: (...args: unknown[]) => void;
+};
+
 const TAG_ATTR = "data-tcv-tracking";
 
 function removeAll(providerPrefix: string) {
@@ -51,7 +55,7 @@ function installProvider(row: PublicTrackingRow) {
       // Reuse that queue instead of injecting a second Meta SDK/bootstrap.
 
       if (
-        typeof (window as any).fbq === "function" ||
+        typeof (window as TrackingWindow).fbq === "function" ||
         document.querySelector('script[data-tcv-meta-pixel-static="true"]')
       ) {
         return;
@@ -252,7 +256,9 @@ export default function TrackingLoader({
       // Route changes are handled by the pathname effect below.
       // The static root-shell Pixel already emitted the initial PageView.
       // Avoid a duplicate event while still initializing other providers.
-      firePageView({ skipMeta: typeof (window as any).fbq === "function" });
+      firePageView({
+        skipMeta: typeof (window as TrackingWindow).fbq === "function",
+      });
     };
     const load = () =>
       listTrackingIntegrations()
