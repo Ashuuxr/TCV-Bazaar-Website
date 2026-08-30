@@ -1,152 +1,212 @@
-import { useState } from 'react'
-import { useNavigate } from '@/lib/router-compat'
-import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
-import Logo from '@/components/Logo'
-import { supabase } from '@/integrations/supabase/client'
-import { useCms } from '@/lib/store'
+import { useState } from "react";
+import { useNavigate } from "@/lib/router-compat";
+import { Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
+import Logo from "@/components/Logo";
+import { supabase } from "@/integrations/supabase/client";
+import { useCms } from "@/lib/store";
 
-const LOGIN_TIMEOUT_MS = 15000
+const LOGIN_TIMEOUT_MS = 15000;
 
 function withTimeout<T>(promise: PromiseLike<T>, message: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
-    const timer = window.setTimeout(() => reject(new Error(message)), LOGIN_TIMEOUT_MS)
-    Promise.resolve(promise).then((value) => { window.clearTimeout(timer); resolve(value) }, (error) => { window.clearTimeout(timer); reject(error) })
-  })
+    const timer = window.setTimeout(
+      () => reject(new Error(message)),
+      LOGIN_TIMEOUT_MS,
+    );
+    Promise.resolve(promise).then(
+      (value) => {
+        window.clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        window.clearTimeout(timer);
+        reject(error);
+      },
+    );
+  });
 }
 
 function readableAuthError(error: unknown, fallback: string): string {
-  if (typeof error === 'string') {
-    const text = error.trim()
-    if (!text || text === '{}' || text === '[object Object]') return fallback
-    if (text.startsWith('{') && text.endsWith('}')) {
+  if (typeof error === "string") {
+    const text = error.trim();
+    if (!text || text === "{}" || text === "[object Object]") return fallback;
+    if (text.startsWith("{") && text.endsWith("}")) {
       try {
-        return readableAuthError(JSON.parse(text), fallback)
+        return readableAuthError(JSON.parse(text), fallback);
       } catch {
         // Treat malformed object-shaped strings as an unavailable error.
       }
     }
-    return text
+    return text;
   }
-  if (error instanceof Error && error.message.trim() && error.message.trim() !== '{}') return error.message
-  if (error && typeof error === 'object') {
-    const value = error as { message?: unknown; error_description?: unknown; msg?: unknown }
-    for (const candidate of [value.message, value.error_description, value.msg]) {
-      if (typeof candidate === 'string' && candidate.trim() && candidate.trim() !== '{}') return candidate.trim()
+  if (
+    error instanceof Error &&
+    error.message.trim() &&
+    error.message.trim() !== "{}"
+  )
+    return error.message;
+  if (error && typeof error === "object") {
+    const value = error as {
+      message?: unknown;
+      error_description?: unknown;
+      msg?: unknown;
+    };
+    for (const candidate of [
+      value.message,
+      value.error_description,
+      value.msg,
+    ]) {
+      if (
+        typeof candidate === "string" &&
+        candidate.trim() &&
+        candidate.trim() !== "{}"
+      )
+        return candidate.trim();
     }
     try {
-      const serialized = JSON.stringify(error)
-      if (serialized && serialized !== '{}') return serialized
+      const serialized = JSON.stringify(error);
+      if (serialized && serialized !== "{}") return serialized;
     } catch {
       // Keep the user-facing fallback below for non-serializable errors.
     }
   }
-  return fallback
+  return fallback;
 }
 
 export default function AdminLogin() {
-  const log = useCms((s) => s.log)
-  const nav = useNavigate()
-  const [stage, setStage] = useState<'login' | 'forgot' | 'verify'>('login')
-  const [email, setEmail] = useState('')
-  const [pass, setPass] = useState('')
-  const [forgotEmail, setForgotEmail] = useState('')
-  const [otp, setOtp] = useState('')
-  const [err, setErr] = useState('')
-  const [info, setInfo] = useState('')
-  const [busy, setBusy] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [remember, setRemember] = useState(true)
+  const log = useCms((s) => s.log);
+  const nav = useNavigate();
+  const [stage, setStage] = useState<"login" | "forgot" | "verify">("login");
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [err, setErr] = useState("");
+  const [info, setInfo] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(true);
 
   const doLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setErr(''); setInfo('')
-    const normalizedEmail = email.trim().toLowerCase()
+    e.preventDefault();
+    setErr("");
+    setInfo("");
+    const normalizedEmail = email.trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
-      setErr('Enter a valid email address.')
-      return
+      setErr("Enter a valid email address.");
+      return;
     }
     if (!pass) {
-      setErr('Enter your password.')
-      return
+      setErr("Enter your password.");
+      return;
     }
-    setBusy(true)
+    setBusy(true);
     try {
       const { data: authData, error } = await withTimeout(
         supabase.auth.signInWithPassword({
           email: normalizedEmail,
           password: pass,
         }),
-        'Login timed out. Check your connection and try again.',
-      )
+        "Login timed out. Check your connection and try again.",
+      );
       if (error) {
-        setErr(error.message === 'Invalid login credentials'
-          ? 'Invalid email or password.'
-          : error.message)
-        return
+        setErr(
+          error.message === "Invalid login credentials"
+            ? "Invalid email or password."
+            : error.message,
+        );
+        return;
       }
-      const userId = authData.user?.id
+      const userId = authData.user?.id;
       if (!userId) {
-        setErr('Login completed without a valid user session. Please try again.')
-        return
+        setErr(
+          "Login completed without a valid user session. Please try again.",
+        );
+        return;
       }
       const { data: roleRows, error: roleError } = await withTimeout(
-        supabase.from('user_roles').select('role').eq('user_id', userId),
-        'Login succeeded, but admin access verification timed out. Please try again.',
-      )
-      if (roleError) throw new Error(roleError.message)
-      const roles = (roleRows ?? []).map((row) => row.role)
-      const isAdmin = roles.includes('admin') || roles.includes('super_admin')
+        supabase.from("user_roles").select("role").eq("user_id", userId),
+        "Login succeeded, but admin access verification timed out. Please try again.",
+      );
+      if (roleError) throw new Error(roleError.message);
+      const roles = (roleRows ?? []).map((row) => row.role);
+      const isAdmin = roles.includes("admin") || roles.includes("super_admin");
       if (!isAdmin) {
-        await supabase.auth.signOut()
-        setErr('This account is authenticated but is not authorized for the Admin Console.')
-        return
+        await supabase.auth.signOut();
+        setErr(
+          "This account is authenticated but is not authorized for the Admin Console.",
+        );
+        return;
       }
       if (!remember) {
         for (const key of Object.keys(window.localStorage)) {
-          if (key.startsWith('sb-')) window.localStorage.removeItem(key)
+          if (key.startsWith("sb-")) window.localStorage.removeItem(key);
         }
-        setInfo('Signed in for this browser session. This session will end when the tab is refreshed or closed.')
+        setInfo(
+          "Signed in for this browser session. This session will end when the tab is refreshed or closed.",
+        );
       }
-      await (supabase.rpc as any)('log_user_audit', {
+      await (supabase.rpc as any)("log_user_audit", {
         _target_id: userId,
         _target_email: normalizedEmail,
-        _action: 'login',
+        _action: "login",
         _from_role: null,
         _to_role: null,
-        _metadata: { method: 'password' },
-      }).then(() => undefined, () => undefined)
-      log('Admin signed in')
-      nav('/admin')
+        _metadata: { method: "password" },
+      }).then(
+        () => undefined,
+        () => undefined,
+      );
+      log("Admin signed in");
+      nav("/admin");
     } catch (e: any) {
-      setErr(e?.message ?? 'Unable to sign in. Please try again.')
+      setErr(e?.message ?? "Unable to sign in. Please try again.");
     } finally {
-      setBusy(false)
+      setBusy(false);
     }
-  }
+  };
 
   const sendResetLink = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setErr(''); setInfo(''); setBusy(true)
+    e.preventDefault();
+    setErr("");
+    setInfo("");
+    setBusy(true);
     try {
-      const target = forgotEmail.trim().toLowerCase()
-      const origin = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'https://www.tcvbazaar.com'
-        : window.location.origin
-      const redirectTo = `${origin}/admin/reset-password`
-      const { error } = await supabase.auth.resetPasswordForEmail(target, { redirectTo })
+      const target = forgotEmail.trim().toLowerCase();
+      const origin =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+          ? "https://www.tcvbazaar.com"
+          : window.location.origin;
+      const redirectTo = `${origin}/admin/reset-password`;
+      const { error } = await supabase.auth.resetPasswordForEmail(target, {
+        redirectTo,
+      });
       if (error) {
-        setErr(readableAuthError(error, 'Could not send the recovery email. Check the email address and try again.'))
-        return
+        setErr(
+          readableAuthError(
+            error,
+            "Could not send the recovery email. Check the email address and try again.",
+          ),
+        );
+        return;
       }
-      setInfo(`If an admin account exists for ${target}, an 8-digit recovery code has been emailed. Check your inbox (and spam).`)
-      setOtp('')
-      setStage('verify')
+      setInfo(
+        `If an admin account exists for ${target}, an 8-digit recovery code has been emailed. Check your inbox (and spam).`,
+      );
+      setOtp("");
+      setStage("verify");
     } catch (e: unknown) {
-      setErr(readableAuthError(e, 'Could not send the recovery email. Check your connection and try again.'))
+      setErr(
+        readableAuthError(
+          e,
+          "Could not send the recovery email. Check your connection and try again.",
+        ),
+      );
     } finally {
-      setBusy(false)
+      setBusy(false);
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--bg)] p-4">
@@ -158,78 +218,252 @@ export default function AdminLogin() {
           </div>
         </div>
         <div className="card-lux p-8">
-          {stage === 'login' && (
+          {stage === "login" && (
             <form onSubmit={doLogin} className="space-y-5">
-              <h1 className="font-display text-2xl font-medium">Welcome back</h1>
+              <h1 className="font-display text-2xl font-medium">
+                Welcome back
+              </h1>
               <div>
-                  <label htmlFor="admin-email" className="label-lux">Email</label>
-                <div className="relative"><Mail size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]" />
-                  <input id="admin-email" name="email" type="email" autoComplete="email" required className="input-lux pl-11" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" /></div>
+                <label htmlFor="admin-email" className="label-lux">
+                  Email
+                </label>
+                <div className="relative">
+                  <Mail
+                    size={15}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]"
+                  />
+                  <input
+                    id="admin-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="input-lux pl-11"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
+                </div>
               </div>
               <div>
-                  <label htmlFor="admin-password" className="label-lux">Password</label>
-                <div className="relative"><Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]" />
-                  <input id="admin-password" name="password" type={showPassword ? 'text' : 'password'} autoComplete="current-password" required className="input-lux pl-11 pr-12" value={pass} onChange={(e) => setPass(e.target.value)} placeholder="••••••••" />
-                  <button type="button" aria-label={showPassword ? 'Hide password' : 'Show password'} onClick={() => setShowPassword((v) => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ink-soft)] hover:text-gold">
+                <label htmlFor="admin-password" className="label-lux">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock
+                    size={15}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-soft)]"
+                  />
+                  <input
+                    id="admin-password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    required
+                    className="input-lux pl-11 pr-12"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--ink-soft)] hover:text-gold"
+                  >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button></div>
+                  </button>
+                </div>
                 <label className="mt-2 flex items-center gap-2 text-xs text-[var(--ink-soft)]">
-                  <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} /> Keep me signed in on this device
+                  <input
+                    type="checkbox"
+                    checked={remember}
+                    onChange={(e) => setRemember(e.target.checked)}
+                  />{" "}
+                  Keep me signed in on this device
                 </label>
               </div>
               {err && <p className="text-xs font-medium text-red-500">{err}</p>}
-              {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
-              <button disabled={busy} className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Signing in…' : 'Sign In'}</button>
-              <button type="button" onClick={() => { setErr(''); setInfo(''); setForgotEmail(email); setStage('forgot') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">Forgot password?</button>
+              {info && (
+                <p className="text-xs font-medium text-emerald-500">{info}</p>
+              )}
+              <button
+                disabled={busy}
+                className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60"
+              >
+                {busy ? "Signing in…" : "Sign In"}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setErr("");
+                  setInfo("");
+                  setForgotEmail(email);
+                  setStage("forgot");
+                }}
+                className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold"
+              >
+                Forgot password?
+              </button>
             </form>
           )}
-          {stage === 'forgot' && (
+          {stage === "forgot" && (
             <form onSubmit={sendResetLink} className="space-y-5">
-              <h1 className="font-display text-2xl font-medium">Reset password</h1>
-              <p className="text-sm text-[var(--ink-soft)]">Enter your admin email — we'll send a 6-digit recovery code to your inbox.</p>
-              <div><label htmlFor="reset-email" className="label-lux">Admin Email</label><input id="reset-email" name="email" type="email" autoComplete="email" required className="input-lux" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} /></div>
+              <h1 className="font-display text-2xl font-medium">
+                Reset password
+              </h1>
+              <p className="text-sm text-[var(--ink-soft)]">
+                Enter your admin email — we'll send a 6-digit recovery code to
+                your inbox.
+              </p>
+              <div>
+                <label htmlFor="reset-email" className="label-lux">
+                  Admin Email
+                </label>
+                <input
+                  id="reset-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="input-lux"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                />
+              </div>
               {err && <p className="text-xs font-medium text-red-500">{err}</p>}
-              {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
-              <button disabled={busy} type="submit" className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Sending…' : 'Send Recovery Code'}</button>
-              <button type="button" onClick={() => { setErr(''); setInfo(''); setStage('login') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">← Back to sign in</button>
+              {info && (
+                <p className="text-xs font-medium text-emerald-500">{info}</p>
+              )}
+              <button
+                disabled={busy}
+                type="submit"
+                className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60"
+              >
+                {busy ? "Sending…" : "Send Recovery Code"}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setErr("");
+                  setInfo("");
+                  setStage("login");
+                }}
+                className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold"
+              >
+                ← Back to sign in
+              </button>
             </form>
           )}
-          {stage === 'verify' && (
-            <form onSubmit={async (e) => {
-              e.preventDefault()
-              setErr(''); setInfo('')
-              const target = forgotEmail.trim().toLowerCase()
-              if (!/^\d{8}$/.test(otp.trim())) {
-                setErr('Enter the 8-digit code from your email.')
-                return
-              }
-              setBusy(true)
-              try {
-                const { error } = await supabase.auth.verifyOtp({ email: target, token: otp.trim(), type: 'recovery' })
-                if (error) {
-                  setErr('That code is invalid or expired. Request a new code and try again.')
-                  return
+          {stage === "verify" && (
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setErr("");
+                setInfo("");
+                const target = forgotEmail.trim().toLowerCase();
+                if (!/^\d{8}$/.test(otp.trim())) {
+                  setErr("Enter the 8-digit code from your email.");
+                  return;
                 }
-                nav('/admin/reset-password')
-              } catch (e: unknown) {
-                setErr(readableAuthError(e, 'Could not verify the recovery code. Request a new code and try again.'))
-              } finally {
-                setBusy(false)
-              }
-            }} className="space-y-5">
-              <h1 className="font-display text-2xl font-medium">Verify recovery code</h1>
-              <p className="text-sm text-[var(--ink-soft)]">Enter the 8-digit code sent to <strong>{forgotEmail}</strong>. The code expires according to your Supabase Auth email-OTP settings.</p>
-              <div><label htmlFor="recovery-otp" className="label-lux">Email code</label><input id="recovery-otp" name="otp" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{8}" maxLength={8} required className="input-lux tracking-[0.35em]" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 8))} placeholder="12345678" /></div>
+                setBusy(true);
+                try {
+                  const { error } = await supabase.auth.verifyOtp({
+                    email: target,
+                    token: otp.trim(),
+                    type: "recovery",
+                  });
+                  if (error) {
+                    setErr(
+                      "That code is invalid or expired. Request a new code and try again.",
+                    );
+                    return;
+                  }
+                  nav("/admin/reset-password");
+                } catch (e: unknown) {
+                  setErr(
+                    readableAuthError(
+                      e,
+                      "Could not verify the recovery code. Request a new code and try again.",
+                    ),
+                  );
+                } finally {
+                  setBusy(false);
+                }
+              }}
+              className="space-y-5"
+            >
+              <h1 className="font-display text-2xl font-medium">
+                Verify recovery code
+              </h1>
+              <p className="text-sm text-[var(--ink-soft)]">
+                Enter the 8-digit code sent to <strong>{forgotEmail}</strong>.
+                The code expires according to your Supabase Auth email-OTP
+                settings.
+              </p>
+              <div>
+                <label htmlFor="recovery-otp" className="label-lux">
+                  Email code
+                </label>
+                <input
+                  id="recovery-otp"
+                  name="otp"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  pattern="[0-9]{8}"
+                  maxLength={8}
+                  required
+                  className="input-lux tracking-[0.35em]"
+                  value={otp}
+                  onChange={(e) =>
+                    setOtp(e.target.value.replace(/\D/g, "").slice(0, 8))
+                  }
+                  placeholder="12345678"
+                />
+              </div>
               {err && <p className="text-xs font-medium text-red-500">{err}</p>}
-              {info && <p className="text-xs font-medium text-emerald-500">{info}</p>}
-              <button disabled={busy} type="submit" className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">{busy ? 'Verifying…' : 'Verify Code'}</button>
-              <button type="button" disabled={busy} onClick={() => { setErr(''); setInfo(''); setStage('forgot') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">Resend code</button>
-              <button type="button" onClick={() => { setErr(''); setInfo(''); setStage('login') }} className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold">← Back to sign in</button>
+              {info && (
+                <p className="text-xs font-medium text-emerald-500">{info}</p>
+              )}
+              <button
+                disabled={busy}
+                type="submit"
+                className="btn-gold w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60"
+              >
+                {busy ? "Verifying…" : "Verify Code"}
+              </button>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => {
+                  setErr("");
+                  setInfo("");
+                  setStage("forgot");
+                }}
+                className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold"
+              >
+                Resend code
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setErr("");
+                  setInfo("");
+                  setStage("login");
+                }}
+                className="w-full text-center text-xs font-semibold text-[var(--ink-soft)] hover:text-gold"
+              >
+                ← Back to sign in
+              </button>
             </form>
           )}
         </div>
-        <p className="mt-6 text-center text-xs text-[var(--ink-soft)]">Protected by secure sessions & audit logs.</p>
+        <p className="mt-6 text-center text-xs text-[var(--ink-soft)]">
+          Protected by secure sessions & audit logs.
+        </p>
       </div>
     </div>
-  )
+  );
 }

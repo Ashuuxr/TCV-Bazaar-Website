@@ -1,48 +1,70 @@
-import { useState } from 'react'
-import { Link } from '@/lib/router-compat'
-import { ChevronDown } from 'lucide-react'
-import PageHero from '@/components/PageHero'
-import Reveal from '@/components/Reveal'
-import { useCms } from '@/lib/store'
+import { useState } from "react";
+import { Link } from "@/lib/router-compat";
+import { ChevronDown } from "lucide-react";
+import PageHero from "@/components/PageHero";
+import Reveal from "@/components/Reveal";
+import { useCms } from "@/lib/store";
 
 export default function Faq() {
-  const faqs = useCms((s) => s.faqs)
-  const [open, setOpen] = useState<string | null>(faqs[0]?.id ?? null)
+  const faqs = useCms((s) => s.faqs);
+  const [open, setOpen] = useState<string | null>(faqs[0]?.id ?? null);
   return (
     <div>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
             mainEntity: faqs.map((f) => ({
-              '@type': 'Question',
+              "@type": "Question",
               name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
+              acceptedAnswer: { "@type": "Answer", text: f.a },
             })),
           })
-            .replace(/</g, '\\u003c')
-            .replace(/>/g, '\\u003e')
-            .replace(/&/g, '\\u0026'),
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026"),
         }}
       />
-      <PageHero eyebrow="FAQ" title="Questions, answered" sub="Everything exhibitors and visitors ask us most." />
+      <PageHero
+        eyebrow="FAQ"
+        title="Questions, answered"
+        sub="Everything exhibitors and visitors ask us most."
+      />
       <section className="container-x max-w-3xl pb-24">
         <div className="space-y-3">
           {faqs.map((f, i) => (
             <Reveal key={f.id} delay={i * 0.04}>
               <div className="card-lux overflow-hidden">
                 <button
+                  type="button"
+                  aria-expanded={open === f.id}
+                  aria-controls={`faq-answer-${f.id}`}
                   onClick={() => setOpen(open === f.id ? null : f.id)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                  className="flex min-h-14 w-full items-center justify-between gap-4 px-6 py-5 text-left"
                 >
-                  <span className="font-display text-lg font-medium">{f.q}</span>
-                  <ChevronDown size={18} className={`shrink-0 text-gold transition-transform duration-300 ${open === f.id ? 'rotate-180' : ''}`} />
+                  <span
+                    id={`faq-question-${f.id}`}
+                    className="font-display text-lg font-medium"
+                  >
+                    {f.q}
+                  </span>
+                  <ChevronDown
+                    size={18}
+                    className={`shrink-0 text-gold transition-transform duration-300 ${open === f.id ? "rotate-180" : ""}`}
+                  />
                 </button>
-                <div className={`grid transition-all duration-300 ${open === f.id ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                <div
+                  id={`faq-answer-${f.id}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${f.id}`}
+                  className={`grid transition-all duration-300 ${open === f.id ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                >
                   <div className="overflow-hidden">
-                    <p className="px-6 pb-6 text-sm leading-relaxed text-[var(--ink-soft)]">{f.a}</p>
+                    <p className="px-6 pb-6 text-sm leading-relaxed text-[var(--ink-soft)]">
+                      {f.a}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -50,9 +72,13 @@ export default function Faq() {
           ))}
         </div>
         <Reveal className="mt-10 text-center text-sm text-[var(--ink-soft)]">
-          Still curious? <Link to="/contact" className="font-semibold text-gold">Reach out</Link> — we reply within hours.
+          Still curious?{" "}
+          <Link to="/contact" className="font-semibold text-gold">
+            Reach out
+          </Link>{" "}
+          — we reply within hours.
         </Reveal>
       </section>
     </div>
-  )
+  );
 }

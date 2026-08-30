@@ -1,60 +1,68 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from "react";
 
 type HeroVideoProps = {
-  src: string
-  poster?: string
-  className?: string
-  onPlaybackError?: () => void
-}
+  src: string;
+  poster?: string;
+  className?: string;
+  onPlaybackError?: () => void;
+};
 
 /**
  * Background video tuned for iOS Safari: inline playback, muted autoplay,
  * eager loading, an explicit play() retry, and no blank layer after media error.
  */
-export default function HeroVideo({ src, poster, className = '', onPlaybackError }: HeroVideoProps) {
-  const ref = useRef<HTMLVideoElement>(null)
-  const [failed, setFailed] = useState(false)
+export default function HeroVideo({
+  src,
+  poster,
+  className = "",
+  onPlaybackError,
+}: HeroVideoProps) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    setFailed(false)
-  }, [src])
+    setFailed(false);
+  }, [src]);
 
   useEffect(() => {
-    const video = ref.current
-    if (!video || failed) return
+    const video = ref.current;
+    if (!video || failed) return;
 
-    video.defaultMuted = true
-    video.muted = true
-    video.playsInline = true
+    video.defaultMuted = true;
+    video.muted = true;
+    video.playsInline = true;
 
     const retryPlay = () => {
       void video.play().catch(() => {
         // Safari may reject autoplay until the next lifecycle opportunity.
         // The poster remains visible instead of leaving a black media layer.
-      })
-    }
+      });
+    };
 
-    video.addEventListener('loadedmetadata', retryPlay)
-    video.addEventListener('canplay', retryPlay)
-    video.addEventListener('canplaythrough', retryPlay)
-    video.addEventListener('loadeddata', retryPlay)
-    window.addEventListener('pageshow', retryPlay)
-    window.addEventListener('touchstart', retryPlay, { once: true, passive: true })
-    video.load()
-    retryPlay()
+    video.addEventListener("loadedmetadata", retryPlay);
+    video.addEventListener("canplay", retryPlay);
+    video.addEventListener("canplaythrough", retryPlay);
+    video.addEventListener("loadeddata", retryPlay);
+    window.addEventListener("pageshow", retryPlay);
+    window.addEventListener("touchstart", retryPlay, {
+      once: true,
+      passive: true,
+    });
+    video.load();
+    retryPlay();
 
     return () => {
-      video.removeEventListener('loadedmetadata', retryPlay)
-      video.removeEventListener('canplay', retryPlay)
-      video.removeEventListener('canplaythrough', retryPlay)
-      video.removeEventListener('loadeddata', retryPlay)
-      window.removeEventListener('pageshow', retryPlay)
-      window.removeEventListener('touchstart', retryPlay)
-    }
-  }, [src, failed])
+      video.removeEventListener("loadedmetadata", retryPlay);
+      video.removeEventListener("canplay", retryPlay);
+      video.removeEventListener("canplaythrough", retryPlay);
+      video.removeEventListener("loadeddata", retryPlay);
+      window.removeEventListener("pageshow", retryPlay);
+      window.removeEventListener("touchstart", retryPlay);
+    };
+  }, [src, failed]);
 
   if (failed) {
-    return poster ? <img src={poster} alt="" className={className} /> : null
+    return poster ? <img src={poster} alt="" className={className} /> : null;
   }
 
   return (
@@ -73,9 +81,9 @@ export default function HeroVideo({ src, poster, className = '', onPlaybackError
       disablePictureInPicture
       aria-hidden="true"
       onError={() => {
-        setFailed(true)
-        onPlaybackError?.()
+        setFailed(true);
+        onPlaybackError?.();
       }}
     />
-  )
+  );
 }

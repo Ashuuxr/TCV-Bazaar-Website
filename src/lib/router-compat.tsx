@@ -37,7 +37,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...(rest as Record<string, unknown>)}
       />
     );
-  }
+  },
 );
 Link.displayName = "Link";
 
@@ -59,7 +59,9 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
     const path = to.split("?")[0].split("#")[0];
     const cur = loc.pathname.replace(/\/$/, "") || "/";
     const norm = path.replace(/\/$/, "") || "/";
-    const isActive = end ? cur === norm : cur === norm || cur.startsWith(norm + "/");
+    const isActive = end
+      ? cur === norm
+      : cur === norm || cur.startsWith(norm + "/");
     const state = { isActive, isPending: false };
     const cls = typeof className === "function" ? className(state) : className;
     const kids = typeof children === "function" ? children(state) : children;
@@ -75,13 +77,16 @@ export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
         {kids}
       </TLink>
     );
-  }
+  },
 );
 NavLink.displayName = "NavLink";
 
 export function useNavigate() {
   const navigate = tUseNavigate();
-  return (to: string | number, opts?: { replace?: boolean; state?: unknown }) => {
+  return (
+    to: string | number,
+    opts?: { replace?: boolean; state?: unknown },
+  ) => {
     if (typeof to === "number") {
       if (typeof window !== "undefined") window.history.go(to);
       return;
@@ -90,7 +95,8 @@ export function useNavigate() {
     const [pathname, queryStr] = pathAndQuery.split("?");
     const search: Record<string, string> = {};
     if (queryStr) {
-      for (const [k, v] of new URLSearchParams(queryStr).entries()) search[k] = v;
+      for (const [k, v] of new URLSearchParams(queryStr).entries())
+        search[k] = v;
     }
     navigate({
       to: pathname as never,
@@ -113,8 +119,8 @@ export function useSearchParams(): [
       | URLSearchParams
       | Record<string, string>
       | ((prev: URLSearchParams) => URLSearchParams | Record<string, string>),
-    opts?: { replace?: boolean }
-  ) => void
+    opts?: { replace?: boolean },
+  ) => void,
 ] {
   const search = useSearch({ strict: false }) as Record<string, unknown>;
   const router = useRouter();
