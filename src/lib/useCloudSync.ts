@@ -184,7 +184,11 @@ export function useSyncStallsFromCloud() {
     };
     const fetchStalls = () =>
       listStalls()
-        .then((rows) => apply(rows as DbStallRow[]))
+        .then((rows) => {
+          const typedRows = rows as DbStallRow[];
+          if (typedRows.length > 0) apply(typedRows);
+          else console.warn("[sync] No active stalls returned from Supabase");
+        })
         .catch((err) => console.warn("[sync] listStalls failed", err));
     fetchStalls();
     (
