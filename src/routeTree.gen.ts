@@ -9,66 +9,66 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AdminRouteImport } from './routes/_admin'
-import { Route as PublicRouteImport } from './routes/_public'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PublicRouteImport } from './routes/_public'
+import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as PublicIndexRouteImport } from './routes/_public.index'
-import { Route as PublicAboutRouteImport } from './routes/_public.about'
-import { Route as PublicBookRouteImport } from './routes/_public.book'
-import { Route as PublicContactRouteImport } from './routes/_public.contact'
-import { Route as PublicFaqRouteImport } from './routes/_public.faq'
-import { Route as PublicGalleryRouteImport } from './routes/_public.gallery'
-import { Route as PublicPackagesRouteImport } from './routes/_public.packages'
-import { Route as PublicPortalRouteImport } from './routes/_public.portal'
-import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public.privacy-policy'
-import { Route as PublicRefundPolicyRouteImport } from './routes/_public.refund-policy'
-import { Route as PublicStallLayoutRouteImport } from './routes/_public.stall-layout'
-import { Route as PublicTermsRouteImport } from './routes/_public.terms'
-import { Route as PublicTestimonialsRouteImport } from './routes/_public.testimonials'
-import { Route as PublicVideosRouteImport } from './routes/_public.videos'
-import { Route as PublicWhyExhibitRouteImport } from './routes/_public.why-exhibit'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as PublicWhyExhibitRouteImport } from './routes/_public.why-exhibit'
+import { Route as PublicVideosRouteImport } from './routes/_public.videos'
+import { Route as PublicTestimonialsRouteImport } from './routes/_public.testimonials'
+import { Route as PublicTermsRouteImport } from './routes/_public.terms'
+import { Route as PublicStallLayoutRouteImport } from './routes/_public.stall-layout'
+import { Route as PublicRefundPolicyRouteImport } from './routes/_public.refund-policy'
+import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public.privacy-policy'
+import { Route as PublicPortalRouteImport } from './routes/_public.portal'
+import { Route as PublicPackagesRouteImport } from './routes/_public.packages'
+import { Route as PublicGalleryRouteImport } from './routes/_public.gallery'
+import { Route as PublicFaqRouteImport } from './routes/_public.faq'
+import { Route as PublicContactRouteImport } from './routes/_public.contact'
+import { Route as PublicBookRouteImport } from './routes/_public.book'
+import { Route as PublicAboutRouteImport } from './routes/_public.about'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
-import { Route as AdminAdminAnalyticsRouteImport } from './routes/_admin.admin.analytics'
-import { Route as AdminAdminAuditRouteImport } from './routes/_admin.admin.audit'
-import { Route as AdminAdminBanksRouteImport } from './routes/_admin.admin.banks'
-import { Route as AdminAdminBookingsRouteImport } from './routes/_admin.admin.bookings'
-import { Route as AdminAdminBrochuresRouteImport } from './routes/_admin.admin.brochures'
-import { Route as AdminAdminCmsRouteImport } from './routes/_admin.admin.cms'
-import { Route as AdminAdminCompanyRouteImport } from './routes/_admin.admin.company'
-import { Route as AdminAdminCustomersRouteImport } from './routes/_admin.admin.customers'
-import { Route as AdminAdminEventsRouteImport } from './routes/_admin.admin.events'
-import { Route as AdminAdminGalleryRouteImport } from './routes/_admin.admin.gallery'
-import { Route as AdminAdminHeroRouteImport } from './routes/_admin.admin.hero'
-import { Route as AdminAdminHistoryRouteImport } from './routes/_admin.admin.history'
-import { Route as AdminAdminInvoicesRouteImport } from './routes/_admin.admin.invoices'
-import { Route as AdminAdminLogosRouteImport } from './routes/_admin.admin.logos'
-import { Route as AdminAdminMediaRouteImport } from './routes/_admin.admin.media'
-import { Route as AdminAdminMessagesRouteImport } from './routes/_admin.admin.messages'
-import { Route as AdminAdminPackagesRouteImport } from './routes/_admin.admin.packages'
-import { Route as AdminAdminPaymentsRouteImport } from './routes/_admin.admin.payments'
-import { Route as AdminAdminReportsRouteImport } from './routes/_admin.admin.reports'
-import { Route as AdminAdminSeoRouteImport } from './routes/_admin.admin.seo'
-import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
-import { Route as AdminAdminStallsRouteImport } from './routes/_admin.admin.stalls'
-import { Route as AdminAdminTemplatesRouteImport } from './routes/_admin.admin.templates'
-import { Route as AdminAdminThemeRouteImport } from './routes/_admin.admin.theme'
-import { Route as AdminAdminTrackingRouteImport } from './routes/_admin.admin.tracking'
-import { Route as AdminAdminUsersRouteImport } from './routes/_admin.admin.users'
 import { Route as AdminAdminVideosRouteImport } from './routes/_admin.admin.videos'
+import { Route as AdminAdminUsersRouteImport } from './routes/_admin.admin.users'
+import { Route as AdminAdminTrackingRouteImport } from './routes/_admin.admin.tracking'
+import { Route as AdminAdminThemeRouteImport } from './routes/_admin.admin.theme'
+import { Route as AdminAdminTemplatesRouteImport } from './routes/_admin.admin.templates'
+import { Route as AdminAdminStallsRouteImport } from './routes/_admin.admin.stalls'
+import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
+import { Route as AdminAdminSeoRouteImport } from './routes/_admin.admin.seo'
+import { Route as AdminAdminReportsRouteImport } from './routes/_admin.admin.reports'
+import { Route as AdminAdminPaymentsRouteImport } from './routes/_admin.admin.payments'
+import { Route as AdminAdminPackagesRouteImport } from './routes/_admin.admin.packages'
+import { Route as AdminAdminMessagesRouteImport } from './routes/_admin.admin.messages'
+import { Route as AdminAdminMediaRouteImport } from './routes/_admin.admin.media'
+import { Route as AdminAdminLogosRouteImport } from './routes/_admin.admin.logos'
+import { Route as AdminAdminInvoicesRouteImport } from './routes/_admin.admin.invoices'
+import { Route as AdminAdminHistoryRouteImport } from './routes/_admin.admin.history'
+import { Route as AdminAdminHeroRouteImport } from './routes/_admin.admin.hero'
+import { Route as AdminAdminGalleryRouteImport } from './routes/_admin.admin.gallery'
+import { Route as AdminAdminEventsRouteImport } from './routes/_admin.admin.events'
+import { Route as AdminAdminCustomersRouteImport } from './routes/_admin.admin.customers'
+import { Route as AdminAdminCompanyRouteImport } from './routes/_admin.admin.company'
+import { Route as AdminAdminCmsRouteImport } from './routes/_admin.admin.cms'
+import { Route as AdminAdminBrochuresRouteImport } from './routes/_admin.admin.brochures'
+import { Route as AdminAdminBookingsRouteImport } from './routes/_admin.admin.bookings'
+import { Route as AdminAdminBanksRouteImport } from './routes/_admin.admin.banks'
+import { Route as AdminAdminAuditRouteImport } from './routes/_admin.admin.audit'
+import { Route as AdminAdminAnalyticsRouteImport } from './routes/_admin.admin.analytics'
 
-const AdminRoute = AdminRouteImport.update({
-  id: '/_admin',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PublicIndexRoute = PublicIndexRouteImport.update({
@@ -76,64 +76,19 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicAboutRoute = PublicAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => PublicRoute,
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/admin/reset-password',
+  path: '/admin/reset-password',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PublicBookRoute = PublicBookRouteImport.update({
-  id: '/book',
-  path: '/book',
-  getParentRoute: () => PublicRoute,
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PublicContactRoute = PublicContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicFaqRoute = PublicFaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicGalleryRoute = PublicGalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPackagesRoute = PublicPackagesRouteImport.update({
-  id: '/packages',
-  path: '/packages',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPortalRoute = PublicPortalRouteImport.update({
-  id: '/portal',
-  path: '/portal',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicRefundPolicyRoute = PublicRefundPolicyRouteImport.update({
-  id: '/refund-policy',
-  path: '/refund-policy',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicStallLayoutRoute = PublicStallLayoutRouteImport.update({
-  id: '/stall-layout',
-  path: '/stall-layout',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicTermsRoute = PublicTermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicTestimonialsRoute = PublicTestimonialsRouteImport.update({
-  id: '/testimonials',
-  path: '/testimonials',
+const PublicWhyExhibitRoute = PublicWhyExhibitRouteImport.update({
+  id: '/why-exhibit',
+  path: '/why-exhibit',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicVideosRoute = PublicVideosRouteImport.update({
@@ -141,149 +96,74 @@ const PublicVideosRoute = PublicVideosRouteImport.update({
   path: '/videos',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicWhyExhibitRoute = PublicWhyExhibitRouteImport.update({
-  id: '/why-exhibit',
-  path: '/why-exhibit',
+const PublicTestimonialsRoute = PublicTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
   getParentRoute: () => PublicRoute,
 } as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
-  getParentRoute: () => rootRouteImport,
+const PublicTermsRoute = PublicTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => PublicRoute,
 } as any)
-const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
-  id: '/admin/reset-password',
-  path: '/admin/reset-password',
-  getParentRoute: () => rootRouteImport,
+const PublicStallLayoutRoute = PublicStallLayoutRouteImport.update({
+  id: '/stall-layout',
+  path: '/stall-layout',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicRefundPolicyRoute = PublicRefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPortalRoute = PublicPortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPackagesRoute = PublicPackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicGalleryRoute = PublicGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicFaqRoute = PublicFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicContactRoute = PublicContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicBookRoute = PublicBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAboutRoute = PublicAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => PublicRoute,
 } as any)
 const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminAnalyticsRoute = AdminAdminAnalyticsRouteImport.update({
-  id: '/admin/analytics',
-  path: '/admin/analytics',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminAuditRoute = AdminAdminAuditRouteImport.update({
-  id: '/admin/audit',
-  path: '/admin/audit',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminBanksRoute = AdminAdminBanksRouteImport.update({
-  id: '/admin/banks',
-  path: '/admin/banks',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminBookingsRoute = AdminAdminBookingsRouteImport.update({
-  id: '/admin/bookings',
-  path: '/admin/bookings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminBrochuresRoute = AdminAdminBrochuresRouteImport.update({
-  id: '/admin/brochures',
-  path: '/admin/brochures',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminCmsRoute = AdminAdminCmsRouteImport.update({
-  id: '/admin/cms',
-  path: '/admin/cms',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminCompanyRoute = AdminAdminCompanyRouteImport.update({
-  id: '/admin/company',
-  path: '/admin/company',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminCustomersRoute = AdminAdminCustomersRouteImport.update({
-  id: '/admin/customers',
-  path: '/admin/customers',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminEventsRoute = AdminAdminEventsRouteImport.update({
-  id: '/admin/events',
-  path: '/admin/events',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminGalleryRoute = AdminAdminGalleryRouteImport.update({
-  id: '/admin/gallery',
-  path: '/admin/gallery',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminHeroRoute = AdminAdminHeroRouteImport.update({
-  id: '/admin/hero',
-  path: '/admin/hero',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminHistoryRoute = AdminAdminHistoryRouteImport.update({
-  id: '/admin/history',
-  path: '/admin/history',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminInvoicesRoute = AdminAdminInvoicesRouteImport.update({
-  id: '/admin/invoices',
-  path: '/admin/invoices',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminLogosRoute = AdminAdminLogosRouteImport.update({
-  id: '/admin/logos',
-  path: '/admin/logos',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminMediaRoute = AdminAdminMediaRouteImport.update({
-  id: '/admin/media',
-  path: '/admin/media',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminMessagesRoute = AdminAdminMessagesRouteImport.update({
-  id: '/admin/messages',
-  path: '/admin/messages',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminPackagesRoute = AdminAdminPackagesRouteImport.update({
-  id: '/admin/packages',
-  path: '/admin/packages',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminPaymentsRoute = AdminAdminPaymentsRouteImport.update({
-  id: '/admin/payments',
-  path: '/admin/payments',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminReportsRoute = AdminAdminReportsRouteImport.update({
-  id: '/admin/reports',
-  path: '/admin/reports',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminSeoRoute = AdminAdminSeoRouteImport.update({
-  id: '/admin/seo',
-  path: '/admin/seo',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
-  id: '/admin/settings',
-  path: '/admin/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminStallsRoute = AdminAdminStallsRouteImport.update({
-  id: '/admin/stalls',
-  path: '/admin/stalls',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminTemplatesRoute = AdminAdminTemplatesRouteImport.update({
-  id: '/admin/templates',
-  path: '/admin/templates',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminThemeRoute = AdminAdminThemeRouteImport.update({
-  id: '/admin/theme',
-  path: '/admin/theme',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminAdminTrackingRoute = AdminAdminTrackingRouteImport.update({
-  id: '/admin/tracking',
-  path: '/admin/tracking',
+const AdminAdminVideosRoute = AdminAdminVideosRouteImport.update({
+  id: '/admin/videos',
+  path: '/admin/videos',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAdminUsersRoute = AdminAdminUsersRouteImport.update({
@@ -291,9 +171,129 @@ const AdminAdminUsersRoute = AdminAdminUsersRouteImport.update({
   path: '/admin/users',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminVideosRoute = AdminAdminVideosRouteImport.update({
-  id: '/admin/videos',
-  path: '/admin/videos',
+const AdminAdminTrackingRoute = AdminAdminTrackingRouteImport.update({
+  id: '/admin/tracking',
+  path: '/admin/tracking',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminThemeRoute = AdminAdminThemeRouteImport.update({
+  id: '/admin/theme',
+  path: '/admin/theme',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminTemplatesRoute = AdminAdminTemplatesRouteImport.update({
+  id: '/admin/templates',
+  path: '/admin/templates',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminStallsRoute = AdminAdminStallsRouteImport.update({
+  id: '/admin/stalls',
+  path: '/admin/stalls',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminSeoRoute = AdminAdminSeoRouteImport.update({
+  id: '/admin/seo',
+  path: '/admin/seo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminReportsRoute = AdminAdminReportsRouteImport.update({
+  id: '/admin/reports',
+  path: '/admin/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminPaymentsRoute = AdminAdminPaymentsRouteImport.update({
+  id: '/admin/payments',
+  path: '/admin/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminPackagesRoute = AdminAdminPackagesRouteImport.update({
+  id: '/admin/packages',
+  path: '/admin/packages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminMessagesRoute = AdminAdminMessagesRouteImport.update({
+  id: '/admin/messages',
+  path: '/admin/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminMediaRoute = AdminAdminMediaRouteImport.update({
+  id: '/admin/media',
+  path: '/admin/media',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminLogosRoute = AdminAdminLogosRouteImport.update({
+  id: '/admin/logos',
+  path: '/admin/logos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminInvoicesRoute = AdminAdminInvoicesRouteImport.update({
+  id: '/admin/invoices',
+  path: '/admin/invoices',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminHistoryRoute = AdminAdminHistoryRouteImport.update({
+  id: '/admin/history',
+  path: '/admin/history',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminHeroRoute = AdminAdminHeroRouteImport.update({
+  id: '/admin/hero',
+  path: '/admin/hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminGalleryRoute = AdminAdminGalleryRouteImport.update({
+  id: '/admin/gallery',
+  path: '/admin/gallery',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminEventsRoute = AdminAdminEventsRouteImport.update({
+  id: '/admin/events',
+  path: '/admin/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminCustomersRoute = AdminAdminCustomersRouteImport.update({
+  id: '/admin/customers',
+  path: '/admin/customers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminCompanyRoute = AdminAdminCompanyRouteImport.update({
+  id: '/admin/company',
+  path: '/admin/company',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminCmsRoute = AdminAdminCmsRouteImport.update({
+  id: '/admin/cms',
+  path: '/admin/cms',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBrochuresRoute = AdminAdminBrochuresRouteImport.update({
+  id: '/admin/brochures',
+  path: '/admin/brochures',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBookingsRoute = AdminAdminBookingsRouteImport.update({
+  id: '/admin/bookings',
+  path: '/admin/bookings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBanksRoute = AdminAdminBanksRouteImport.update({
+  id: '/admin/banks',
+  path: '/admin/banks',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminAuditRoute = AdminAdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminAnalyticsRoute = AdminAdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -603,11 +603,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_admin': {
-      id: '/_admin'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AdminRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public': {
@@ -617,11 +617,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public/': {
@@ -631,88 +631,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/about': {
-      id: '/_public/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof PublicAboutRouteImport
-      parentRoute: typeof PublicRoute
+    '/admin/reset-password': {
+      id: '/admin/reset-password'
+      path: '/admin/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_public/book': {
-      id: '/_public/book'
-      path: '/book'
-      fullPath: '/book'
-      preLoaderRoute: typeof PublicBookRouteImport
-      parentRoute: typeof PublicRoute
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_public/contact': {
-      id: '/_public/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof PublicContactRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/faq': {
-      id: '/_public/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof PublicFaqRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/gallery': {
-      id: '/_public/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof PublicGalleryRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/packages': {
-      id: '/_public/packages'
-      path: '/packages'
-      fullPath: '/packages'
-      preLoaderRoute: typeof PublicPackagesRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/portal': {
-      id: '/_public/portal'
-      path: '/portal'
-      fullPath: '/portal'
-      preLoaderRoute: typeof PublicPortalRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/privacy-policy': {
-      id: '/_public/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PublicPrivacyPolicyRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/refund-policy': {
-      id: '/_public/refund-policy'
-      path: '/refund-policy'
-      fullPath: '/refund-policy'
-      preLoaderRoute: typeof PublicRefundPolicyRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/stall-layout': {
-      id: '/_public/stall-layout'
-      path: '/stall-layout'
-      fullPath: '/stall-layout'
-      preLoaderRoute: typeof PublicStallLayoutRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/terms': {
-      id: '/_public/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof PublicTermsRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/testimonials': {
-      id: '/_public/testimonials'
-      path: '/testimonials'
-      fullPath: '/testimonials'
-      preLoaderRoute: typeof PublicTestimonialsRouteImport
+    '/_public/why-exhibit': {
+      id: '/_public/why-exhibit'
+      path: '/why-exhibit'
+      fullPath: '/why-exhibit'
+      preLoaderRoute: typeof PublicWhyExhibitRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/videos': {
@@ -722,26 +659,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicVideosRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/why-exhibit': {
-      id: '/_public/why-exhibit'
-      path: '/why-exhibit'
-      fullPath: '/why-exhibit'
-      preLoaderRoute: typeof PublicWhyExhibitRouteImport
+    '/_public/testimonials': {
+      id: '/_public/testimonials'
+      path: '/testimonials'
+      fullPath: '/testimonials'
+      preLoaderRoute: typeof PublicTestimonialsRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_public/terms': {
+      id: '/_public/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof PublicTermsRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/admin/reset-password': {
-      id: '/admin/reset-password'
-      path: '/admin/reset-password'
-      fullPath: '/admin/reset-password'
-      preLoaderRoute: typeof AdminResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_public/stall-layout': {
+      id: '/_public/stall-layout'
+      path: '/stall-layout'
+      fullPath: '/stall-layout'
+      preLoaderRoute: typeof PublicStallLayoutRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/refund-policy': {
+      id: '/_public/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof PublicRefundPolicyRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/privacy-policy': {
+      id: '/_public/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PublicPrivacyPolicyRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/portal': {
+      id: '/_public/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PublicPortalRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/packages': {
+      id: '/_public/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof PublicPackagesRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/gallery': {
+      id: '/_public/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof PublicGalleryRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/faq': {
+      id: '/_public/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof PublicFaqRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/contact': {
+      id: '/_public/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof PublicContactRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/book': {
+      id: '/_public/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof PublicBookRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutRouteImport
+      parentRoute: typeof PublicRoute
     }
     '/_admin/admin/': {
       id: '/_admin/admin/'
@@ -750,179 +750,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/admin/analytics': {
-      id: '/_admin/admin/analytics'
-      path: '/admin/analytics'
-      fullPath: '/admin/analytics'
-      preLoaderRoute: typeof AdminAdminAnalyticsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/audit': {
-      id: '/_admin/admin/audit'
-      path: '/admin/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminAdminAuditRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/banks': {
-      id: '/_admin/admin/banks'
-      path: '/admin/banks'
-      fullPath: '/admin/banks'
-      preLoaderRoute: typeof AdminAdminBanksRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/bookings': {
-      id: '/_admin/admin/bookings'
-      path: '/admin/bookings'
-      fullPath: '/admin/bookings'
-      preLoaderRoute: typeof AdminAdminBookingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/brochures': {
-      id: '/_admin/admin/brochures'
-      path: '/admin/brochures'
-      fullPath: '/admin/brochures'
-      preLoaderRoute: typeof AdminAdminBrochuresRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/cms': {
-      id: '/_admin/admin/cms'
-      path: '/admin/cms'
-      fullPath: '/admin/cms'
-      preLoaderRoute: typeof AdminAdminCmsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/company': {
-      id: '/_admin/admin/company'
-      path: '/admin/company'
-      fullPath: '/admin/company'
-      preLoaderRoute: typeof AdminAdminCompanyRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/customers': {
-      id: '/_admin/admin/customers'
-      path: '/admin/customers'
-      fullPath: '/admin/customers'
-      preLoaderRoute: typeof AdminAdminCustomersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/events': {
-      id: '/_admin/admin/events'
-      path: '/admin/events'
-      fullPath: '/admin/events'
-      preLoaderRoute: typeof AdminAdminEventsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/gallery': {
-      id: '/_admin/admin/gallery'
-      path: '/admin/gallery'
-      fullPath: '/admin/gallery'
-      preLoaderRoute: typeof AdminAdminGalleryRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/hero': {
-      id: '/_admin/admin/hero'
-      path: '/admin/hero'
-      fullPath: '/admin/hero'
-      preLoaderRoute: typeof AdminAdminHeroRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/history': {
-      id: '/_admin/admin/history'
-      path: '/admin/history'
-      fullPath: '/admin/history'
-      preLoaderRoute: typeof AdminAdminHistoryRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/invoices': {
-      id: '/_admin/admin/invoices'
-      path: '/admin/invoices'
-      fullPath: '/admin/invoices'
-      preLoaderRoute: typeof AdminAdminInvoicesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/logos': {
-      id: '/_admin/admin/logos'
-      path: '/admin/logos'
-      fullPath: '/admin/logos'
-      preLoaderRoute: typeof AdminAdminLogosRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/media': {
-      id: '/_admin/admin/media'
-      path: '/admin/media'
-      fullPath: '/admin/media'
-      preLoaderRoute: typeof AdminAdminMediaRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/messages': {
-      id: '/_admin/admin/messages'
-      path: '/admin/messages'
-      fullPath: '/admin/messages'
-      preLoaderRoute: typeof AdminAdminMessagesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/packages': {
-      id: '/_admin/admin/packages'
-      path: '/admin/packages'
-      fullPath: '/admin/packages'
-      preLoaderRoute: typeof AdminAdminPackagesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/payments': {
-      id: '/_admin/admin/payments'
-      path: '/admin/payments'
-      fullPath: '/admin/payments'
-      preLoaderRoute: typeof AdminAdminPaymentsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/reports': {
-      id: '/_admin/admin/reports'
-      path: '/admin/reports'
-      fullPath: '/admin/reports'
-      preLoaderRoute: typeof AdminAdminReportsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/seo': {
-      id: '/_admin/admin/seo'
-      path: '/admin/seo'
-      fullPath: '/admin/seo'
-      preLoaderRoute: typeof AdminAdminSeoRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/settings': {
-      id: '/_admin/admin/settings'
-      path: '/admin/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminAdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/stalls': {
-      id: '/_admin/admin/stalls'
-      path: '/admin/stalls'
-      fullPath: '/admin/stalls'
-      preLoaderRoute: typeof AdminAdminStallsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/templates': {
-      id: '/_admin/admin/templates'
-      path: '/admin/templates'
-      fullPath: '/admin/templates'
-      preLoaderRoute: typeof AdminAdminTemplatesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/theme': {
-      id: '/_admin/admin/theme'
-      path: '/admin/theme'
-      fullPath: '/admin/theme'
-      preLoaderRoute: typeof AdminAdminThemeRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/tracking': {
-      id: '/_admin/admin/tracking'
-      path: '/admin/tracking'
-      fullPath: '/admin/tracking'
-      preLoaderRoute: typeof AdminAdminTrackingRouteImport
+    '/_admin/admin/videos': {
+      id: '/_admin/admin/videos'
+      path: '/admin/videos'
+      fullPath: '/admin/videos'
+      preLoaderRoute: typeof AdminAdminVideosRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_admin/admin/users': {
@@ -932,11 +764,179 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/admin/videos': {
-      id: '/_admin/admin/videos'
-      path: '/admin/videos'
-      fullPath: '/admin/videos'
-      preLoaderRoute: typeof AdminAdminVideosRouteImport
+    '/_admin/admin/tracking': {
+      id: '/_admin/admin/tracking'
+      path: '/admin/tracking'
+      fullPath: '/admin/tracking'
+      preLoaderRoute: typeof AdminAdminTrackingRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/theme': {
+      id: '/_admin/admin/theme'
+      path: '/admin/theme'
+      fullPath: '/admin/theme'
+      preLoaderRoute: typeof AdminAdminThemeRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/templates': {
+      id: '/_admin/admin/templates'
+      path: '/admin/templates'
+      fullPath: '/admin/templates'
+      preLoaderRoute: typeof AdminAdminTemplatesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/stalls': {
+      id: '/_admin/admin/stalls'
+      path: '/admin/stalls'
+      fullPath: '/admin/stalls'
+      preLoaderRoute: typeof AdminAdminStallsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/settings': {
+      id: '/_admin/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/seo': {
+      id: '/_admin/admin/seo'
+      path: '/admin/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminAdminSeoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/reports': {
+      id: '/_admin/admin/reports'
+      path: '/admin/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminAdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/payments': {
+      id: '/_admin/admin/payments'
+      path: '/admin/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminAdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/packages': {
+      id: '/_admin/admin/packages'
+      path: '/admin/packages'
+      fullPath: '/admin/packages'
+      preLoaderRoute: typeof AdminAdminPackagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/messages': {
+      id: '/_admin/admin/messages'
+      path: '/admin/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminAdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/media': {
+      id: '/_admin/admin/media'
+      path: '/admin/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminAdminMediaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/logos': {
+      id: '/_admin/admin/logos'
+      path: '/admin/logos'
+      fullPath: '/admin/logos'
+      preLoaderRoute: typeof AdminAdminLogosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/invoices': {
+      id: '/_admin/admin/invoices'
+      path: '/admin/invoices'
+      fullPath: '/admin/invoices'
+      preLoaderRoute: typeof AdminAdminInvoicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/history': {
+      id: '/_admin/admin/history'
+      path: '/admin/history'
+      fullPath: '/admin/history'
+      preLoaderRoute: typeof AdminAdminHistoryRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/hero': {
+      id: '/_admin/admin/hero'
+      path: '/admin/hero'
+      fullPath: '/admin/hero'
+      preLoaderRoute: typeof AdminAdminHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/gallery': {
+      id: '/_admin/admin/gallery'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminAdminGalleryRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/events': {
+      id: '/_admin/admin/events'
+      path: '/admin/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminAdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/customers': {
+      id: '/_admin/admin/customers'
+      path: '/admin/customers'
+      fullPath: '/admin/customers'
+      preLoaderRoute: typeof AdminAdminCustomersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/company': {
+      id: '/_admin/admin/company'
+      path: '/admin/company'
+      fullPath: '/admin/company'
+      preLoaderRoute: typeof AdminAdminCompanyRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/cms': {
+      id: '/_admin/admin/cms'
+      path: '/admin/cms'
+      fullPath: '/admin/cms'
+      preLoaderRoute: typeof AdminAdminCmsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/brochures': {
+      id: '/_admin/admin/brochures'
+      path: '/admin/brochures'
+      fullPath: '/admin/brochures'
+      preLoaderRoute: typeof AdminAdminBrochuresRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/bookings': {
+      id: '/_admin/admin/bookings'
+      path: '/admin/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminAdminBookingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/banks': {
+      id: '/_admin/admin/banks'
+      path: '/admin/banks'
+      fullPath: '/admin/banks'
+      preLoaderRoute: typeof AdminAdminBanksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/audit': {
+      id: '/_admin/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/analytics': {
+      id: '/_admin/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAdminAnalyticsRouteImport
       parentRoute: typeof AdminRoute
     }
   }
