@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type TrackingProvider =
+  | "meta_pixel"
   | "ga4"
   | "gtm"
   | "google_ads"
@@ -43,6 +44,7 @@ export const TRACKING_ID_RE: Record<
   Exclude<TrackingProvider, "custom">,
   RegExp
 > = {
+  meta_pixel: /^\d{15,16}$/,
   ga4: /^G-[A-Z0-9]{6,}$/i,
   gtm: /^GTM-[A-Z0-9]{4,}$/i,
   google_ads: /^AW-\d{6,}$/i,
