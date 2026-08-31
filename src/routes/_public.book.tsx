@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/book")({
         content:
           "Pick your package, choose your stall on the live layout, pay online and receive an instant Booking ID.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/book" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/book" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/book" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/book" }],
   }),
   component: () => <Booking />,
 });

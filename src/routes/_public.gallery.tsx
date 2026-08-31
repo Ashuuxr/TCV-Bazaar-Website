@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_public/gallery")({
         content:
           "Premium tents, lantern evenings, Diwali fireworks and festive shopping — a look back at TCV Bazaar.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/gallery" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/gallery" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/gallery" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/gallery" }],
   }),
   component: () => <Gallery />,
 });

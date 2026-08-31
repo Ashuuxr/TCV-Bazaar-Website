@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/about")({
         content:
           "TCV Bazaar is where Gwalior comes together to celebrate — a curated Diwali marketplace of premium brands, food, music and festive shopping.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/about" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/about" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/about" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/about" }],
   }),
   component: () => <About />,
 });

@@ -102,12 +102,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "TCV Bazaar is Gwalior's premium exhibition & event platform. Book stalls for the Diwali Edition, 23–25 October 2026 at Keshar Towers, Gwalior.",
         },
         { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://tcvbazaar.com/" },
+        { property: "og:url", content: "https://www.tcvbazaar.com/" },
         { property: "og:site_name", content: "TCV Bazaar" },
         { property: "og:locale", content: "en_IN" },
         {
           property: "og:image",
-          content: "https://tcvbazaar.com/tcv-bazaar-official-logo.png",
+          content: "https://www.tcvbazaar.com/tcv-bazaar-official-logo.png",
         },
         { property: "og:image:alt", content: "TCV Bazaar official logo" },
         { name: "twitter:card", content: "summary_large_image" },
@@ -123,7 +123,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
         {
           name: "twitter:image",
-          content: "https://tcvbazaar.com/tcv-bazaar-official-logo.png",
+          content: "https://www.tcvbazaar.com/tcv-bazaar-official-logo.png",
         },
         { name: "twitter:image:alt", content: "TCV Bazaar official logo" },
         { name: "robots", content: "index, follow, max-image-preview:large" },

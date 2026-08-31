@@ -46,9 +46,9 @@ export const Route = createFileRoute("/_public/faq")({
         content:
           "Answers about dates, stall booking, 50% advance, package inclusions, GST invoices, refund policy and the interactive stall layout.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/faq" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/faq" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/faq" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/faq" }],
     scripts: [
       {
         type: "application/ld+json",

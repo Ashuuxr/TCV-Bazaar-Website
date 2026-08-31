@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/videos")({
         content:
           "Aftermovies, timelapses and highlight reels from past TCV Bazaar Diwali editions.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/videos" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/videos" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/videos" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/videos" }],
   }),
   component: () => <Videos />,
 });

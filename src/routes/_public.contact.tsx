@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_public/contact")({
         content:
           "Call, WhatsApp or write to the TCV Bazaar team at Keshar Towers, Gwalior.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/contact" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/contact" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/contact" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/contact" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -27,8 +27,8 @@ export const Route = createFileRoute("/_public/contact")({
           "@type": "LocalBusiness",
           name: "TCV Bazaar",
           image:
-            "https://tcvbazaar.com/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png",
-          url: "https://tcvbazaar.com/contact",
+            "https://www.tcvbazaar.com/__l5e/assets-v1/cc2eb405-05fe-46dc-a8b2-16162b39f2e0/tcv-bazaar-logo.png",
+          url: "https://www.tcvbazaar.com/contact",
           telephone: "+91-96690-04241",
           email: "hello@tcvbazaar.com",
           address: {

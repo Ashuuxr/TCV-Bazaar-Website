@@ -14,9 +14,9 @@ export const Route = createFileRoute("/_public/terms")({
         property: "og:description",
         content: "Terms and conditions for exhibitors at TCV Bazaar events.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/terms" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/terms" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/terms" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/terms" }],
   }),
   component: () => <Policy kind={"terms"} />,
 });

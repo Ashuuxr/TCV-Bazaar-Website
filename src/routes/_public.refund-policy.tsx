@@ -14,9 +14,9 @@ export const Route = createFileRoute("/_public/refund-policy")({
         property: "og:description",
         content: "Cancellation and refund terms for TCV Bazaar stall bookings.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/refund-policy" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/refund-policy" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/refund-policy" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/refund-policy" }],
   }),
   component: () => <Policy kind={"refund"} />,
 });

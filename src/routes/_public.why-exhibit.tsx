@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/why-exhibit")({
         content:
           "High footfall, premium audience, sales, leads, marketing support and brand visibility engineered for one outcome — real business for our exhibitors.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/why-exhibit" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/why-exhibit" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/why-exhibit" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/why-exhibit" }],
   }),
   component: () => <WhyExhibit />,
 });

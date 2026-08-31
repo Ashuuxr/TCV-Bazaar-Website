@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/packages")({
         content:
           "Compare stall packages for the Diwali Edition. Premium hot-spot, Standard, Sharing, Tabler and Branding Spots — pick the fit for your brand.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/packages" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/packages" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/packages" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/packages" }],
   }),
   component: () => <Packages />,
 });

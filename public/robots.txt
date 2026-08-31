@@ -4,4 +4,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://tcvbazaar.com/sitemap.xml
+Sitemap: https://www.tcvbazaar.com/sitemap.xml

@@ -1,0 +1,4 @@
+Contact: mailto:hello@tcvbazaar.com
+Canonical: https://www.tcvbazaar.com/.well-known/security.txt
+Policy: https://www.tcvbazaar.com/contact
+Preferred-Languages: en

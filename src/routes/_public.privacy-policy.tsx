@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_public/privacy-policy")({
         content:
           "How TCV Bazaar (The City Vibes Marketing) collects, uses and protects your booking and payment data.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/privacy-policy" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/privacy-policy" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/privacy-policy" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/privacy-policy" }],
   }),
   component: () => <Policy kind={"privacy"} />,
 });

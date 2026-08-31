@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/")({
         content:
           "Book your stall for TCV Bazaar 2026 — 23–25 October at Keshar Towers, Gwalior. Premium tents, hot-spot locations, three nights of festive shopping.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -29,8 +29,8 @@ export const Route = createFileRoute("/_public/")({
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "TCV Bazaar",
-          url: "https://tcvbazaar.com/",
-          logo: "https://tcvbazaar.com/tcv-bazaar-official-logo.png",
+          url: "https://www.tcvbazaar.com/",
+          logo: "https://www.tcvbazaar.com/tcv-bazaar-official-logo.png",
           sameAs: ["https://www.instagram.com/tcvbazaar"],
         }),
       },
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/_public/")({
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "TCV Bazaar",
-          url: "https://tcvbazaar.com/",
+          url: "https://www.tcvbazaar.com/",
         }),
       },
       {
@@ -66,9 +66,9 @@ export const Route = createFileRoute("/_public/")({
           organizer: {
             "@type": "Organization",
             name: "The City Vibes Marketing",
-            url: "https://tcvbazaar.com/",
+            url: "https://www.tcvbazaar.com/",
           },
-          url: "https://tcvbazaar.com/",
+          url: "https://www.tcvbazaar.com/",
         }),
       },
     ],

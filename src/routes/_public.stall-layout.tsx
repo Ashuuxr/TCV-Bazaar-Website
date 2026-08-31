@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_public/stall-layout")({
         content:
           "See live stall availability on our interactive Diwali floor plan. Click any stall to reserve it while you complete your booking.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/stall-layout" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/stall-layout" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/stall-layout" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/stall-layout" }],
   }),
   component: () => <StallLayout />,
 });

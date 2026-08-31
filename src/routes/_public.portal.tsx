@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_public/portal")({
         content:
           "Track your booking status, download invoices and clear your balance from your TCV Bazaar customer portal.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/portal" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/portal" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/portal" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/portal" }],
   }),
   component: () => <Portal />,
 });

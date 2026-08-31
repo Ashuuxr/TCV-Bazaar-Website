@@ -16,9 +16,9 @@ export const Route = createFileRoute("/_public/testimonials")({
         content:
           "What Gwalior's boutique owners, jewellers, food brands and creators say about exhibiting with TCV Bazaar.",
       },
-      { property: "og:url", content: "https://tcvbazaar.com/testimonials" },
+      { property: "og:url", content: "https://www.tcvbazaar.com/testimonials" },
     ],
-    links: [{ rel: "canonical", href: "https://tcvbazaar.com/testimonials" }],
+    links: [{ rel: "canonical", href: "https://www.tcvbazaar.com/testimonials" }],
   }),
   component: () => <Testimonials />,
 });
