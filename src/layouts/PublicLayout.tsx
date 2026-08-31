@@ -3,7 +3,6 @@ import { Outlet, useLocation } from "@/lib/router-compat";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
-import TrackingLoader from "@/components/TrackingLoader";
 import { useHydrated } from "@/lib/use-hydrated";
 import { useApplyTheme } from "@/components/Theme";
 import { useSyncStallsFromCloud, useSyncSiteContent } from "@/lib/useCloudSync";
@@ -50,7 +49,6 @@ export default function PublicLayout() {
   return (
     <div className="min-h-screen">
       <ScrollToTop />
-      <TrackingLoader scope="public" />
       <Navbar />
       <main>
         <Outlet />

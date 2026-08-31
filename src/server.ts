@@ -33,7 +33,7 @@ function withSecurityHeaders(response: Response): Response {
   headers.set("X-Frame-Options", "SAMEORIGIN");
   headers.set(
     "Content-Security-Policy-Report-Only",
-    "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://connect.facebook.net https://www.googletagmanager.com https://www.clarity.ms https://analytics.tiktok.com; connect-src 'self' https:; frame-src 'self' https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self' https://wa.me",
+    "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.clarity.ms https://analytics.tiktok.com; connect-src 'self' https:; frame-src 'self' https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self' https://wa.me",
   );
   return new Response(response.body, {
     status: response.status,

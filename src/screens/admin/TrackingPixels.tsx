@@ -30,12 +30,6 @@ interface Meta {
 
 const PROVIDERS: Meta[] = [
   {
-    provider: "meta_pixel",
-    name: "Meta (Facebook) Pixel",
-    hint: "15-16 digit Pixel ID",
-    placeholder: "1234567890123456",
-  },
-  {
     provider: "ga4",
     name: "Google Analytics 4",
     hint: "Measurement ID",
@@ -423,12 +417,6 @@ function StatusDot({
 
 function probeUrl(p: TrackingProvider, id: string): string | null {
   switch (p) {
-    case "meta_pixel":
-      return (
-        "https://www.facebook.com/tr?id=" +
-        encodeURIComponent(id) +
-        "&ev=PageView&noscript=1"
-      );
     case "ga4":
     case "google_ads":
       return (

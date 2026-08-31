@@ -45,7 +45,6 @@ import {
 } from "@/lib/useCloudSync";
 import { getMyRoles } from "@/lib/users.functions";
 import { useApplyBrand } from "@/lib/useApplyBrand";
-import TrackingLoader from "@/components/TrackingLoader";
 
 const nav = [
   {
@@ -192,7 +191,6 @@ export default function AdminLayout() {
 
   return (
     <div className="flex min-h-screen bg-[var(--bg)]">
-      <TrackingLoader scope="admin" />
       {/* sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 transform border-r border-[var(--line)] bg-[var(--card-bg)] transition-transform lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}

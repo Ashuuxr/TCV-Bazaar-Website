@@ -975,7 +975,6 @@ export type Database = {
         | "sold"
         | "blocked";
       tracking_provider:
-        | "meta_pixel"
         | "ga4"
         | "gtm"
         | "google_ads"
@@ -1134,7 +1133,6 @@ export const Constants = {
         "blocked",
       ],
       tracking_provider: [
-        "meta_pixel",
         "ga4",
         "gtm",
         "google_ads",
