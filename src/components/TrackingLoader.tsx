@@ -41,9 +41,9 @@ function injectNoscript(providerKey: string, html: string) {
   document.body.appendChild(n);
 }
 
-function installOpenAiAdsPixel() {
+function installOpenAiAdsPixel(id: string) {
   const w = window as TrackingWindow;
-  if (typeof w.oaiq === "function") return;
+  if (!id || typeof w.oaiq === "function") return;
   const queue = Object.assign(
     (...args: unknown[]) => {
       queue.q.push(args);
@@ -54,13 +54,12 @@ function installOpenAiAdsPixel() {
   const script = document.createElement("script");
   script.async = true;
   script.src = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
-  script.setAttribute(TAG_ATTR, "openai_ads:1XGA53faoQAXcybyMrkWVw");
+  script.setAttribute(TAG_ATTR, "openai_ads:" + id);
   document.head.appendChild(script);
-  w.oaiq("init", { pixelId: "1XGA53faoQAXcybyMrkWVw", debug: true });
+  w.oaiq("init", { pixelId: id, debug: true });
 }
 
 function installProvider(row: PublicTrackingRow) {
-  installOpenAiAdsPixel();
   const p = row.provider;
   const id = (row.tracking_id ?? "").trim();
   const key = p + ":" + (id || "x");
@@ -98,6 +97,10 @@ function installProvider(row: PublicTrackingRow) {
           id +
           '&ev=PageView&noscript=1"/>',
       );
+      return;
+    }
+    case "openai_ads": {
+      installOpenAiAdsPixel(id);
       return;
     }
     case "ga4":
@@ -221,12 +224,12 @@ function fireEvent(name: string, params?: Record<string, unknown>) {
   } catch {
     /* noop */
   }
-  if (name === "Lead") {
-    try {
+  try {
+    if (name === "Lead") {
       w.oaiq?.("measure", "lead_created", { type: "customer_action" });
-    } catch {
-      /* noop */
     }
+  } catch {
+    /* noop */
   }
   try {
     w.gtag?.("event", META_MAP[name] ?? name, params);
@@ -270,7 +273,6 @@ export default function TrackingLoader({
   useEffect(() => {
     let cancelled = false;
     const apply = (rows: PublicTrackingRow[]) => {
-      installOpenAiAdsPixel();
       const filtered = rows.filter(
         (r) => r.enabled && (scope === "public" || r.load_on_admin),
       );

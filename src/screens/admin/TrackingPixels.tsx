@@ -36,6 +36,12 @@ const PROVIDERS: Meta[] = [
     placeholder: "1234567890123456",
   },
   {
+    provider: "openai_ads",
+    name: "OpenAI Ads Manager Pixel",
+    hint: "Pixel ID from OpenAI Ads Manager",
+    placeholder: "1XGA53faoQAXcybyMrkWVw",
+  },
+  {
     provider: "ga4",
     name: "Google Analytics 4",
     hint: "Measurement ID",
