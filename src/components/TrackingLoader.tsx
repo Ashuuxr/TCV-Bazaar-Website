@@ -10,6 +10,7 @@ type Scope = "public" | "admin";
 
 type TrackingWindow = Window & {
   fbq?: (...args: unknown[]) => void;
+  oaiq?: (...args: unknown[]) => void;
 };
 
 const TAG_ATTR = "data-tcv-tracking";
@@ -40,7 +41,26 @@ function injectNoscript(providerKey: string, html: string) {
   document.body.appendChild(n);
 }
 
+function installOpenAiAdsPixel() {
+  const w = window as TrackingWindow;
+  if (typeof w.oaiq === "function") return;
+  const queue = Object.assign(
+    (...args: unknown[]) => {
+      queue.q.push(args);
+    },
+    { q: [] as unknown[][] },
+  );
+  w.oaiq = queue;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
+  script.setAttribute(TAG_ATTR, "openai_ads:1XGA53faoQAXcybyMrkWVw");
+  document.head.appendChild(script);
+  w.oaiq("init", { pixelId: "1XGA53faoQAXcybyMrkWVw", debug: true });
+}
+
 function installProvider(row: PublicTrackingRow) {
+  installOpenAiAdsPixel();
   const p = row.provider;
   const id = (row.tracking_id ?? "").trim();
   const key = p + ":" + (id || "x");
@@ -201,6 +221,13 @@ function fireEvent(name: string, params?: Record<string, unknown>) {
   } catch {
     /* noop */
   }
+  if (name === "Lead") {
+    try {
+      w.oaiq?.("measure", "lead_created", { type: "customer_action" });
+    } catch {
+      /* noop */
+    }
+  }
   try {
     w.gtag?.("event", META_MAP[name] ?? name, params);
   } catch {
@@ -243,6 +270,7 @@ export default function TrackingLoader({
   useEffect(() => {
     let cancelled = false;
     const apply = (rows: PublicTrackingRow[]) => {
+      installOpenAiAdsPixel();
       const filtered = rows.filter(
         (r) => r.enabled && (scope === "public" || r.load_on_admin),
       );
